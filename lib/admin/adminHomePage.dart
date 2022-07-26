@@ -5,6 +5,7 @@ import 'package:desktop_window/desktop_window.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:onyourmarks/admin/screens/studentsScreen.dart';
+import 'package:onyourmarks/admin/screens/subjectScreen.dart';
 import 'package:onyourmarks/admin/screens/teachersScreen.dart';
 
 
@@ -18,7 +19,8 @@ class adminHomePage extends StatefulWidget {
 class _adminHomePageState extends State<adminHomePage> {
   List<Widget> widScreens = [
     studentsScreen(),
-    teachersScreen()
+    teachersScreen(),
+    SubjectScreen(),
   ];
   int pageIndex = 0;
   @override
@@ -56,7 +58,18 @@ class _adminHomePageState extends State<adminHomePage> {
                     },
                     child: Text("Teacher"),
                   ),
-                )
+                ),
+                Container(
+                  height: 60,
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        pageIndex = 2;
+                      });
+                    },
+                    child: Text("Subject"),
+                  ),
+                ),
               ],
             ),
           )
@@ -66,7 +79,9 @@ class _adminHomePageState extends State<adminHomePage> {
     );
   }
   fixWindowSize() async{
-    await DesktopWindow.setMinWindowSize(Size(300, 1000));
+    if (!kIsWeb && (Platform.isMacOS || Platform.isLinux || Platform.isWindows)) {
+      await DesktopWindow.setMinWindowSize(const Size(600, 800));
+    }
   }
 
   fixWindowSize2() async {
@@ -87,6 +102,6 @@ class _adminHomePageState extends State<adminHomePage> {
 
   @override
   void initState() {
-
+    fixWindowSize();
   }
 }

@@ -14,3 +14,10 @@ Future<List<StudentModel>> getAllStudents() async{
   }
   return returnStudents;
 }
+
+Future<StudentModel> getStudent(String uid) async{
+  var res= await http.get(Uri.parse(apiLink.apilink+"api/admin/Student/"));
+  var student = json.decode(res.body);
+  StudentModel studentModel = StudentModel.fromJson(student);
+  return studentModel;
+}

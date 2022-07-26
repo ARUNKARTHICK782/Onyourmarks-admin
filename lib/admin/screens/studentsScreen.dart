@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:onyourmarks/admin/screens/addStudent.dart';
+import 'package:onyourmarks/admin/screens/studentDetails.dart';
+import 'package:onyourmarks/admin/temp.dart';
 import 'package:onyourmarks/api/apiLink.dart';
 import 'package:onyourmarks/apihandler/studentAPIs/studentAPIs.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
@@ -49,6 +52,7 @@ class _studentsScreenState extends State<studentsScreen> {
                         ),
                       ),
                       onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>studentDetails(snapshot.data?.elementAt(index) ?? StudentModel.empty())));
 
                       },
                     );
@@ -92,16 +96,15 @@ class _studentsScreenState extends State<studentsScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        child: IconButton(onPressed: (){}, icon: Icon(CupertinoIcons.add)),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>addStudent()));
+        },
+        child: Icon(CupertinoIcons.add),
       ),
     );
   }
   initialFunc() async{
-      var res = await http.get(
-          Uri.parse(apiLink.apilink+"api/admin/allstudents"),
-      );
-      debugPrint(res.body);
+
   }
 
   @override

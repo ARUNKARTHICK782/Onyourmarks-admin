@@ -118,6 +118,8 @@ class StudentModel{
       this._email, this._phno, this._currentAddress, this._permanentAddress,
       this._motherTongue, this._bloodGroup);
 
+  StudentModel.empty();
+
   factory StudentModel.fromJson(Map<String, dynamic> json){
       return StudentModel(json["_id"],json["name"],json["roll_no"],json["std_id"]["std_name"],json["dob"],json["gender"],json["parent1name"],json["parent2name"],
         json["occupation"],json["income"],json["email"],json["phoneNo"],json["currentAddress"],json["permanentAddress"],json["motherTongue"],json["bloodGroup"]
