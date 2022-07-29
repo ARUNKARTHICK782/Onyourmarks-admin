@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/components/AddSubjectScreen.dart';
-import 'package:onyourmarks/apihandler/subject/AddSubjectAPI.dart';
+import 'package:onyourmarks/apihandler/subject/subjectAPIs.dart';
 import 'package:onyourmarks/models/SubjectModel.dart';
 
 class SubjectScreen extends StatefulWidget {
@@ -48,46 +48,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 mainAxisSpacing: _mainAxisSpacing,
                                 childAspectRatio: _aspectRatio,
                               ), itemBuilder: (BuildContext context,int index){
-                            if(index+1 == snapshot.data?.length){
-                              return Row(
-                                children: [
-                                  Card(
-                                    elevation: 3,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Container(
-                                        height: 100,
-                                        width: 60,
-                                        child: Column(
-                                          children: [
-                                            Text(snapshot.data?.elementAt(index).subName ?? ''),
-                                            Text(snapshot.data?.elementAt(index).totalMarks ?? '')
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Card(
-                                    elevation: 3,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Container(
-                                          height: 100,
-                                          width: 60,
-                                          child:Center(
-                                            child: IconButton(onPressed: (){
-                                              showDialog(context: context, builder: (BuildContext context){
-                                                return addSubjectdialog();
-                                              });
-                                            }, icon: Icon(CupertinoIcons.add),),
-                                          )
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }
-                            else {
                               return Card(
                                 elevation: 3,
                                 child: ClipRRect(
@@ -95,16 +55,22 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                   child: Container(
                                     height: 100,
                                     width: 60,
-                                    child: Column(
-                                      children: [
-                                        Text(snapshot.data?.elementAt(index).subName ?? ''),
-                                        Text(snapshot.data?.elementAt(index).totalMarks ?? '')
-                                      ],
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(snapshot.data?.elementAt(index).subName ?? '',style: TextStyle(
+                                            fontWeight: FontWeight.bold,fontSize: 25,overflow: TextOverflow.ellipsis
+                                          ),),
+                                          SizedBox(height: 10,),
+                                          Text("Total Marks : "+ (snapshot.data?.elementAt(index).totalMarks ?? ''))
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               );
-                            }
                           }),
                         ),
                       ),
@@ -142,7 +108,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddSubject()));
+          showDialog(context: context, builder: (BuildContext context){
+            return addSubjectdialog();
+          });
         },
         child: Icon(CupertinoIcons.add),
       ),
