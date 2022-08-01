@@ -119,7 +119,8 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
                                           child: Text(value),
                                         );
                                       }).toList(),
-                                    ))
+                                    )
+                                )
                               ],
                             ),
                           ),

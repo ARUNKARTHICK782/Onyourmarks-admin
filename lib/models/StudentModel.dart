@@ -1,6 +1,7 @@
 class StudentModel{
   String? _id;
-  String? _name;
+  String? _first_name;
+  String? _last_name;
   String? _roll_no;
   String? _std_name;
   String? _dob;
@@ -23,10 +24,17 @@ class StudentModel{
     _id = value;
   }
 
-  String? get name => _name;
+  String? get name => _first_name;
 
   set name(String? value) {
-    _name = value;
+    _first_name = value;
+  }
+
+
+  String? get first_name => _first_name;
+
+  set first_name(String? value) {
+    _first_name = value;
   }
 
   String? get roll_no => _roll_no;
@@ -113,7 +121,7 @@ class StudentModel{
     _roll_no = value;
   }
 
-  StudentModel(this._id,this._name, this._roll_no, this._std_name, this._dob, this._gender,
+  StudentModel(this._id,this._first_name,this._last_name, this._roll_no, this._std_name, this._dob, this._gender,
       this._fatherName, this._motherName, this._occupation, this._income,
       this._email, this._phno, this._currentAddress, this._permanentAddress,
       this._motherTongue, this._bloodGroup);
@@ -121,8 +129,20 @@ class StudentModel{
   StudentModel.empty();
 
   factory StudentModel.fromJson(Map<String, dynamic> json){
-      return StudentModel(json["_id"],json["name"],json["roll_no"],json["std_id"]["std_name"],json["dob"],json["gender"],json["parent1name"],json["parent2name"],
+      return StudentModel(json["_id"],json["first_name"],json["last_name"],json["roll_no"],json["std_id"]["std_name"],json["dob"],json["gender"],json["parent1name"],json["parent2name"],
         json["occupation"],json["income"],json["email"],json["phoneNo"],json["currentAddress"],json["permanentAddress"],json["motherTongue"],json["bloodGroup"]
       );
+  }
+
+  String? get last_name => _last_name;
+
+  set last_name(String? value) {
+    _last_name = value;
+  }
+
+  String? get std_name => _std_name;
+
+  set std_name(String? value) {
+    _std_name = value;
   }
 }

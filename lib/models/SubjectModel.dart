@@ -36,6 +36,8 @@ class SubjectModel{
 
   SubjectModel.empty();
 
+  SubjectModel.forStandardScreen(this._id,this._subName,this._totalMarks);
+
   factory SubjectModel.fromJson(Map<String, dynamic> json){
     return SubjectModel(json["_id"], json["sub_name"], json["total_marks"].toString(), (json["teacher"] != null)?json["teacher"]["name"]:'Unassigned');
   }

@@ -21,3 +21,19 @@ Future<StudentModel> getStudent(String uid) async{
   StudentModel studentModel = StudentModel.fromJson(student);
   return studentModel;
 }
+
+postStudent(StudentModel student) async{
+  // var body = {
+  //   "first_name":student.first_name,
+  //   "last_name":student.last_name,
+  //   "roll_no":student.roll_no,
+  //   ""
+  // }
+  await http.post(Uri.parse(apiLink.apilink+"api/admin/student"),
+    headers: {
+      "content-type" : "application/json",
+      "x-auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q"
+    },
+    body:{}
+  );
+}
