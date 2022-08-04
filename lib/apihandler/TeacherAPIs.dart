@@ -67,6 +67,17 @@ updateTeacherDetails(TeacherModel teacher) async{
     },
     body:json.encode(body),
   ).then((value){
+    debugPrint("Teacher updated");
+  });
+}
+
+void getTeacher(String id) async{
+  await http.get(Uri.parse(apiLink.apilink+"api/admin/teacher/$id"),
+    headers: {
+      "content-type":"application/json",
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+    },
+  ).then((value) {
     debugPrint(value.body);
   });
 }

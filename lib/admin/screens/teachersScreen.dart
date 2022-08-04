@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/screens/AddTeacher.dart';
+import 'package:onyourmarks/admin/screens/UpdateTeacherStandard.dart';
 import 'package:onyourmarks/apihandler/TeacherAPIs.dart';
 import 'package:onyourmarks/models/TeacherModel.dart';
 
@@ -71,7 +72,7 @@ class _teachersScreenState extends State<teachersScreen> {
                                               )));
                                     }, child: Text("Update Teacher Details")),
                                     ElevatedButton(onPressed: (){
-
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>UpdateTeacherStandard()));
                                     }, child: Text("Update Subject & Standard")),
                                   ],
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

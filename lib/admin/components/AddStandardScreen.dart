@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onyourmarks/admin/components/ShowSuccessDialog.dart';
 import 'package:onyourmarks/apihandler/standardAPIs/standardAPIs.dart';
 import 'package:onyourmarks/apihandler/subject/subjectAPIs.dart';
 import 'package:onyourmarks/models/SubjectModel.dart';
@@ -16,15 +17,14 @@ class AddStandard extends StatefulWidget {
 class _AddStandardState extends State<AddStandard> {
   String? v;
   String selectedStandard = "";
-  String? s1,s2,s3,s4,s5;
-  String selectedSubject1 = "";
-  String selectedSubject2 = "";
-  String selectedSubject3 = "";
-  String selectedSubject4 = "";
-  String selectedSubject5 = "";
+   String? s;
+  String selectedSection = "";
   List<String> allSubjectsName = [];
   List<String> allSubjectIDs = [];
+  List<String> textConts=[];
   int noOfSubjects = 5;
+  bool showSection = false;
+  bool temp = true;
   fetchAllSubjects() async{
     var res = await getAllSubjects();
     for(SubjectModel i in res){
@@ -32,7 +32,7 @@ class _AddStandardState extends State<AddStandard> {
       allSubjectIDs.add(i.id ?? '');
     }
     setState(() {
-
+        temp = false;
     });
   }
 
@@ -44,7 +44,6 @@ class _AddStandardState extends State<AddStandard> {
           Card(
             elevation: 2,
             child: Container(
-              height: 130,
               width: 350,
               child:Padding(
                 padding: const EdgeInsets.all(20),
@@ -58,12 +57,26 @@ class _AddStandardState extends State<AddStandard> {
                       child: TextField(
                         onChanged: (v){
                           noOfSubjects = int.parse(v);
+                          print(noOfSubjects.toString());
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(3),
                           isDense: true,
                         ),
                       ),
+                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(onPressed: (){
+                          for(int i=0;i<noOfSubjects;i++) {
+                            textConts.add(" ");
+                          }
+                        }, child: Text("Ok")),
+                        SizedBox(width: 10,),
+                        ElevatedButton(onPressed: (){}, child: Text("Cancel"))
+                      ],
                     )
                   ],
                 ),
@@ -75,11 +88,6 @@ class _AddStandardState extends State<AddStandard> {
     );
   }
 
-  temp() async{
-    await showDialog(context: context, builder: (BuildContext context){
-      return getNoOfSubjects();
-    }) ;
-  }
 
 
   @override
@@ -87,9 +95,55 @@ class _AddStandardState extends State<AddStandard> {
     fetchAllSubjects();
     //temp();
   }
+  showNoOfSubjectsDialog() async{
+    await showDialog(context: context, builder: (BuildContext context){
+      return getNoOfSubjects();
+    }) ;
+  }
 
+  Card getSubject(int index){
+    String? s1;
+    return  Card(
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment:
+          CrossAxisAlignment.start,
+          children: [
+            Text("Subject"),
+            SizedBox(
+              height: 25,
+            ),
+            Padding(
+                padding:
+                const EdgeInsets.only(left: 25),
+                child: DropdownButton<String>(
+                  value: s1,
+                  onChanged: (value) {
+                    setState(() {
+                      s1 = value;
+                      textConts[index] = s1!;
+                      //selectedSubject1 = allSubjectIDs.elementAt(allSubjectsName.indexOf(value!));
+                    });
+                  },
+                  items: allSubjectsName
+                      .map<DropdownMenuItem<String>>(
+                          (String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                )),
+          ],
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
+    (temp)?Future.delayed(Duration.zero, () => showNoOfSubjectsDialog()):null;
     return Scaffold(
       appBar: getAppBar(context),
       body: SingleChildScrollView(
@@ -99,7 +153,7 @@ class _AddStandardState extends State<AddStandard> {
               shrinkWrap: true,
               children: [
                 Padding(
-                    padding: const EdgeInsets.all(60),
+                    padding: const EdgeInsets.symmetric(horizontal: 200),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
@@ -111,262 +165,113 @@ class _AddStandardState extends State<AddStandard> {
                             elevation: 3,
                             child: Container(
                               height: 130,
-                              width: 350,
+                              width: 400,
                               child: Padding(
                                 padding: const EdgeInsets.all(20),
                                 child: Row(
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Standard"),
-                                        SizedBox(
-                                          height: 25,
-                                        ),
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 25),
-                                            child: DropdownButton<String>(
-                                              value: v,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  v = value;
-                                                  selectedStandard = value!;
-                                                });
-                                              },
-                                              items: <String>[
-                                                '1',
-                                                '2',
-                                                '3',
-                                                '4',
-                                                '5',
-                                                '6',
-                                                '7',
-                                                '8',
-                                                '9',
-                                                '10',
-                                                '11',
-                                                '12'
-                                              ].map<DropdownMenuItem<String>>(
-                                                  (String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value),
-                                                );
-                                              }).toList(),
-                                            ))
-                                      ],
+                                    Expanded(
+                                      flex: 3,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Standard"),
+                                          SizedBox(
+                                            height: 25,
+                                          ),
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.only(left: 25),
+                                              child: DropdownButton<String>(
+                                                value: v,
+                                                onChanged: (value) {
+                                                  if(["11","12"].contains(value)){
+                                                    setState(() {
+                                                      showSection = true;
+                                                    });
+                                                  }
+                                                  else{
+                                                    setState(() {
+                                                      showSection = false;
+                                                    });
+                                                  }
+                                                  setState(() {
+                                                    v = value;
+                                                    selectedStandard = value!;
+                                                  });
+                                                },
+                                                items: <String>[
+                                                  '1',
+                                                  '2',
+                                                  '3',
+                                                  '4',
+                                                  '5',
+                                                  '6',
+                                                  '7',
+                                                  '8',
+                                                  '9',
+                                                  '10',
+                                                  '11',
+                                                  '12'
+                                                ].map<DropdownMenuItem<String>>(
+                                                    (String value) {
+                                                  return DropdownMenuItem<String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                  );
+                                                }).toList(),
+                                              ))
+                                        ],
+                                      ),
                                     ),
+                                    getExpandedWithFlex(2),
+                                    (showSection)?Expanded(
+                                      flex: 3,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Section"),
+                                          SizedBox(height: 25,),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 25),
+                                              child: DropdownButton<String>(
+                                                value: s,
+                                                onChanged: (value) {
+                                                  setState((){
+                                                    s = value;
+                                                    selectedSection = value!;
+                                                  });
+                                                },
+                                                items: <String>['A','B','C']
+                                                    .map<DropdownMenuItem<String>>((String value) {
+                                                  return DropdownMenuItem<String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                  );
+                                                }).toList(),
+                                              ))
+                                        ],
+                                      ),
+                                    ):Text(""),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Card(
-                                elevation: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Subject"),
-                                      SizedBox(
-                                        height: 25,
-                                      ),
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 25),
-                                          child: DropdownButton<String>(
-                                            value: s1,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                s1 = value;
-                                                selectedSubject1 = allSubjectIDs.elementAt(allSubjectsName.indexOf(value!));
-                                              });
-                                            },
-                                            items: allSubjectsName
-                                                .map<DropdownMenuItem<String>>(
-                                                    (String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
-                                          )),
-                                    ],
-                                  ),
+                          for(int i=0;i<noOfSubjects;i++)
+                            getSubject(i),
+                            Card(
+                              child: Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(onPressed: (){}, child: Text("Add"))
+                                  ],
                                 ),
                               ),
-                              Card(
-                                elevation: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Subject"),
-                                      SizedBox(
-                                        height: 25,
-                                      ),
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 25),
-                                          child: DropdownButton<String>(
-                                            value: s2,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                s2 = value;
-                                                selectedSubject2 = allSubjectIDs.elementAt(allSubjectsName.indexOf(value!));
-                                              });
-                                            },
-                                            items: allSubjectsName
-                                                .map<DropdownMenuItem<String>>(
-                                                    (String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Card(
-                                elevation: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Subject"),
-                                      SizedBox(
-                                        height: 25,
-                                      ),
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 25),
-                                          child: DropdownButton<String>(
-                                            value: s3,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                s3 = value;
-                                                selectedSubject3 = allSubjectIDs.elementAt(allSubjectsName.indexOf(value!));
-                                              });
-                                            },
-                                            items: allSubjectsName
-                                                .map<DropdownMenuItem<String>>(
-                                                    (String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Card(
-                                elevation: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Subject"),
-                                      SizedBox(
-                                        height: 25,
-                                      ),
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 25),
-                                          child: DropdownButton<String>(
-                                            value: s4,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                s4 = value;
-                                                selectedSubject4 = allSubjectIDs.elementAt(allSubjectsName.indexOf(value!));
-                                              });
-                                            },
-                                            items: allSubjectsName
-                                                .map<DropdownMenuItem<String>>(
-                                                    (String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Card(
-                                elevation: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Subject"),
-                                      SizedBox(
-                                        height: 25,
-                                      ),
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 25),
-                                          child: DropdownButton<String>(
-                                            value: s5,
-                                            onChanged: (value) {
-                                              allSubjectIDs.elementAt(allSubjectsName.indexOf(value!));
-                                              setState(() {
-                                                s5 = value;
-                                                selectedSubject5 = allSubjectIDs.elementAt(allSubjectsName.indexOf(value!));
-                                              });
-                                            },
-                                            items: allSubjectsName
-                                                .map<DropdownMenuItem<String>>(
-                                                    (String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              ElevatedButton(onPressed: () async{
-                                  await postStandard(selectedStandard, selectedSubject1, selectedSubject2, selectedSubject3, selectedSubject4, selectedSubject5);
-                              }, child: Text("Add")),
-                              ElevatedButton(onPressed: (){}, child: Text("Cancel"))
-                            ],
-                          )
+                            )
+
                         ]),
                       ),
                       ),
@@ -379,4 +284,5 @@ class _AddStandardState extends State<AddStandard> {
       ),
     );
   }
+
 }

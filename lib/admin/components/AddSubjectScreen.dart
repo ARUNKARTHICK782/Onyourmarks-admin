@@ -7,7 +7,11 @@ import 'getExpandedWithFlex.dart';
 
 
 class addSubjectdialog extends StatefulWidget {
-  const addSubjectdialog({Key? key}) : super(key: key);
+  final bool isEditing;
+  final String sub_name;
+  final String tot_marks;
+  final String sub_id;
+  const addSubjectdialog(this.isEditing,this.sub_name,this.tot_marks,this.sub_id,{Key? key}) : super(key: key);
 
   @override
   State<addSubjectdialog> createState() => _addSubjectdialogState();
@@ -21,6 +25,13 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
   TextEditingController totalMarksController = new TextEditingController();
   String selectedStandard = "";
   String selectedSection = "";
+  bool showSection = false;
+
+  @override
+  void initState() {
+    subjectNameController.text = widget.sub_name;
+    totalMarksController.text = widget.tot_marks;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +97,7 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
                     ),
                   ),
                 ),
-                Card(
+                (widget.isEditing)?Text(""):Card(
                   elevation: 3,
                   child: Container(
                     height: 130,
@@ -110,6 +121,16 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
                                         setState((){
                                           v = value;
                                           selectedStandard = value!;
+                                          if(["11","12"].contains(selectedStandard)){
+                                            setState(() {
+                                              showSection = true;
+                                            });
+                                          }
+                                          else{
+                                            setState(() {
+                                              showSection = false;
+                                            });
+                                          }
                                         });
                                       },
                                       items: <String>['1','2','3','4','5','6','7','8','9','10','11','12']
@@ -127,7 +148,7 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
                           getExpandedWithFlex(2),
                           Expanded(
                             flex: 3,
-                            child: Column(
+                            child: (showSection)?Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Section"),
@@ -151,7 +172,7 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
                                       }).toList(),
                                     ))
                               ],
-                            ),
+                            ):Text(""),
                           ),
                         ],
                       ),
@@ -169,10 +190,16 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
                       SizedBox(
                         width: 10,
                       ),
-                      ElevatedButton(onPressed: () async{
-                        await addSubject(subjectNameController.text,totalMarksController.text,selectedStandard,selectedSection).then((value) async{
+                      (!widget.isEditing)?ElevatedButton(onPressed: () async{
+                        String temp = (showSection)?selectedStandard+"-"+selectedSection:selectedStandard;
+                        await addSubject(subjectNameController.text,totalMarksController.text,temp).then((value) async{
                           Navigator.pop(context);
-
+                          initState();
+                        });
+                      }, child: Text("Add")):ElevatedButton(onPressed: () async {
+                        await updateSubject(subjectNameController.text, totalMarksController.text, widget.sub_id).then((value) async{
+                          Navigator.pop(context);
+                          initState();
                         });
                       }, child: Text("Save")),
 

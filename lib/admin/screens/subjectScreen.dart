@@ -60,9 +60,21 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(snapshot.data?.elementAt(index).subName ?? '',style: TextStyle(
-                                            fontWeight: FontWeight.bold,fontSize: 25,overflow: TextOverflow.ellipsis
-                                          ),),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                flex:3,
+                                                child: Text(snapshot.data?.elementAt(index).subName ?? '',maxLines: 3,style: TextStyle(
+                                                  fontWeight: FontWeight.bold,fontSize: 25,overflow: TextOverflow.ellipsis
+                                                ),),
+                                              ),
+                                              Expanded(flex:1,child: IconButton(onPressed: (){
+                                                showDialog(context: context, builder: (BuildContext context){
+                                                  return addSubjectdialog(true, snapshot.data?.elementAt(index).subName ?? "", snapshot.data?.elementAt(index).totalMarks ?? "",snapshot.data?.elementAt(index).id ?? "");
+                                                });
+                                              }, icon: Icon(CupertinoIcons.pen)))
+                                            ],
+                                          ),
                                           SizedBox(height: 10,),
                                           Text("Total Marks : "+ (snapshot.data?.elementAt(index).totalMarks ?? ''))
                                         ],
@@ -109,7 +121,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           showDialog(context: context, builder: (BuildContext context){
-            return addSubjectdialog();
+            return addSubjectdialog(false,"","","");
           });
         },
         child: Icon(CupertinoIcons.add),
