@@ -7,14 +7,8 @@ import 'package:onyourmarks/models/StandardModel.dart';
 import 'package:onyourmarks/models/SubjectModel.dart';
 
 
-postStandard(String standardsec,String sub1,String sub2,String sub3,String sub4,String sub5) async{
-  List<String> subIDs = [];
-  subIDs.add(sub1);
-  subIDs.add(sub2);
-  subIDs.add(sub3);
-  subIDs.add(sub4);
-  subIDs.add(sub5);
-  var body = {
+postStandard(String standardsec,List<String> subIDs) async{
+    var body = {
     "subject_id": subIDs,
     "std_name" : standardsec
   };

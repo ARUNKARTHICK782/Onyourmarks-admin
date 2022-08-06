@@ -19,10 +19,11 @@ class _AddStandardState extends State<AddStandard> {
   String selectedStandard = "";
    String? s;
   String selectedSection = "";
-  List<String> allSubjectsName = [];
+  List<String> allSubjectsName = [""];
   List<String> allSubjectIDs = [];
   List<String> textConts=[];
-  int noOfSubjects = 5;
+  List<String> selectedSubjectIDs=[];
+  int noOfSubjects = 0;
   bool showSection = false;
   bool temp = true;
   fetchAllSubjects() async{
@@ -35,6 +36,9 @@ class _AddStandardState extends State<AddStandard> {
         temp = false;
     });
   }
+
+
+
 
   AlertDialog getNoOfSubjects(){
     return AlertDialog(
@@ -57,7 +61,6 @@ class _AddStandardState extends State<AddStandard> {
                       child: TextField(
                         onChanged: (v){
                           noOfSubjects = int.parse(v);
-                          print(noOfSubjects.toString());
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(3),
@@ -71,8 +74,10 @@ class _AddStandardState extends State<AddStandard> {
                       children: [
                         ElevatedButton(onPressed: (){
                           for(int i=0;i<noOfSubjects;i++) {
-                            textConts.add(" ");
+                            textConts.add("");
+                            selectedSubjectIDs.add(" ");
                           }
+                          //Navigator.pop(context);
                         }, child: Text("Ok")),
                         SizedBox(width: 10,),
                         ElevatedButton(onPressed: (){}, child: Text("Cancel"))
@@ -87,10 +92,7 @@ class _AddStandardState extends State<AddStandard> {
       ),
     );
   }
-
-
-
-  @override
+ @override
   void initState() {
     fetchAllSubjects();
     //temp();
@@ -119,11 +121,12 @@ class _AddStandardState extends State<AddStandard> {
                 padding:
                 const EdgeInsets.only(left: 25),
                 child: DropdownButton<String>(
-                  value: s1,
+                  value: textConts.elementAt(index),
                   onChanged: (value) {
                     setState(() {
                       s1 = value;
-                      textConts[index] = s1!;
+                      selectedSubjectIDs[index] =  allSubjectIDs.elementAt(allSubjectsName.indexOf(s1!)-1);
+                      textConts[index]=s1.toString();
                       //selectedSubject1 = allSubjectIDs.elementAt(allSubjectsName.indexOf(value!));
                     });
                   },
@@ -143,7 +146,7 @@ class _AddStandardState extends State<AddStandard> {
   }
   @override
   Widget build(BuildContext context) {
-    (temp)?Future.delayed(Duration.zero, () => showNoOfSubjectsDialog()):null;
+    (temp)?Future.delayed(Duration.zero, () => showNoOfSubjectsDialog().then((v)=>setState((){}))):null;
     return Scaffold(
       appBar: getAppBar(context),
       body: SingleChildScrollView(
@@ -259,14 +262,26 @@ class _AddStandardState extends State<AddStandard> {
                               ),
                             ),
                           ),
-                          for(int i=0;i<noOfSubjects;i++)
-                            getSubject(i),
+                            for(int i=0;i<noOfSubjects && !temp;i++)
+                                      getSubject(i),
                             Card(
                               child: Container(
                                 child: Row(
+                                  mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ElevatedButton(onPressed: (){}, child: Text("Add"))
+                                    ElevatedButton(onPressed: () async{
+                                      String temp;
+                                      if(showSection){
+                                        temp = selectedStandard+"-"+selectedSection;
+                                      }
+                                      else{
+                                        temp = selectedStandard;
+                                      }
+                                      await postStandard(temp, selectedSubjectIDs).then((v){
+                                        ShowSuccessDialog("Subject added");
+                                      });
+                                    }, child: Text("Add"))
                                   ],
                                 ),
                               ),

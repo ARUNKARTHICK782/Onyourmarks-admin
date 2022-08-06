@@ -4,6 +4,7 @@ import 'package:onyourmarks/admin/components/getMainCards.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_web_frame/flutter_web_frame.dart';
+import 'package:onyourmarks/admin/screens/CoCurricularPage.dart';
 import 'package:onyourmarks/admin/screens/StandardScreen.dart';
 import 'package:onyourmarks/admin/screens/studentsScreen.dart';
 import 'package:onyourmarks/admin/screens/subjectScreen.dart';
@@ -23,6 +24,7 @@ class _adminHomePageState extends State<adminHomePage> {
     teachersScreen(),
     SubjectScreen(),
     StandardScreen(),
+    CoCurricularPage(),
   ];
   int pageIndex = 0;
   @override
@@ -81,6 +83,17 @@ class _adminHomePageState extends State<adminHomePage> {
                       });
                     },
                     child: Text("Standard"),
+                  ),
+                ),
+                Container(
+                  height: 60,
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        pageIndex = 4;
+                      });
+                    },
+                    child: Text("Co Curricular"),
                   ),
                 ),
               ],
