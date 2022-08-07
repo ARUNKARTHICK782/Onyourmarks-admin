@@ -128,6 +128,8 @@ class StudentModel{
 
   StudentModel.empty();
 
+  StudentModel.forCCA(this._id,this._roll_no,this._first_name,this._last_name);
+
   factory StudentModel.fromJson(Map<String, dynamic> json){
       return StudentModel(json["_id"],json["first_name"],json["last_name"],json["roll_no"],json["std_id"]["std_name"],json["dob"],json["gender"],json["parent1name"],json["parent2name"],
         json["occupation"],json["income"],json["email"],json["phoneNo"],json["currentAddress"],json["permanentAddress"],json["motherTongue"],json["bloodGroup"]
