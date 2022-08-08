@@ -1,7 +1,7 @@
-import 'dart:math';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/apihandler/CCA_APIs.dart';
+import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
 
 class CoCurricularPage extends StatefulWidget {
   const CoCurricularPage({Key? key}) : super(key: key);
@@ -11,6 +11,10 @@ class CoCurricularPage extends StatefulWidget {
 }
 
 class _CoCurricularPageState extends State<CoCurricularPage> {
+  List<CoCurricularActivityModel> allCAA=[];
+  List<CoCurricularActivityModel> pendingCCA=[];
+  List<CoCurricularActivityModel> rejectedCCA = [];
+  List<CoCurricularActivityModel> acceptedCCA = [];
   getCard(String text){
     int height = 50;
     int width = 50;
@@ -44,10 +48,26 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
     );
   }
 
+  getAllCCA() async{
+    for (var value in await getCCA()) {
+      if(value.isVerified == "pending"){
+        allCAA.add(value);
+      }
+      else if(value.isVerified == "rejected"){
+        allCAA.add(value);
+      }
+      else{
+        allCAA.add(value);
+      }
+    }
+    setState(() {
+
+    });
+  }
 
   @override
   void initState() {
-    getCCA("62dd3885881d7ff0608758b6");
+    getAllCCA();
   }
 
   @override
@@ -66,6 +86,7 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           for(int i=1;i<13;i++)
                             getCard(i.toString()),
@@ -74,7 +95,7 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
                       Expanded(
                         child: ListView.builder(
                           shrinkWrap: true,
-                            itemCount: 5,
+                            itemCount: allCAA.length,
                             itemBuilder: (BuildContext context,int index){
                           return Padding(
                             padding: const EdgeInsets.only(left: 50,right:250),
@@ -100,11 +121,12 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(20),
                                         child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("Name : "),
-                                            Text("Class : "),
-                                            Text("Section : "),
+                                            Text("Name : "+ (allCAA.elementAt(index).student?.name ?? " ")),
+                                            Text("Class : "+allCAA.elementAt(index).std_name.toString()),
+                                            Text("Section : "+allCAA.elementAt(index).std_name.toString()),
                                           ],
                                         ),
                                       ),
@@ -114,14 +136,26 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(20),
                                         child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text("Activity Name : "),
-                                            Text("Activity Type : ")
+                                            Text("Activity Name : "+allCAA.elementAt(index).activity_name.toString()),
+                                            Text("Activity Type : "+allCAA.elementAt(index).activity_type.toString())
                                           ],
                                         ),
                                       ),
-                                    )
+                                    ),
+                                    Expanded(
+                                        flex:2,
+                                        child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                          child: (
+                                              allCAA.elementAt(index).isVerified == "accepted")
+                                                ?Icon(CupertinoIcons.checkmark_alt_circle_fill)
+                                                :(allCAA.elementAt(index).isVerified == "pending")
+                                                    ?Icon(CupertinoIcons.exclamationmark)
+                                                    :Icon(CupertinoIcons.xmark_circle_fill),
+                                    ))
                                   ],
                                 ),
                               ),

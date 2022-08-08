@@ -6,7 +6,7 @@ import 'package:onyourmarks/api/apiLink.dart';
 import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
-getCCA(String std_id) async{
+getCCA() async{
   List<CoCurricularActivityModel> allCCA = [];
   var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allcca"),
     headers: {
