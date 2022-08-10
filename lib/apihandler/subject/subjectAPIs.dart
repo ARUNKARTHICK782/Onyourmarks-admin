@@ -6,7 +6,6 @@ import 'package:onyourmarks/api/apiLink.dart';
 import 'package:onyourmarks/models/SubjectModel.dart';
 
 Future<void>  addSubject(String subname,String totMarks,String standardSec) async{
-  debugPrint("In add subject");
   var body = {
     "sub_name": subname+" "+standardSec,
     "total_marks": int.tryParse(totMarks) ?? 100
@@ -18,7 +17,6 @@ Future<void>  addSubject(String subname,String totMarks,String standardSec) asyn
     },
     body: json.encode(body),
   ).then((value) {
-    debugPrint("Subject added");
   });
 }
 
@@ -26,7 +24,6 @@ Future<void>  addSubject(String subname,String totMarks,String standardSec) asyn
 Future<List<SubjectModel>> getAllSubjects() async {
   List<SubjectModel> returnSubjects = [];
   var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allsubjects"));
-  // debugPrint(res.body);
   var subjects = json.decode(res.body);
   for(var i in subjects){
     SubjectModel sm = SubjectModel.fromJson(i);
@@ -48,6 +45,5 @@ updateSubject(String sub_name,String tot_marks,String id) async{
     },
     body: json.encode(body),
   ).then((value){
-    debugPrint("Updated subject successfully");
   });
 }

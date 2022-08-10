@@ -21,3 +21,13 @@ getCCA() async{
   }
   return allCCA;
 }
+Future<bool> updateCCA(String activity_id,String decision) async{
+  var res = await http.put(Uri.parse(apiLink.apilink+"api/admin/activity/$activity_id"),
+    headers: {
+      "content-type":"application/json",
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+    },
+    body: jsonEncode({"isVerified":decision})
+  );
+  return (res.body.isEmpty)?false:true;
+}

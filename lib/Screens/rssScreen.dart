@@ -18,7 +18,6 @@ class _rssScreenState extends State<rssScreen> {
     for(var i in items!){
       print(i.title);
     }
-    //debugPrint(items.toString());
   }
 
   @override

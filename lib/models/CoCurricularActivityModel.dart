@@ -68,6 +68,8 @@ class CoCurricularActivityModel{
       _student = value;
     }
 
+    CoCurricularActivityModel.empty();
+
     CoCurricularActivityModel(
       this._id,
       this._activity_name,

@@ -19,7 +19,6 @@ postStandard(String standardsec,List<String> subIDs) async{
       },
       body: json.encode(body)
     ).then((value){
-      debugPrint("Subject added successfully ");
     });
 }
 
