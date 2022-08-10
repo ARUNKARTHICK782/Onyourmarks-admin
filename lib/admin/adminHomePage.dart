@@ -6,6 +6,7 @@ import 'dart:io' show Platform;
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:onyourmarks/admin/screens/CoCurricularPage.dart';
 import 'package:onyourmarks/admin/screens/StandardScreen.dart';
+import 'package:onyourmarks/admin/screens/dashboard.dart';
 import 'package:onyourmarks/admin/screens/studentsScreen.dart';
 import 'package:onyourmarks/admin/screens/subjectScreen.dart';
 import 'package:onyourmarks/admin/screens/teachersScreen.dart';
@@ -25,6 +26,7 @@ class _adminHomePageState extends State<adminHomePage> {
     SubjectScreen(),
     StandardScreen(),
     CoCurricularPage(),
+    DashboardAdmin()
   ];
   int pageIndex = 0;
   @override
@@ -94,6 +96,17 @@ class _adminHomePageState extends State<adminHomePage> {
                       });
                     },
                     child: Text("Co Curricular"),
+                  ),
+                ),
+                Container(
+                  height: 60,
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        pageIndex = 5;
+                      });
+                    },
+                    child: Text("Dashboard"),
                   ),
                 ),
               ],

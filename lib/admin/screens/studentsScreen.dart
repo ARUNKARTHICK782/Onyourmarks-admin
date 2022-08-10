@@ -26,39 +26,52 @@ class _studentsScreenState extends State<studentsScreen> {
           List<Widget> children=[];
           if(snapshot.hasData){
             children = <Widget>[
-              Icon(CupertinoIcons.search),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: ListView.builder(
-                      itemCount: snapshot.data?.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context,int index){
-                    return GestureDetector(
-                      child: Card(
-                        child: Container(
-                          height: 60,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(snapshot.data?.elementAt(index).name ?? ' '),
-                                Text(snapshot.data?.elementAt(index).std_id ?? '')
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>studentDetails(snapshot.data?.elementAt(index) ?? StudentModel.empty())));
+                  padding: EdgeInsets.all(50),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Card(
+                      color: Colors.grey.shade100,
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                            itemCount: snapshot.data?.length ?? 0,
+                            itemBuilder: (BuildContext context,int index){
+                              return GestureDetector(
+                                child: Card(
+                                  elevation: 3,
+                                  child: Container(
+                                    height: 120,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 20),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(snapshot.data?.elementAt(index).name ?? ' '),
+                                          Text(snapshot.data?.elementAt(index).std_id ?? '')
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>studentDetails(snapshot.data?.elementAt(index) ?? StudentModel.empty())));
 
-                      },
-                    );
-                  }),
+                                },
+                              );
+                            }, separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(height: 10,);
+                        },),
+                      ),
+                    ),
+                  ),
                 ),
               )
+
             ];
           }
           else if(snapshot.hasError){
