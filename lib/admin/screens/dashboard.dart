@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:onyourmarks/apihandler/studentAPIs/studentAPIs.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../models/StudentModel.dart';
 
 class DashboardAdmin extends StatefulWidget {
   const DashboardAdmin({Key? key}) : super(key: key);
@@ -335,4 +339,124 @@ class _ChartData2 {
 
   final String x;
   final double y;
+}
+
+
+
+
+
+/// The home page of the application which hosts the datagrid.
+class MyHomePage extends StatefulWidget {
+  /// Creates the home page.
+  MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<StudentModel> students = <StudentModel>[];
+  StudentDataSource studentDataSource = StudentDataSource.empty();
+
+  temp() async{
+    await getAllStudents().then((value) {
+      students = value;
+      studentDataSource = StudentDataSource(studentData: students);
+      setState(() {
+
+      });
+    });
+
+  }
+
+  @override
+  void initState() {
+    temp();
+    super.initState();
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Syncfusion Flutter DataGrid'),
+      ),
+      body: SfDataGrid(
+        source: studentDataSource,
+        columnWidthMode: ColumnWidthMode.fill,
+        columns: <GridColumn>[
+          GridColumn(
+              columnName: 'id',
+              label: Container(
+                  padding: EdgeInsets.all(16.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'ID',
+                  ))),
+          GridColumn(
+              columnName: 'name',
+              label: Container(
+                  padding: EdgeInsets.all(8.0),
+                  alignment: Alignment.center,
+                  child: Text('Name'))),
+          GridColumn(
+              columnName: 'gender',
+              label: Container(
+                  padding: EdgeInsets.all(8.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Gender',
+                    overflow: TextOverflow.ellipsis,
+                  ))),
+          GridColumn(
+              columnName: 'Mother Tongue',
+              label: Container(
+                  padding: EdgeInsets.all(8.0),
+                  alignment: Alignment.center,
+                  child: Text('Mother Tongue'))),
+        ],
+      ),
+    );
+  }
+
+}
+
+
+/// An object to set the employee collection data source to the datagrid. This
+/// is used to map the employee data to the datagrid widget.
+class StudentDataSource extends DataGridSource {
+
+  StudentDataSource.empty();
+
+  /// Creates the employee data source class with required details.
+  StudentDataSource({required List<StudentModel> studentData}) {
+    debugPrint(studentData.toString());
+    _studentData = studentData
+        .map<DataGridRow>((e) => DataGridRow(cells: [
+      DataGridCell<String>(columnName: 'id', value: e.roll_no),
+      DataGridCell<String>(columnName: 'name', value: (e.first_name.toString()+" "+e.last_name.toString())),
+      DataGridCell<String>(
+          columnName: 'gender', value: e.gender),
+      DataGridCell<String>(columnName: 'Mother Tongue', value: e.motherTongue),
+    ]))
+        .toList();
+  }
+
+  List<DataGridRow> _studentData = [];
+
+  @override
+  List<DataGridRow> get rows => _studentData;
+
+  @override
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(
+        cells: row.getCells().map<Widget>((e) {
+          return Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(8.0),
+            child: Text(e.value.toString()),
+          );
+        }).toList());
+  }
 }
