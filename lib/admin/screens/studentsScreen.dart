@@ -16,65 +16,84 @@ class studentsScreen extends StatefulWidget {
 }
 
 class _studentsScreenState extends State<studentsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[100],
       body: FutureBuilder<List<StudentModel>>(
         future: getAllStudents(),
-        builder: (BuildContext context, AsyncSnapshot<List<StudentModel>> snapshot){
-          List<Widget> children=[];
-          if(snapshot.hasData){
+        builder:
+            (BuildContext context, AsyncSnapshot<List<StudentModel>> snapshot) {
+          List<Widget> children = [];
+          if (snapshot.hasData) {
             children = <Widget>[
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(50),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Card(
-                      color: Colors.grey.shade100,
-                      elevation: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                            itemCount: snapshot.data?.length ?? 0,
-                            itemBuilder: (BuildContext context,int index){
-                              return GestureDetector(
-                                child: Card(
-                                  elevation: 3,
-                                  child: Container(
-                                    height: 120,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 20),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(snapshot.data?.elementAt(index).name ?? ' '),
-                                          Text(snapshot.data?.elementAt(index).std_id ?? '')
-                                        ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data?.length ?? 0,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            child: Card(
+                              color: Colors.blue[50],
+                              elevation: 3,
+                              child: Container(
+                                height: 80,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        snapshot.data?.elementAt(index).name ??
+                                            ' ',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall
+                                            ?.copyWith(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black54),
                                       ),
-                                    ),
+                                      Text(snapshot.data
+                                              ?.elementAt(index)
+                                              .std_id ??
+                                          '')
+                                    ],
                                   ),
                                 ),
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>studentDetails(snapshot.data?.elementAt(index) ?? StudentModel.empty())));
-
-                                },
-                              );
-                            }, separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(height: 10,);
-                        },),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => studentDetails(
+                                          snapshot.data?.elementAt(index) ??
+                                              StudentModel.empty())));
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 10,
+                          );
+                        },
                       ),
                     ),
                   ),
                 ),
               )
-
             ];
-          }
-          else if(snapshot.hasError){
+          } else if (snapshot.hasError) {
             children = <Widget>[
               const Icon(
                 Icons.error_outline,
@@ -86,8 +105,7 @@ class _studentsScreenState extends State<studentsScreen> {
                 child: Text('Error: ${snapshot.error}'),
               )
             ];
-          }
-          else{
+          } else {
             children = const <Widget>[
               SizedBox(
                 width: 60,
@@ -109,16 +127,16 @@ class _studentsScreenState extends State<studentsScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>addStudent()));
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => addStudent()));
         },
         child: Icon(CupertinoIcons.add),
       ),
     );
   }
-  initialFunc() async{
 
-  }
+  initialFunc() async {}
 
   @override
   void initState() {
