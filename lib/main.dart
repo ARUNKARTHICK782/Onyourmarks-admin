@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/adminHomePage.dart';
+import 'package:onyourmarks/admin/screens/dashboard.dart';
 import 'homeCards.dart';
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Student Management System',
       theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: adminHomePage()
+      home: MyHomePage()
     );
   }
 }

@@ -147,4 +147,9 @@ class StudentModel{
   set std_name(String? value) {
     _std_name = value;
   }
+
+  @override
+  String toString() {
+    return 'StudentModel{_id: $_id, _first_name: $_first_name, _last_name: $_last_name, _roll_no: $_roll_no, _std_name: $_std_name, _dob: $_dob, _gender: $_gender, _fatherName: $_fatherName, _motherName: $_motherName, _occupation: $_occupation, _income: $_income, _email: $_email, _phno: $_phno, _currentAddress: $_currentAddress, _permanentAddress: $_permanentAddress, _motherTongue: $_motherTongue, _bloodGroup: $_bloodGroup}';
+  }
 }

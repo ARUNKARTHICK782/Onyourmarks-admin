@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.17.0
   multiselect: ^0.0.7
   syncfusion_flutter_charts: ^20.2.43
+  syncfusion_flutter_datagrid: ^20.2.43
 
 
 dev_dependencies:
