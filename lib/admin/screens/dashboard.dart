@@ -15,32 +15,26 @@ class _DashboardAdminState extends State<DashboardAdmin> {
   late List<_ChartData2> data;
   late TooltipBehavior _tooltip;
   @override
-
-  void initState(){
+  void initState() {
     _trackballBehavior = TrackballBehavior(
         enable: true,
         activationMode: ActivationMode.singleTap,
         tooltipSettings: const InteractiveTooltip(format: 'point.x : point.y'));
 
-
-
-      data = [
-        _ChartData2('CHN', 12),
-        _ChartData2('GER', 15),
-        _ChartData2('RUS', 30),
-        _ChartData2('BRZ', 6.4),
-        _ChartData2('IND', 14)
-      ];
-      _tooltip = TooltipBehavior(enable: true);
-
+    data = [
+      _ChartData2('CHN', 12),
+      _ChartData2('GER', 15),
+      _ChartData2('RUS', 30),
+      _ChartData2('BRZ', 6.4),
+      _ChartData2('IND', 14)
+    ];
+    _tooltip = TooltipBehavior(enable: true);
 
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     final List<SalesData> chartData = [
       SalesData(DateTime.parse("2010-02-07T00:00:00.000+00:00"), 35),
       SalesData(DateTime.parse("2011-02-07T00:00:00.000+00:00"), 28),
@@ -49,27 +43,26 @@ class _DashboardAdminState extends State<DashboardAdmin> {
       SalesData(DateTime.parse("2014-02-07T00:00:00.000+00:00"), 40)
     ];
 
-
     return Scaffold(
-        body: ListView(
-      children: [
-        Padding(
-          padding: EdgeInsets.all(60),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              child: Card(
-                color: Colors.grey.shade100,
-                elevation: 2,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          child: Card(
+      backgroundColor: Colors.blue[100],
+      body: ListView(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(60),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                child: Card(
+                  color: Colors.blue[50],
+                  elevation: 2,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Card(
                             child: Padding(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -97,167 +90,170 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.accessibility),
-                                      Text(
-                                        "Total No Of Teachers: ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5
-                                            ?.copyWith(
-                                                color: Colors.grey,
-                                                fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    "25",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
+                          Container(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.accessibility),
+                                        Text(
+                                          "Total No Of Teachers: ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5
+                                              ?.copyWith(
+                                                  color: Colors.grey,
+                                                  fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      "25",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.accessibility),
-                                      Text(
-                                        "Total No Of boys: ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5
-                                            ?.copyWith(
-                                                color: Colors.grey,
-                                                fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    "150",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
+                          Container(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.accessibility),
+                                        Text(
+                                          "Total No Of boys: ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5
+                                              ?.copyWith(
+                                                  color: Colors.grey,
+                                                  fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      "150",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.accessibility),
-                                      Text(
-                                        "Total No Of girls: ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5
-                                            ?.copyWith(
-                                                color: Colors.grey,
-                                                fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    "100",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
+                          Container(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.accessibility),
+                                        Text(
+                                          "Total No Of girls: ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5
+                                              ?.copyWith(
+                                                  color: Colors.grey,
+                                                  fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      "100",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20,),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-
-                        color: Colors.white,
-                        child: Column(children: [
-                          Text("Student Strength: "),
-                          // syncfusion_chart_multicolor
-                          SfCartesianChart(
-                            title: ChartTitle(text: 'Annual rainfall of Paris'),
-                            plotAreaBorderWidth: 0,
-                            primaryXAxis: DateTimeAxis(
-                                intervalType: DateTimeIntervalType.years,
-                                dateFormat: DateFormat.y(),
-                                majorGridLines: const MajorGridLines(width: 0),
-                                title: AxisTitle(text: 'Year')),
-                            primaryYAxis: NumericAxis(
-                                minimum: 200,
-                                maximum: 600,
-                                interval: 100,
-                                axisLine: const AxisLine(width: 0),
-                                labelFormat: '{value}mm',
-                                majorTickLines: const MajorTickLines(size: 0)),
-                            series: _getMultiColoredLineSeries(),
-                            trackballBehavior: _trackballBehavior,
-                          ),
-                          SizedBox(height: 20,),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SfCartesianChart(
-                                primaryXAxis: CategoryAxis(),
-                                primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
-                                tooltipBehavior: _tooltip,
-                                series: <ChartSeries<_ChartData2, String>>[
-                                  ColumnSeries<_ChartData2, String>(
-                                      dataSource: data,
-                                      xValueMapper: (_ChartData2 data, _) => data.x,
-                                      yValueMapper: (_ChartData2 data, _) => data.y,
-                                      name: 'Gold',
-                                      color: Color.fromRGBO(8, 142, 255, 1))
-                                ]),
-                          ),
-
-
-
-
-                        ]),
+                        ],
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(children: [
+                            Text("Student Strength: "),
+                            // syncfusion_chart_multicolor
+                            SfCartesianChart(
+                              title:
+                                  ChartTitle(text: 'Annual rainfall of Paris'),
+                              plotAreaBorderWidth: 0,
+                              primaryXAxis: DateTimeAxis(
+                                  intervalType: DateTimeIntervalType.years,
+                                  dateFormat: DateFormat.y(),
+                                  majorGridLines:
+                                      const MajorGridLines(width: 0),
+                                  title: AxisTitle(text: 'Year')),
+                              primaryYAxis: NumericAxis(
+                                  minimum: 200,
+                                  maximum: 600,
+                                  interval: 100,
+                                  axisLine: const AxisLine(width: 0),
+                                  labelFormat: '{value}mm',
+                                  majorTickLines:
+                                      const MajorTickLines(size: 0)),
+                              series: _getMultiColoredLineSeries(),
+                              trackballBehavior: _trackballBehavior,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SfCartesianChart(
+                                  primaryXAxis: CategoryAxis(),
+                                  primaryYAxis: NumericAxis(
+                                      minimum: 0, maximum: 40, interval: 10),
+                                  tooltipBehavior: _tooltip,
+                                  series: <ChartSeries<_ChartData2, String>>[
+                                    ColumnSeries<_ChartData2, String>(
+                                        dataSource: data,
+                                        xValueMapper: (_ChartData2 data, _) =>
+                                            data.x,
+                                        yValueMapper: (_ChartData2 data, _) =>
+                                            data.y,
+                                        name: 'Gold',
+                                        color: Color.fromRGBO(8, 142, 255, 1))
+                                  ]),
+                            ),
+                          ]),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
-    ),);
+        ],
+      ),
+    );
   }
 }
-
-
 
 List<LineSeries<_ChartData, DateTime>> _getMultiColoredLineSeries() {
   return <LineSeries<_ChartData, DateTime>>[
@@ -296,16 +292,11 @@ List<LineSeries<_ChartData, DateTime>> _getMultiColoredLineSeries() {
               DateTime(1939), 520, const Color.fromRGBO(53, 124, 210, 1)),
           _ChartData(
               DateTime(1940), 510, const Color.fromRGBO(53, 124, 210, 1)),
-          _ChartData(
-              DateTime(1941), 395, const Color.fromRGBO(0, 189, 174, 1)),
-          _ChartData(
-              DateTime(1942), 380, const Color.fromRGBO(0, 189, 174, 1)),
-          _ChartData(
-              DateTime(1943), 404, const Color.fromRGBO(0, 189, 174, 1)),
-          _ChartData(
-              DateTime(1944), 400, const Color.fromRGBO(0, 189, 174, 1)),
-          _ChartData(
-              DateTime(1945), 500, const Color.fromRGBO(0, 189, 174, 1))
+          _ChartData(DateTime(1941), 395, const Color.fromRGBO(0, 189, 174, 1)),
+          _ChartData(DateTime(1942), 380, const Color.fromRGBO(0, 189, 174, 1)),
+          _ChartData(DateTime(1943), 404, const Color.fromRGBO(0, 189, 174, 1)),
+          _ChartData(DateTime(1944), 400, const Color.fromRGBO(0, 189, 174, 1)),
+          _ChartData(DateTime(1945), 500, const Color.fromRGBO(0, 189, 174, 1))
         ],
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y,
@@ -315,7 +306,6 @@ List<LineSeries<_ChartData, DateTime>> _getMultiColoredLineSeries() {
         width: 2)
   ];
 }
-
 
 class _ChartData {
   _ChartData(this.x, this.y, [this.lineColor]);

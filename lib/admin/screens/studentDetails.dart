@@ -39,7 +39,7 @@ class _studentDetailsState extends State<studentDetails> {
               getStudentDetailsCard(titles.elementAt(14),widget.student.bloodGroup ?? ''),
             ],
           ),
-        )
+        ),
         ),
       );
   }
