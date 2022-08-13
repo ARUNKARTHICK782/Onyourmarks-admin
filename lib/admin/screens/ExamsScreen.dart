@@ -235,53 +235,50 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   itemCount: allExams.length,
                   itemBuilder: (BuildContext context,int index){
                 return GestureDetector(
-                  child: Hero(
-                    tag: "Examcard",
-                    child: Card(
-                      elevation: 3,
-                      child: Container(
-                        height: 80,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex:4,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                          allExams.elementAt(index).exam_name ??
-                                              ' ',
-                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)
-                                      ),
-                                      Text(allExams.elementAt(index).std_id ??
-                                          '')
-                                    ],
-                                  ),
+                  child: Card(
+                    elevation: 3,
+                    child: Container(
+                      height: 80,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex:4,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:20),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                        allExams.elementAt(index).exam_name ??
+                                            ' ',
+                                        style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)
+                                    ),
+                                    Text(allExams.elementAt(index).std_id ??
+                                        '')
+                                  ],
                                 ),
                               ),
-                              Expanded(flex:5,child: Container(width: double.infinity,)),
-                              Expanded(
-                                flex:4,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 30),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text("From : "+(allExams.elementAt(index).dates?.first.substring(0,10) ?? " ")),
-                                      Text("To : "+(allExams.elementAt(index).dates?.last.substring(0,10) ?? " ") )
-                                    ],
-                                  ),
+                            ),
+                            Expanded(flex:5,child: Container(width: double.infinity,)),
+                            Expanded(
+                              flex:4,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text("From : "+(allExams.elementAt(index).dates?.first.substring(0,10) ?? " ")),
+                                    Text("To : "+(allExams.elementAt(index).dates?.last.substring(0,10) ?? " ") )
+                                  ],
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
