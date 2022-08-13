@@ -53,4 +53,6 @@ class Exam{
 
   Exam(this._id, this._exam_name, this._status,this._std_id ,this._dates, this._subject_id);
 
+  Exam.empty();
+
 }

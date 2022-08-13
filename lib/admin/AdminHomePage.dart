@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
 import 'package:onyourmarks/admin/components/getMainCards.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'dart:io' show Platform;
@@ -34,13 +35,14 @@ class _adminHomePageState extends State<adminHomePage> {
     ExamsScreen()
   ];
   int pageIndex = 0;
-
+  BooleanProvider? obj;
   getDrawerTextColor(){
     return Colors.white;
   }
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       home: Scaffold(
           // appBar: AppBar(
@@ -224,6 +226,11 @@ class _adminHomePageState extends State<adminHomePage> {
                               onPressed: () {
                                 setState(() {
                                   pageIndex = 7;
+                                });
+                                obj?.addListener(() {
+                                  setState(() {
+                                    obj?.nextpage = false;
+                                  });
                                 });
                               },
                               child: Text("Exams",style: TextStyle(color:getDrawerTextColor(),),),

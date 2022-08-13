@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/AdminHomePage.dart';
+import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
 import 'package:onyourmarks/admin/screens/Dashboard.dart';
+import 'package:provider/provider.dart';
 import 'homeCards.dart';
 void main() {
   runApp(const MyApp());
@@ -11,11 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Student Management System',
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: adminHomePage()
+    return ChangeNotifierProvider(
+      create: (context)=>BooleanProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Student Management System',
+        theme: ThemeData(primarySwatch: Colors.deepPurple),
+        home: adminHomePage()
+      ),
     );
   }
 }

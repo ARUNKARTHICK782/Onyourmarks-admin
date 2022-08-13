@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
 import 'package:onyourmarks/admin/screens/AddExamScreen.dart';
+import 'package:onyourmarks/admin/screens/DetailedExamScreen.dart';
+import 'package:provider/provider.dart';
 
 import '../../apihandler/examAPIs.dart';
 import '../../models/ExamModel.dart';
@@ -20,7 +23,12 @@ class _ExamsScreenState extends State<ExamsScreen> {
   List<Exam> allExamsMain = [];
   bool _loading = true;
   bool _isAllEnabled = true;
+  bool _nextpage = false;
   String selectedSortName = "All";
+  Exam dataToBePassed = Exam.empty();
+  bool? boolProvider = false;
+
+
 
   implementSearch(List<Exam> list,String s){
     if(s.isEmpty){
@@ -57,11 +65,16 @@ class _ExamsScreenState extends State<ExamsScreen> {
         allExams = tempList;
     });
   }
-
+  BooleanProvider? obj;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (_loading)?Center(child: CircularProgressIndicator(),):SingleChildScrollView(
+      body:
+      (boolProvider ?? false)
+          ?DetailedExamScreen(dataToBePassed,obj!)
+          :(_loading)
+            ?Center(child: CircularProgressIndicator(),)
+            :SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -123,6 +136,8 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
+                      highlightColor: Colors.white,
+                      hoverColor: Colors.white,
                       onTap: () async{
                         await sortingExams("all");
                         setState(() {
@@ -220,60 +235,72 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   itemCount: allExams.length,
                   itemBuilder: (BuildContext context,int index){
                 return GestureDetector(
-                  child: Card(
-                    elevation: 3,
-                    child: Container(
-                      height: 80,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex:4,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left:20),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                        allExams.elementAt(index).exam_name ??
-                                            ' ',
-                                        style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)
-                                    ),
-                                    Text(allExams.elementAt(index).std_id ??
-                                        '')
-                                  ],
+                  child: Hero(
+                    tag: "Examcard",
+                    child: Card(
+                      elevation: 3,
+                      child: Container(
+                        height: 80,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex:4,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                          allExams.elementAt(index).exam_name ??
+                                              ' ',
+                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)
+                                      ),
+                                      Text(allExams.elementAt(index).std_id ??
+                                          '')
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(flex:5,child: Container(width: double.infinity,)),
-                            Expanded(
-                              flex:4,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 30),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text("From : "+(allExams.elementAt(index).dates?.first.substring(0,10) ?? " ")),
-                                    Text("To : "+(allExams.elementAt(index).dates?.last.substring(0,10) ?? " ") )
-                                  ],
+                              Expanded(flex:5,child: Container(width: double.infinity,)),
+                              Expanded(
+                                flex:4,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 30),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text("From : "+(allExams.elementAt(index).dates?.first.substring(0,10) ?? " ")),
+                                      Text("To : "+(allExams.elementAt(index).dates?.last.substring(0,10) ?? " ") )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => studentDetails(
-                    //         studentsList.elementAt(index) ),),);
+
+                    setState(() {
+                      dataToBePassed = allExams.elementAt(index);
+                      obj?.nextpage = true;
+                      boolProvider = obj?.nextpage ?? false;
+                    });
+
+                    obj?.addListener(() {
+                      setState(() {
+                        boolProvider = obj?.nextpage;
+                      });
+                    });
+                    // debugPrint(obj?.hasListeners.toString());
+                    debugPrint("In Exam"+(obj?.nextpage.toString() ?? ""));
                   },
                 );
               }),
@@ -300,8 +327,16 @@ class _ExamsScreenState extends State<ExamsScreen> {
     });
   }
 
+  updateBoolProvider(bool val){
+    obj?.nextpage = val;
+  }
+
   @override
   void initState() {
     tempfunc();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      obj = Provider.of<BooleanProvider>(context, listen: false);
+    });
+
   }
 }
