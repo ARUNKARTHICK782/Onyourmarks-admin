@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onyourmarks/admin/adminHomePage.dart';
-import 'package:onyourmarks/admin/screens/dashboard.dart';
+import 'package:onyourmarks/admin/AdminHomePage.dart';
+import 'package:onyourmarks/admin/screens/Dashboard.dart';
 import 'homeCards.dart';
 void main() {
   runApp(const MyApp());

@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:onyourmarks/admin/components/getExpandedWithFlex.dart';
-import 'package:onyourmarks/admin/customColors.dart';
-import 'package:onyourmarks/admin/screens/addStudent.dart';
-import 'package:onyourmarks/admin/screens/studentDetails.dart';
+import 'package:onyourmarks/admin/CustomColors.dart';
+import 'package:onyourmarks/admin/screens/AddStudent.dart';
+import 'package:onyourmarks/admin/screens/StudentDetails.dart';
 import 'package:onyourmarks/admin/temp.dart';
 import 'package:onyourmarks/api/apiLink.dart';
-import 'package:onyourmarks/apihandler/studentAPIs/studentAPIs.dart';
+import 'package:onyourmarks/apihandler/studentAPIs.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
 class studentsScreen extends StatefulWidget {
@@ -243,6 +243,7 @@ class _studentsScreenState extends State<studentsScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: primary,
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => addStudent()));

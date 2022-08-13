@@ -5,13 +5,15 @@ import 'package:desktop_window/desktop_window.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:onyourmarks/admin/screens/CoCurricularPage.dart';
+import 'package:onyourmarks/admin/screens/EventsScreen.dart';
+import 'package:onyourmarks/admin/screens/ExamsScreen.dart';
 import 'package:onyourmarks/admin/screens/StandardScreen.dart';
-import 'package:onyourmarks/admin/screens/dashboard.dart';
-import 'package:onyourmarks/admin/screens/studentsScreen.dart';
-import 'package:onyourmarks/admin/screens/subjectScreen.dart';
-import 'package:onyourmarks/admin/screens/teachersScreen.dart';
+import 'package:onyourmarks/admin/screens/Dashboard.dart';
+import 'package:onyourmarks/admin/screens/StudentsScreen.dart';
+import 'package:onyourmarks/admin/screens/SubjectScreen.dart';
+import 'package:onyourmarks/admin/screens/TeachersScreen.dart';
 
-import 'customColors.dart';
+import 'CustomColors.dart';
 
 class adminHomePage extends StatefulWidget {
   const adminHomePage({Key? key}) : super(key: key);
@@ -27,7 +29,9 @@ class _adminHomePageState extends State<adminHomePage> {
     SubjectScreen(),
     StandardScreen(),
     CoCurricularPage(),
-    DashboardAdmin()
+    DashboardAdmin(),
+    EventsScreen(),
+    ExamsScreen()
   ];
   int pageIndex = 0;
 
@@ -125,93 +129,109 @@ class _adminHomePageState extends State<adminHomePage> {
             children: [
               SizedBox(
                 width: 300,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35),
-                    child: ColoredBox(
-                      color: Color(0xffa6a49f),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                child: ColoredBox(
+                  color: Color(0xffa6a49f),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 100,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 100,
+                            height: 60,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 0;
+                                });
+                              },
+                              child: Text("Student",style: TextStyle(color:getDrawerTextColor(),),),
+                            ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 60,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      pageIndex = 0;
-                                    });
-                                  },
-                                  child: Text("Student",style: TextStyle(color:getDrawerTextColor(),),),
-                                ),
-                              ),
-                              Container(
-                                height: 60,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      pageIndex = 1;
-                                    });
-                                  },
-                                  child: Text("Teacher",style: TextStyle(color:getDrawerTextColor(),),),
-                                ),
-                              ),
-                              Container(
-                                height: 60,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      pageIndex = 2;
-                                    });
-                                  },
-                                  child: Text("Subject",style: TextStyle(color:getDrawerTextColor(),),),
-                                ),
-                              ),
-                              Container(
-                                height: 60,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      pageIndex = 3;
-                                    });
-                                  },
-                                  child: Text("Standard",style: TextStyle(color:getDrawerTextColor(),),),
-                                ),
-                              ),
-                              Container(
-                                height: 60,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      pageIndex = 4;
-                                    });
-                                  },
-                                  child: Text("Co Curricular",style: TextStyle(color:getDrawerTextColor(),),),
-                                ),
-                              ),
-                              Container(
-                                height: 60,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      pageIndex = 5;
-                                    });
-                                  },
-                                  child: Text("Dashboard",style: TextStyle(color:getDrawerTextColor(),),),
-                                ),
-                              ),
-                            ],
+                          Container(
+                            height: 60,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 1;
+                                });
+                              },
+                              child: Text("Teacher",style: TextStyle(color:getDrawerTextColor(),),),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 2;
+                                });
+                              },
+                              child: Text("Subject",style: TextStyle(color:getDrawerTextColor(),),),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 3;
+                                });
+                              },
+                              child: Text("Standard",style: TextStyle(color:getDrawerTextColor(),),),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 4;
+                                });
+                              },
+                              child: Text("Co Curricular",style: TextStyle(color:getDrawerTextColor(),),),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 5;
+                                });
+                              },
+                              child: Text("Dashboard",style: TextStyle(color:getDrawerTextColor(),),),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 6;
+                                });
+                              },
+                              child: Text("Events",style: TextStyle(color:getDrawerTextColor(),),),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 7;
+                                });
+                              },
+                              child: Text("Exams",style: TextStyle(color:getDrawerTextColor(),),),
+                            ),
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),

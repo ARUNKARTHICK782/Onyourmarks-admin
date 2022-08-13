@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onyourmarks/admin/components/AddSubjectScreen.dart';
-import 'package:onyourmarks/apihandler/subject/subjectAPIs.dart';
+import 'package:onyourmarks/admin/customColors.dart';
+import 'package:onyourmarks/admin/screens/AddSubjectScreen.dart';
+import 'package:onyourmarks/apihandler/subjectAPIs.dart';
 import 'package:onyourmarks/models/SubjectModel.dart';
 
 class SubjectScreen extends StatefulWidget {
@@ -158,6 +159,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             }),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: primary,
         onPressed: () {
           showDialog(
               context: context,

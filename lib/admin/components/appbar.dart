@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 AppBar getAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: Colors.blue[50],
+    backgroundColor: Color(0xffbdb9b9),
     elevation: 0.0,
     leading: IconButton(
       icon: Icon(CupertinoIcons.back),

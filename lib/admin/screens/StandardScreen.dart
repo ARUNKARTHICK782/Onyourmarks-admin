@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onyourmarks/admin/components/AddStandardScreen.dart';
+import 'package:onyourmarks/admin/screens/AddStandardScreen.dart';
 import 'package:onyourmarks/admin/components/appbar.dart';
-import 'package:onyourmarks/apihandler/standardAPIs/standardAPIs.dart';
+import 'package:onyourmarks/apihandler/standardAPIs.dart';
 import 'package:onyourmarks/models/StandardModel.dart';
 
 class StandardScreen extends StatefulWidget {
