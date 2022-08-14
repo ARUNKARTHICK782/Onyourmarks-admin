@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/components/CommonComponents.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
-import 'package:onyourmarks/apihandler/CCA_APIs.dart';
 import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
+
+import '../apiHandler.dart';
 
 class CoCurricularPage extends StatefulWidget {
   const CoCurricularPage({Key? key}) : super(key: key);
