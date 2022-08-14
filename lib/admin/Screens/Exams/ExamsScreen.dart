@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
-import 'package:onyourmarks/admin/screens/AddExamScreen.dart';
-import 'package:onyourmarks/admin/screens/DetailedExamScreen.dart';
+import './AddExamScreen.dart';
+import './DetailedExamScreen.dart';
 import 'package:provider/provider.dart';
-import '../../models/ExamModel.dart';
-import '../apiHandler.dart';
-import '../CustomColors.dart';
-import '../components/CommonComponents.dart';
-import '../components/getExpandedWithFlex.dart';
+import '../../../models/ExamModel.dart';
+import '../../apiHandler.dart';
+import '../../CustomColors.dart';
+import '../../components/getExpandedWithFlex.dart';
 
 class ExamsScreen extends StatefulWidget {
   const ExamsScreen({Key? key}) : super(key: key);

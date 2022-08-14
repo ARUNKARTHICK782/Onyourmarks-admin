@@ -4,7 +4,7 @@ import 'package:onyourmarks/admin/components/CommonComponents.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
 import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
 
-import '../apiHandler.dart';
+import '../../apiHandler.dart';
 
 class CoCurricularPage extends StatefulWidget {
   const CoCurricularPage({Key? key}) : super(key: key);

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
-import 'package:onyourmarks/admin/components/appbar.dart';
-import 'package:provider/provider.dart';
 
-import '../../models/ExamModel.dart';
+import '../../../models/ExamModel.dart';
 
 class DetailedExamScreen extends StatefulWidget {
   final Exam exam;

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:onyourmarks/api/apiLink.dart';
 import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
+import 'package:onyourmarks/models/EventModel.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
 import '../models/ExamModel.dart';
@@ -236,4 +236,15 @@ void getTeacher(String id) async{
     },
   ).then((value) {
   });
+}
+
+getEvents() async{
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/events"));
+  var events = jsonDecode(res.body);
+  List<EventModel> eventsList = [];
+  for(var i in events){
+    EventModel eventModel =  EventModel(i["_id"], i["event_name"], i["event_description"], i["banner_img_url"], i["start_date"], i["end_date"]);
+    eventsList.add(eventModel);
+  }
+  return eventsList;
 }

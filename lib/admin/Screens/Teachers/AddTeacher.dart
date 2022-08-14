@@ -4,14 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:onyourmarks/admin/components/ShowSuccessDialog.dart';
 import 'package:onyourmarks/models/TeacherModel.dart';
 import 'package:multiselect/multiselect.dart';
-
-import '../../apihandler/TeacherAPIs.dart';
-import '../../apihandler/standardAPIs.dart';
-import '../../apihandler/subjectAPIs.dart';
-import '../../models/SubjectModel.dart';
-import '../apiHandler.dart';
-import '../components/appbar.dart';
-import '../components/getExpandedWithFlex.dart';
+import '../../../models/SubjectModel.dart';
+import '../../apiHandler.dart';
+import '../../components/appbar.dart';
+import '../../components/getExpandedWithFlex.dart';
 
 class AddTeacher extends StatefulWidget {
   final bool isEditing;

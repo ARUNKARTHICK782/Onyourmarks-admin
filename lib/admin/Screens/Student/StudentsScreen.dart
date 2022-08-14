@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:onyourmarks/admin/components/getExpandedWithFlex.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
-import 'package:onyourmarks/admin/screens/AddStudent.dart';
-import 'package:onyourmarks/admin/screens/StudentDetails.dart';
-import 'package:onyourmarks/admin/temp.dart';
-import 'package:onyourmarks/api/apiLink.dart';
-import 'package:onyourmarks/apihandler/studentAPIs.dart';
+import './AddStudent.dart';
+import './StudentDetails.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
-import '../apiHandler.dart';
+import '../../apiHandler.dart';
+import '../../apiHandler.dart';
 
 class studentsScreen extends StatefulWidget {
   const studentsScreen({Key? key}) : super(key: key);

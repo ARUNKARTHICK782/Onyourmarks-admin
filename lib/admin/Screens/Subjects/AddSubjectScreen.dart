@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:onyourmarks/admin/components/appbar.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
-import 'package:onyourmarks/admin/screens/SubjectScreen.dart';
-
-import '../../apihandler/subjectAPIs.dart';
-import '../apiHandler.dart';
-import '../components/getExpandedWithFlex.dart';
+import '../../apiHandler.dart';
+import '../../components/getExpandedWithFlex.dart';
 
 class addSubjectdialog extends StatefulWidget {
   final bool isEditing;

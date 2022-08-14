@@ -1,20 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
-import 'package:onyourmarks/admin/components/getMainCards.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'dart:io' show Platform;
-import 'package:flutter_web_frame/flutter_web_frame.dart';
-import 'package:onyourmarks/admin/screens/CoCurricularPage.dart';
-import 'package:onyourmarks/admin/screens/EventsScreen.dart';
-import 'package:onyourmarks/admin/screens/ExamsScreen.dart';
-import 'package:onyourmarks/admin/screens/StandardScreen.dart';
-import 'package:onyourmarks/admin/screens/Dashboard.dart';
-import 'package:onyourmarks/admin/screens/StudentsScreen.dart';
-import 'package:onyourmarks/admin/screens/SubjectScreen.dart';
-import 'package:onyourmarks/admin/screens/TeachersScreen.dart';
 
-import 'CustomColors.dart';
+import 'Screens/CoCurricular/CoCurricularPage.dart';
+import 'Screens/Dashboard.dart';
+import 'Screens/Events/EventsScreen.dart';
+import 'Screens/Exams/ExamsScreen.dart';
+import 'Screens/Standards/StandardScreen.dart';
+import 'Screens/Student/StudentsScreen.dart';
+import 'Screens/Subjects/SubjectScreen.dart';
+import 'Screens/Teachers/TeachersScreen.dart';
+
 
 class adminHomePage extends StatefulWidget {
   const adminHomePage({Key? key}) : super(key: key);

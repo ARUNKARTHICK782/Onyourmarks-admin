@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onyourmarks/admin/screens/AddTeacher.dart';
-import 'package:onyourmarks/admin/screens/UpdateTeacherStandard.dart';
-import 'package:onyourmarks/apihandler/TeacherAPIs.dart';
-import 'package:onyourmarks/models/TeacherModel.dart';
-
-import '../apiHandler.dart';
+import '../../../models/TeacherModel.dart';
+import '../../apiHandler.dart';
+import './UpdateTeacherStandard.dart';
+import './AddTeacher.dart';
 
 class teachersScreen extends StatefulWidget {
   const teachersScreen({Key? key}) : super(key: key);

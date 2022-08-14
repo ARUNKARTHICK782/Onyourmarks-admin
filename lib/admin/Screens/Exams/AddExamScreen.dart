@@ -1,11 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
 import 'package:onyourmarks/admin/components/appbar.dart';
 import 'package:onyourmarks/admin/components/getExpandedWithFlex.dart';
+import 'package:onyourmarks/models/StandardModel.dart';
 
-import '../../apihandler/subjectAPIs.dart';
-import '../../models/SubjectModel.dart';
-import '../apiHandler.dart';
+import '../../../models/SubjectModel.dart';
+import '../../apiHandler.dart';
 
 class AddExamScreen extends StatefulWidget {
   const AddExamScreen({Key? key}) : super(key: key);
@@ -17,18 +18,23 @@ class AddExamScreen extends StatefulWidget {
 class _AddExamScreenState extends State<AddExamScreen> {
   List<String> allSubjectsName = [];
   List<String> allSubjectIDs = [];
+  List<String> allStandardNames = [];
   List<String> subjects = [];
+  List<String> dates = [];
   List<String> selectedSubIDs = [];
+  List<StandardModel> allStandards = [];
   String firstValue = "";
-  String selectedStandard = "";
+  String? selectedStandard;
   String selectedSection = "";
-  int count = 0;
   String? v;
   String? s;
-  TextEditingController countCtrl = TextEditingController();
+  int count = 0;
   bool countFixed = false;
   bool showSection = false;
-
+  bool _loading = true;
+  TextEditingController countCtrl = TextEditingController();
+  TextEditingController examNameCtrl = TextEditingController();
+  List<String> dateCtrls = [];
 
   fetchAllSubjects() async{
     var res = await getAllSubjects();
@@ -43,7 +49,8 @@ class _AddExamScreenState extends State<AddExamScreen> {
   }
   updateSubjectsCount(int c){
     subjects = List.filled(c, " ");
-    debugPrint(subjects.toString());
+    dates = List.filled(c, " ");
+    dateCtrls = List.filled(c,"Select Date");
     setState(() {
       count = c;
     });
@@ -76,6 +83,39 @@ class _AddExamScreenState extends State<AddExamScreen> {
       ),
     );
   }
+  renderDatePickerWidget(int index){
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+                width: 150,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                      children:[
+                      Text(dateCtrls.elementAt(index)),
+                        IconButton(
+                          icon: Icon(CupertinoIcons.calendar),
+                          onPressed: (){
+                            showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(DateTime.now().year+2)).then((value) {
+                              dateCtrls[index] = value.toString().substring(0,10);
+                              setState(() {
+
+                              });
+                            });
+                          },
+                        ),
+                      ]
+                    ),
+                  ],
+                ))
+          ],
+      ),
+    );
+  }
   getSubjectId(List<String> subNames){
     for (String value in subNames) {
       selectedSubIDs.add(allSubjectIDs.elementAt(allSubjectsName.indexOf(value)));
@@ -84,10 +124,22 @@ class _AddExamScreenState extends State<AddExamScreen> {
 
     });
   }
+  getAllStandardNames() async{
+    await getAllStandards().then((value) {
+      for(var i in value){
+        allStandardNames.add(i.std_name.toString());
+      }
+      setState(() {
+        allStandards = value;
+      });
+    });
+  }
 
   @override
   void initState() {
-    fetchAllSubjects();
+    fetchAllSubjects().then((v){
+      getAllStandardNames();
+    });
   }
 
   @override
@@ -186,6 +238,7 @@ class _AddExamScreenState extends State<AddExamScreen> {
                           SizedBox(
                             width: 250,
                             child: TextField(
+                              controller: examNameCtrl,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(horizontal: 10),
                                   hintText: "Exam name"
@@ -209,81 +262,22 @@ class _AddExamScreenState extends State<AddExamScreen> {
                           crossAxisAlignment:
                           CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Padding(padding: EdgeInsets.all(10),child: Text("Standard"),),
-                                Padding(
-                                    padding:
-                                    const EdgeInsets.only(left: 25),
-                                    child: DropdownButton<String>(
-                                      value: v,
-                                      onChanged: (value) {
-                                        if(["11","12"].contains(value)){
-                                          setState(() {
-                                            showSection = true;
-                                          });
-                                        }
-                                        else{
-                                          setState(() {
-                                            showSection = false;
-                                          });
-                                        }
-                                        setState(() {
-                                          v = value;
-                                          selectedStandard = value!;
-                                        });
-                                      },
-                                      items: <String>[
-                                        '1',
-                                        '2',
-                                        '3',
-                                        '4',
-                                        '5',
-                                        '6',
-                                        '7',
-                                        '8',
-                                        '9',
-                                        '10',
-                                        '11',
-                                        '12'
-                                      ].map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                    )),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Select Standard"),
                             ),
-                            (showSection)?Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Padding(padding: EdgeInsets.all(10),child: Text("Section"),),
-                                    Padding(
-                                        padding: const EdgeInsets.only(left: 25),
-                                        child: DropdownButton<String>(
-                                          value: s,
-                                          onChanged: (value) {
-                                            setState((){
-                                              s = value;
-                                              selectedSection = value!;
-                                            });
-                                          },
-                                          items: <String>['A','B','C']
-                                              .map<DropdownMenuItem<String>>((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                        )),
-                                  ],
-                                )
-                              ],
-                            ):Text(""),
+                            DropdownButton<String>(
+                                items: allStandardNames.map<DropdownMenuItem<String>>((String e){
+                                  return DropdownMenuItem<String>(value:e,child: Text(e));
+                                }).toList(),
+                                value: selectedStandard,
+                                onChanged: (String? v){
+                                  setState(() {
+                                    selectedStandard = v;
+                                  });
+                                },
+                            )
+
                           ],
                         ),
                       ),
@@ -301,6 +295,21 @@ class _AddExamScreenState extends State<AddExamScreen> {
                       ],
                     ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                    color: Colors.grey.shade300,
+                    child:  Column(
+                      children: [
+                          for(int i=0;i<count;i++)
+                            renderDatePickerWidget(i),
+                      ],
+                    ),
+                  ),
+                  ),
                 )
 
               ],
@@ -313,8 +322,23 @@ class _AddExamScreenState extends State<AddExamScreen> {
                   highlightColor: Colors.white,
                   hoverColor: Colors.white,
                   onTap: () async{
+                    String selectedStandardID = "";
                     await getSubjectId(subjects);
-                  },
+                    for (var element in allStandards) {
+                      if(element.std_name.toString() == selectedStandard.toString()){
+                        selectedStandardID = element.id.toString();
+                        break;
+                      }
+                    }
+                    var body = {
+                      "exam_name":examNameCtrl.text,
+                      "subjects":selectedSubIDs,
+                      "status":"upcoming",
+                      "dates":dateCtrls,
+                      "std_id":selectedStandardID
+                    };
+                    debugPrint("Exam body"+body.toString());
+                    },
                   child: Container(
                     color: primary,
                     width: 120,
