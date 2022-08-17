@@ -78,9 +78,9 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
-      body: (_loading)?const Center(child: CircularProgressIndicator(),):SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -141,7 +141,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 ],
               ),
             ),
-            Padding(
+            (_loading)?const Center(child: CircularProgressIndicator(),):Padding(
               padding: const EdgeInsets.symmetric(horizontal: 70,vertical: 10),
               child: Wrap(
                 children: [

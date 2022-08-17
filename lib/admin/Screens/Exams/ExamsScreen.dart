@@ -70,9 +70,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
       body:
       (boolProvider ?? false)
           ?DetailedExamScreen(dataToBePassed,obj!)
-          :(_loading)
-            ?Center(child: CircularProgressIndicator(),)
-            :SingleChildScrollView(
+          :SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -226,7 +224,9 @@ class _ExamsScreenState extends State<ExamsScreen> {
 
               ],
             ),
-            Padding(
+            (_loading)
+                ?Center(child: CircularProgressIndicator(),)
+                :Padding(
               padding: const EdgeInsets.symmetric(horizontal: 70,vertical: 10),
               child: ListView.builder(
                   shrinkWrap: true,
@@ -282,7 +282,6 @@ class _ExamsScreenState extends State<ExamsScreen> {
                     ),
                   ),
                   onTap: () {
-
                     setState(() {
                       dataToBePassed = allExams.elementAt(index);
                       obj?.nextpage = true;

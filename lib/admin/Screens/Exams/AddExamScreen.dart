@@ -337,6 +337,9 @@ class _AddExamScreenState extends State<AddExamScreen> {
                       "dates":dateCtrls,
                       "std_id":selectedStandardID
                     };
+                    await postExam(body).then((v){
+                      debugPrint("Posted Exam");
+                    });
                     debugPrint("Exam body"+body.toString());
                     },
                   child: Container(

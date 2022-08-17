@@ -1,10 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/AdminHomePage.dart';
 import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
 import 'package:onyourmarks/admin/screens/Dashboard.dart';
 import 'package:provider/provider.dart';
 import 'homeCards.dart';
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp(
+    options: FirebaseOptions(apiKey: "AIzaSyDbU6EW0djeKHhSZhAir12GbVGa3qtyVaM", appId: "1:269652040859:web:a211487bd92bdefee1fa3e", messagingSenderId: "269652040859", projectId: "onyourmarks-60696",storageBucket: "onyourmarks-60696.appspot.com")
+  );
   runApp(const MyApp());
 }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../models/TeacherModel.dart';
+import '../../Components/getExpandedWithFlex.dart';
+import '../../CustomColors.dart';
 import '../../apiHandler.dart';
 import './UpdateTeacherStandard.dart';
 import './AddTeacher.dart';
@@ -13,200 +15,244 @@ class teachersScreen extends StatefulWidget {
 }
 
 class _teachersScreenState extends State<teachersScreen> {
+  List<TeacherModel> allTeachersMain = [];
+  List<TeacherModel> allTeachers = [];
+  bool _loading = true;
+
+  implementSearch(String s){
+    List<TeacherModel> tempList = [];
+    for(var i in allTeachersMain){
+      if(i.name.toString().toLowerCase().contains(s.toLowerCase())){
+        tempList.add(i);
+      }
+    }
+    setState(() {
+      allTeachers = tempList;
+    });
+  }
+
+  @override
+  void initState() {
+    debugPrint('in init');
+    getAllTeachers().then((v){
+      setState((){
+        allTeachersMain = v;
+        allTeachers = v;
+        _loading = false;
+      });
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[100],
-      body: FutureBuilder<List<TeacherModel>>(
-        future: getAllTeachers(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<TeacherModel>> snapshot) {
-          List<Widget> children = [];
-          if (snapshot.hasData) {
-            children = [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: ColoredBox(
-                        color: Colors.transparent,
-                        child: ListView.separated(
-                            itemBuilder: (BuildContext context, int index) {
-                              return Material(
-                                color: Colors.blue[50],
-                                borderRadius: BorderRadius.circular(5),
-                                child: ExpansionTile(
-                                  title: Container(
-                                    height: 80,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            snapshot.data
-                                                    ?.elementAt(index)
-                                                    .name ??
-                                                " ",
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(snapshot.data
-                                                  ?.elementAt(index)
-                                                  .degree ??
-                                              "")
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Row(
-                                        children: [
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AddTeacher(
-                                                              true,
-                                                              snapshot.data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .id ??
-                                                                  "",
-                                                              name: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .name ??
-                                                                  "",
-                                                              degree: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .degree ??
-                                                                  "",
-                                                              email: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .email ??
-                                                                  "",
-                                                              status: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .status ??
-                                                                  "",
-                                                              dob: snapshot.data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .dob ??
-                                                                  "",
-                                                              gender: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .gender ??
-                                                                  "",
-                                                              salary: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .salary ??
-                                                                  "",
-                                                              phNo: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .phoneNo ??
-                                                                  "",
-                                                              curAdd: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .currentAddress ??
-                                                                  "",
-                                                              perAdd: snapshot
-                                                                      .data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .permanentAddress ??
-                                                                  "",
-                                                              mt: snapshot.data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .motherTongue ??
-                                                                  "",
-                                                              bg: snapshot.data
-                                                                      ?.elementAt(
-                                                                          index)
-                                                                      .bloogGroup ??
-                                                                  "",
-                                                            )));
-                                              },
-                                              child: Text(
-                                                  "Update Teacher Details")),
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            UpdateTeacherStandard()));
-                                              },
-                                              child: Text(
-                                                  "Update Subject & Standard")),
-                                        ],
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return SizedBox(
-                                height: 10,
-                              );
-                            },
-                            itemCount: snapshot.data?.length ?? 0),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left:40,top: 60,bottom: 30),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex:4,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 4,
+                          height: 25,
+                          color: Colors.black,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text("Teachers",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
+                        ),
+                      ],
+                    ),
+                  ),
+                  getExpandedWithFlex(6),
+                  Expanded(
+                    flex: 3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Container(
+                        width: 300,
+                        color: Colors.grey.shade400,
+                        child: TextField(
+                          // controller: _studentSearchCtrl,
+                          cursorColor: Colors.grey.shade800,
+                          onChanged: (s){
+                            implementSearch(s);
+                          },
+                          decoration: InputDecoration(
+                              contentPadding:EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+                              suffixIcon: Icon(CupertinoIcons.search,color: secondary,),
+                              hintText: "Search",
+                              // focusedBorder: OutlineInputBorder(
+                              //   borderSide: BorderSide(color: Colors.grey.shade800)
+                              // ),
+                              border: InputBorder.none
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ];
-          } else if (snapshot.hasError) {
-            children = [
-              Center(
-                child: Text(snapshot.error.toString()),
-              )
-            ];
-          } else {
-            children = [
-              Center(
-                child: CircularProgressIndicator(),
-              )
-            ];
-          }
-          return Column(children: children);
-        },
+                  getExpandedWithFlex(3)
+                ],
+              ),
+            ),
+            (_loading)?Center(child: CircularProgressIndicator(),):Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 70),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Material(
+                          borderRadius: BorderRadius.circular(5),
+                          child: ExpansionTile(
+                            backgroundColor: primary,
+                            textColor: Colors.white,
+                            title: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                height: 80,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        allTeachers.elementAt(index)
+                                            .name ??
+                                            " ",
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(allTeachers.elementAt(index)
+                                          .degree ??
+                                          "")
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  children: [
+                                    getExpandedWithFlex(1),
+                                    InkWell(
+                                      onTap: ()async{
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AddTeacher(
+                                                      true,
+                                                      allTeachers.elementAt(
+                                                          index)
+                                                          .id ??
+                                                          "",
+                                                      name: allTeachers.elementAt(
+                                                          index)
+                                                          .name ??
+                                                          "",
+                                                      degree: allTeachers.elementAt(
+                                                          index)
+                                                          .degree ??
+                                                          "",
+                                                      email: allTeachers.elementAt(
+                                                          index)
+                                                          .email ??
+                                                          "",
+                                                      status:allTeachers.elementAt(
+                                                          index)
+                                                          .status ??
+                                                          "",
+                                                      dob: allTeachers.elementAt(
+                                                          index)
+                                                          .dob ??
+                                                          "",
+                                                      gender: allTeachers.elementAt(
+                                                          index)
+                                                          .gender ??
+                                                          "",
+                                                      salary: allTeachers.elementAt(
+                                                          index)
+                                                          .salary ??
+                                                          "",
+                                                      phNo:allTeachers.elementAt(
+                                                          index)
+                                                          .phoneNo ??
+                                                          "",
+                                                      curAdd: allTeachers.elementAt(
+                                                          index)
+                                                          .currentAddress ??
+                                                          "",
+                                                      perAdd:allTeachers.elementAt(
+                                                          index)
+                                                          .permanentAddress ??
+                                                          "",
+                                                      mt: allTeachers.elementAt(
+                                                          index)
+                                                          .motherTongue ??
+                                                          "",
+                                                      bg: allTeachers.elementAt(
+                                                          index)
+                                                          .bloogGroup ??
+                                                          "",
+                                                    )));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(20),
+                                          child: Container(
+                                            color: Colors.white,
+                                            width: 120,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: Center(child: Text("Update",style: TextStyle(color: Colors.black),)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    getExpandedWithFlex(1),
+                                  ],
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder:
+                          (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemCount: allTeachers.length),
+                  ),)
+              ],
+            )
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

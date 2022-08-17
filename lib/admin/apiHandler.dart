@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:onyourmarks/api/apiLink.dart';
 import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
@@ -188,7 +191,8 @@ postTeacher(TeacherModel teacher) async{
         "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
       },
       body:json.encode(body)
-  ).then((value) {
+  ).then((value) async{
+    await postEmail(teacher.email.toString());
   });
 }
 
@@ -247,4 +251,58 @@ getEvents() async{
     eventsList.add(eventModel);
   }
   return eventsList;
+}
+
+postNewEvent(String eventName,String eventDescription,String startDate,String endDate,Uint8List bannerImage) async{
+  var body = {
+    "event_name":eventName,
+    "event_description":eventDescription,
+    "start_date":startDate,
+    "end_date":endDate,
+  };
+  debugPrint("body"+body.toString());
+  await http.put(Uri.parse(apiLink.apilink+"event"),
+    headers: {
+      "Content-Type":"application/json",
+      // "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+    },
+    body: jsonEncode(body.toString())
+  ).then((v){
+    debugPrint("Posted event");
+    debugPrint(v.body);
+  });  // var event = jsonDecode(res.body);
+  // debugPrint(event.body.toString());
+  //
+  // await FirebaseStorage.instance.ref("Events").child(event["_id"]).putData(bannerImage).then((p0) {
+  //   debugPrint("Image posted");
+  // });
+  // debugPrint(res.body);
+}
+
+postExam(var body) async{
+  var res =await http.post(Uri.parse(apiLink.apilink+"api/admin/exam"),
+    headers: {
+      "content-type":"application/json",
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+    },
+    body: jsonEncode(body.toString())
+  );
+  debugPrint(res.body);
+}
+
+postEmail(String username) async{
+  var body = {
+    "username" : username,
+    "type": "REGISTRATION CONFIRMATION",
+    "email" : username
+  };
+  var res = await http.post(Uri.parse(apiLink.apilink+"api/verification/email/creds"),
+    headers: {
+      "content-type":"application/json",
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+    },
+    body: jsonEncode(body.toString())
+  ).then((value) {
+    debugPrint("Email sent");
+  });
 }
