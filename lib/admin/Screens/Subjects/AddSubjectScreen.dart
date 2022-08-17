@@ -44,7 +44,6 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
             child: Column(
               children: [
                 Card(
-                  color: primary,
                   elevation: 2,
                   child: Container(
                     height: 130,
@@ -219,30 +218,56 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
+                      InkWell(
+                        onTap: ()async{
                           Navigator.pop(context);
                         },
-                        child: Text("Cancel"),
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              color: Colors.red,
+                              width: 120,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Center(child: Text("Cancel",style: TextStyle(color: Colors.white),)),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       (!widget.isEditing)
-                          ? ElevatedButton(
-                              onPressed: () async {
-                                String temp = (showSection)
-                                    ? selectedStandard + "-" + selectedSection
-                                    : selectedStandard;
-                                await addSubject(subjectNameController.text,
-                                        totalMarksController.text, temp)
-                                    .then((value) async {
-                                  Navigator.pop(context);
-                                  initState();
-                                });
-                              },
-                              child: Text("Add"))
+                          ? InkWell(
+                            onTap: ()async{
+                              String temp = (showSection)
+                                  ? selectedStandard + "-" + selectedSection
+                                  : selectedStandard;
+                              await addSubject(subjectNameController.text,
+                                  totalMarksController.text, temp)
+                                  .then((value) async {
+                                Navigator.pop(context);
+                                initState();
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  color: primary,
+                                  width: 120,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Center(child: Text("Add Subject",style: TextStyle(color: Colors.white),)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                           : ElevatedButton(
                               onPressed: () async {
                                 await updateSubject(

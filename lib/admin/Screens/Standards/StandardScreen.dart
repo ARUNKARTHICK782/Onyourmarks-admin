@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/models/StandardModel.dart';
+import '../../Components/getExpandedWithFlex.dart';
+import '../../CustomColors.dart';
 import './AddStandardScreen.dart';
 import '../../apiHandler.dart';
 
@@ -12,128 +14,173 @@ class StandardScreen extends StatefulWidget {
 }
 
 class _StandardScreenState extends State<StandardScreen> {
+  List<StandardModel> allStandardMain = [];
+  List<StandardModel> allStandard = [];
+  bool _loading = true;
+
+  @override
+  void initState() {
+    getAllStandards().then((v){
+      setState(() {
+        allStandardMain = v;
+        allStandard = v;
+        _loading = false;
+      });
+    });
+  }
+
+  implementSearch(String s){
+    List<StandardModel> tempList = [];
+    for(var i in allStandardMain){
+      if(i.std_name.toString().toLowerCase().contains(s.toLowerCase())){
+        tempList.add(i);
+      }
+    }
+    setState(() {
+      allStandard = tempList;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[100],
-      body: FutureBuilder<List<StandardModel>>(
-        future: getAllStandards(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<StandardModel>> snapshot) {
-          List<Widget> children = [];
-          if (snapshot.hasData) {
-            children = [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: ListView.builder(
-                      itemCount: snapshot.data?.length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ExpansionTile(
-                          title: Material(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.blue[50],
-                            child: Container(
-                              height: 80,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      snapshot.data
-                                              ?.elementAt(index)
-                                              .std_name ??
-                                          " ",
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left:40,top: 60,bottom: 30),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex:4,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 4,
+                          height: 25,
+                          color: Colors.black,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text("Standards",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
+                        ),
+                      ],
+                    ),
+                  ),
+                  getExpandedWithFlex(6),
+                  Expanded(
+                    flex: 3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Container(
+                        width: 300,
+                        color: Colors.grey.shade400,
+                        child: TextField(
+                          // controller: _studentSearchCtrl,
+                          cursorColor: Colors.grey.shade800,
+                          onChanged: (s){
+                            implementSearch(s);
+                          },
+                          decoration: InputDecoration(
+                              contentPadding:EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+                              suffixIcon: Icon(CupertinoIcons.search,color: secondary,),
+                              hintText: "Search",
+                              // focusedBorder: OutlineInputBorder(
+                              //   borderSide: BorderSide(color: Colors.grey.shade800)
+                              // ),
+                              border: InputBorder.none
                           ),
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                children: [
-                                  ListView.builder(
-                                    itemBuilder:
-                                        (BuildContext context, int index1) {
-                                      return Card(
-                                        color: Colors.blue[50],
-                                        elevation: 2,
-                                        child: SizedBox(
-                                          height: 60,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  snapshot.data
-                                                          ?.elementAt(index)
-                                                          .subjects
-                                                          ?.elementAt(index1)
-                                                          .subName ??
-                                                      "",
-                                                  style:
-                                                      TextStyle(fontSize: 20),
-                                                ),
-                                                Text(
-                                                  snapshot.data
-                                                          ?.elementAt(index)
-                                                          .subjects
-                                                          ?.elementAt(index1)
-                                                          .totalMarks ??
-                                                      "",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    itemCount: snapshot.data
-                                        ?.elementAt(index)
-                                        .subjects
-                                        ?.length,
-                                    shrinkWrap: true,
-                                  )
-                                ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  getExpandedWithFlex(3)
+                ],
+              ),
+            ),
+            (_loading)?Center(child: CircularProgressIndicator(),):Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 70),
+              child: ListView.builder(
+                shrinkWrap: true,
+                  itemCount: allStandard.length ,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ExpansionTile(
+                      title: Container(
+                        height: 80,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                allStandard.elementAt(index)
+                                    .std_name ??
+                                    " ",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w600),
                               ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      children: [
+                        Column(
+                          children: [
+                            ListView.builder(
+                              itemBuilder:
+                                  (BuildContext context, int index1) {
+                                return Card(
+                                  elevation: 2,
+                                  child: SizedBox(
+                                    height: 60,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            allStandard.elementAt(index)
+                                                .subjects
+                                                ?.elementAt(index1)
+                                                .subName ??
+                                                "",
+                                            style:
+                                            TextStyle(fontSize: 20),
+                                          ),
+                                          Text(
+                                            allStandard.elementAt(index)
+                                                .subjects
+                                                ?.elementAt(index1)
+                                                .totalMarks ??
+                                                "",
+                                            style: TextStyle(
+                                                fontWeight:
+                                                FontWeight.w600),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: allStandard.elementAt(index)
+                                  .subjects
+                                  ?.length,
+                              shrinkWrap: true,
                             )
                           ],
-                        );
-                      }),
-                ),
-              )
-            ];
-          } else if (snapshot.hasError) {
-            children = [
-              Center(
-                child: Text(snapshot.error.toString()),
-              )
-            ];
-          } else {
-            children = [
-              Center(
-                child: CircularProgressIndicator(),
-              )
-            ];
-          }
-          return Column(
-            children: children,
-          );
-        },
+                        )
+                      ],
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(CupertinoIcons.add),
@@ -145,8 +192,5 @@ class _StandardScreenState extends State<StandardScreen> {
     );
   }
 
-  @override
-  void initState() {
-    getAllStandards();
-  }
+
 }

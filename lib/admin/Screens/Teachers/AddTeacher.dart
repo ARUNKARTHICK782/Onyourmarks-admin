@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:onyourmarks/admin/CustomColors.dart';
 import 'package:onyourmarks/admin/components/ShowSuccessDialog.dart';
 import 'package:onyourmarks/models/TeacherModel.dart';
 import 'package:multiselect/multiselect.dart';
@@ -132,7 +133,6 @@ class _AddTeacherState extends State<AddTeacher> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[100],
       appBar: getAppBar(context),
       body: ListView(children: [
         Padding(
@@ -937,71 +937,92 @@ class _AddTeacherState extends State<AddTeacher> {
                           const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Text("Cancel"),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
                           (widget.isEditing)
-                              ? ElevatedButton(
-                                  onPressed: () async {
-                                    TeacherModel teacher =
-                                        TeacherModel.editTeacher(
-                                            widget.id,
-                                            nameCont.text,
-                                            degreeCont.text,
-                                            dateController.text,
-                                            selectedGender,
-                                            emailCont.text,
-                                            phNoCont.text,
-                                            curAddCont.text,
-                                            perAddCont.text,
-                                            selectedMotherTongue,
-                                            selectedBG,
-                                            salaryCont.text,
-                                            selectedStatus);
-                                    await updateTeacherDetails(teacher)
-                                        .then((v) => {
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return ShowSuccessDialog(
-                                                        "Teacher updated");
-                                                  })
-                                            });
-                                  },
-                                  child: Text("Save Changes"))
-                              : ElevatedButton(
-                                  onPressed: () async {
-                                    TeacherModel teacher =
-                                        TeacherModel.addTeacher(
-                                            nameCont.text,
-                                            degreeCont.text,
-                                            dateController.text,
-                                            selectedGender,
-                                            emailCont.text,
-                                            phNoCont.text,
-                                            curAddCont.text,
-                                            perAddCont.text,
-                                            selectedMotherTongue,
-                                            selectedBG,
-                                            salaryCont.text,
-                                            selectedStatus,
-                                            selectedSubject,
-                                            selectedStandardIDs);
-                                    await postTeacher(teacher).then((v) => {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return ShowSuccessDialog(
-                                                    "Teacher added");
-                                              })
-                                        });
-                                  },
-                                  child: Text("Add Teacher")),
+                              ? InkWell(
+                                onTap: ()async{
+                                  TeacherModel teacher =
+                                  TeacherModel.editTeacher(
+                                      widget.id,
+                                      nameCont.text,
+                                      degreeCont.text,
+                                      dateController.text,
+                                      selectedGender,
+                                      emailCont.text,
+                                      phNoCont.text,
+                                      curAddCont.text,
+                                      perAddCont.text,
+                                      selectedMotherTongue,
+                                      selectedBG,
+                                      salaryCont.text,
+                                      selectedStatus);
+                                  await updateTeacherDetails(teacher)
+                                      .then((v) => {
+                                    showDialog(
+                                        context: context,
+                                        builder:
+                                            (BuildContext context) {
+                                          return ShowSuccessDialog(
+                                              "Teacher updated");
+                                        })
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Container(
+                                      color: primary,
+                                      width: 120,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Center(child: Text("Save Changes",style: TextStyle(color: Colors.white),)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              : InkWell(
+                                onTap: ()async{
+                                  TeacherModel teacher =
+                                  TeacherModel.addTeacher(
+                                      nameCont.text,
+                                      degreeCont.text,
+                                      dateController.text,
+                                      selectedGender,
+                                      emailCont.text,
+                                      phNoCont.text,
+                                      curAddCont.text,
+                                      perAddCont.text,
+                                      selectedMotherTongue,
+                                      selectedBG,
+                                      salaryCont.text,
+                                      selectedStatus,
+                                      selectedSubject,
+                                      selectedStandardIDs);
+                                  await postTeacher(teacher).then((v) => {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ShowSuccessDialog(
+                                              "Teacher added");
+                                        })
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Container(
+                                      color: primary,
+                                      width: 120,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Center(child: Text("Add Teacher",style: TextStyle(color: Colors.white),)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                         ],
                       ),
                     ),
@@ -1015,3 +1036,4 @@ class _AddTeacherState extends State<AddTeacher> {
     );
   }
 }
+
