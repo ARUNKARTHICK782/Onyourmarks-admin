@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:onyourmarks/admin/CustomColors.dart';
+import 'package:onyourmarks/admin/data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../models/StudentModel.dart';
 import '../Components/getExpandedWithFlex.dart';
 import '../apiHandler.dart';
+
+int allStudentsCount = 0;
+double boysCount = 0;
+double girlsCount = 0;
 
 class DashboardAdmin extends StatefulWidget {
   const DashboardAdmin({Key? key}) : super(key: key);
@@ -16,15 +22,10 @@ class DashboardAdmin extends StatefulWidget {
 
 class _DashboardAdminState extends State<DashboardAdmin> {
   TrackballBehavior? _trackballBehavior;
-
-  late List<_ChartData2> data;
-  late TooltipBehavior _tooltip;
+  TooltipBehavior? _tooltipBehavior;
   int studentsCount = 0;
   int teachersCount = 0;
-  int boysCount = 0;
-  int girlsCount = 0;
   bool _loading = true;
-
   fetchData() async{
     var allStudents =  await getAllStudents();
     var allTeachers = await getAllTeachers();
@@ -32,8 +33,12 @@ class _DashboardAdminState extends State<DashboardAdmin> {
     setState(() {
       studentsCount = allStudents.length;
       teachersCount = allTeachers.length;
-      boysCount = genderCountList[0];
-      girlsCount = genderCountList[1];
+      var boysCount1 = genderCountList[0];
+      var girlsCount2 = genderCountList[1];
+      boysCount = ((boysCount1/studentsCount) * 100);
+      girlsCount = ((girlsCount2/studentsCount) * 100);
+      allStudentsCount = allStudents.length;
+      debugPrint("boys"+boysCount.toString()+"girsl"+girlsCount.toString());
       _loading = false;
     });
   }
@@ -44,30 +49,15 @@ class _DashboardAdminState extends State<DashboardAdmin> {
         enable: true,
         activationMode: ActivationMode.singleTap,
         tooltipSettings: const InteractiveTooltip(format: 'point.x : point.y'));
-
-    data = [
-      _ChartData2('CHN', 12),
-      _ChartData2('GER', 15),
-      _ChartData2('RUS', 30),
-      _ChartData2('BRZ', 6.4),
-      _ChartData2('IND', 14)
-    ];
-    _tooltip = TooltipBehavior(enable: true);
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, format: 'point.x : point.y%');
     fetchData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<SalesData> chartData = [
-      SalesData(DateTime.parse("2010-02-07T00:00:00.000+00:00"), 35),
-      SalesData(DateTime.parse("2011-02-07T00:00:00.000+00:00"), 28),
-      SalesData(DateTime.parse("2012-02-07T00:00:00.000+00:00"), 34),
-      SalesData(DateTime.parse("2013-02-07T00:00:00.000+00:00"), 32),
-      SalesData(DateTime.parse("2014-02-07T00:00:00.000+00:00"), 40)
-    ];
-
-    return Scaffold(
+       return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -111,38 +101,40 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(Icons.accessibility),
-                                            Text(
-                                              "Total No Of Students: ",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline5
-                                                  ?.copyWith(
-                                                      color: Colors.grey,
-                                                      fontSize: 20),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          studentsCount.toString(),
-                                          textAlign: TextAlign.center,
-                                        )
-                                      ],
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Card(
+                                    color: primary,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            "Total No Of Students: ",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5
+                                                ?.copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 20),
+                                          ),
+                                          Text(
+                                            studentsCount.toString(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(color: Colors.white),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                Container(
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
                                   child: Card(
+                                    color: primary,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: Column(
@@ -150,31 +142,29 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.accessibility),
-                                              Text(
-                                                "Total No Of Teachers: ",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5
-                                                    ?.copyWith(
-                                                        color: Colors.grey,
-                                                        fontSize: 20),
-                                              ),
-                                            ],
+                                          Text(
+                                            "Total No Of Teachers: ",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5
+                                                ?.copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 20),
                                           ),
                                           Text(
                                             teachersCount.toString(),
                                             textAlign: TextAlign.center,
+                                            style: TextStyle(color: Colors.white),
                                           )
                                         ],
                                       ),
                                     ),
                                   ),
                                 ),
-                                Container(
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
                                   child: Card(
+                                    color: primary,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: Column(
@@ -182,31 +172,30 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.accessibility),
-                                              Text(
-                                                "Total No Of boys: ",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5
-                                                    ?.copyWith(
-                                                        color: Colors.grey,
-                                                        fontSize: 20),
-                                              ),
-                                            ],
+                                          Text(
+                                            "Total No Of boys: ",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5
+                                                ?.copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 20,
+                                            ),
                                           ),
                                           Text(
                                             boysCount.toString(),
                                             textAlign: TextAlign.center,
+                                            style: TextStyle(color: Colors.white),
                                           )
                                         ],
                                       ),
                                     ),
                                   ),
                                 ),
-                                Container(
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
                                   child: Card(
+                                    color: primary,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: Column(
@@ -214,23 +203,20 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.accessibility),
-                                              Text(
-                                                "Total No Of girls: ",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5
-                                                    ?.copyWith(
-                                                        color: Colors.grey,
-                                                        fontSize: 20),
-                                              ),
-                                            ],
+                                          Text(
+                                            "Total No Of girls: ",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5
+                                                ?.copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 20,
+                                            ),
                                           ),
                                           Text(
                                             girlsCount.toString(),
                                             textAlign: TextAlign.center,
+                                            style: TextStyle(color: Colors.white),
                                           )
                                         ],
                                       ),
@@ -247,49 +233,31 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                               child: Container(
                                 color: Colors.white,
                                 child: Column(children: [
-                                  Text("Student Strength: "),
                                   // syncfusion_chart_multicolor
-                                  SfCartesianChart(
+                                  SfCartesianChart (
                                     title:
-                                        ChartTitle(text: 'Annual rainfall of Paris'),
-                                    plotAreaBorderWidth: 0,
+                                        ChartTitle(text: 'Students Strength'),
                                     primaryXAxis: DateTimeAxis(
                                         intervalType: DateTimeIntervalType.years,
                                         dateFormat: DateFormat.y(),
-                                        majorGridLines:
-                                            const MajorGridLines(width: 0),
                                         title: AxisTitle(text: 'Year')),
                                     primaryYAxis: NumericAxis(
-                                        minimum: 200,
-                                        maximum: 600,
+                                        minimum: 300,
+                                        maximum: 1200,
                                         interval: 100,
-                                        axisLine: const AxisLine(width: 0),
-                                        labelFormat: '{value}mm',
-                                        majorTickLines:
-                                            const MajorTickLines(size: 0)),
+                                        labelFormat: '{value}',
+                                        name: "Students",
+                                        ),
                                     series: _getMultiColoredLineSeries(),
                                     trackballBehavior: _trackballBehavior,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SfCartesianChart(
-                                        primaryXAxis: CategoryAxis(),
-                                        primaryYAxis: NumericAxis(
-                                            minimum: 0, maximum: 40, interval: 10),
-                                        tooltipBehavior: _tooltip,
-                                        series: <ChartSeries<_ChartData2, String>>[
-                                          ColumnSeries<_ChartData2, String>(
-                                              dataSource: data,
-                                              xValueMapper: (_ChartData2 data, _) =>
-                                                  data.x,
-                                              yValueMapper: (_ChartData2 data, _) =>
-                                                  data.y,
-                                              name: 'Gold',
-                                              color: Color.fromRGBO(8, 142, 255, 1))
-                                        ]),
+                                  SfCircularChart(
+                                    title: ChartTitle(text: 'Boys Girls Chart'),
+                                    series: _getGroupingPieSeries(),
+                                    tooltipBehavior: _tooltipBehavior,
                                   ),
                                 ]),
                               ),
@@ -309,60 +277,120 @@ class _DashboardAdminState extends State<DashboardAdmin> {
   }
 }
 
-List<LineSeries<_ChartData, DateTime>> _getMultiColoredLineSeries() {
-  return <LineSeries<_ChartData, DateTime>>[
-    LineSeries<_ChartData, DateTime>(
+List<LineSeries<ChartData, DateTime>> _getMultiColoredLineSeries()  {
+  return <LineSeries<ChartData, DateTime>>[
+    LineSeries<ChartData, DateTime>(
         animationDuration: 2500,
-        dataSource: <_ChartData>[
-          _ChartData(
-              DateTime(1925), 415, const Color.fromRGBO(248, 184, 131, 1)),
-          _ChartData(
-              DateTime(1926), 408, const Color.fromRGBO(248, 184, 131, 1)),
-          _ChartData(
-              DateTime(1927), 415, const Color.fromRGBO(248, 184, 131, 1)),
-          _ChartData(
-              DateTime(1928), 350, const Color.fromRGBO(248, 184, 131, 1)),
-          _ChartData(
-              DateTime(1929), 375, const Color.fromRGBO(248, 184, 131, 1)),
-          _ChartData(
-              DateTime(1930), 500, const Color.fromRGBO(248, 184, 131, 1)),
-          _ChartData(
-              DateTime(1931), 390, const Color.fromRGBO(229, 101, 144, 1)),
-          _ChartData(
-              DateTime(1932), 450, const Color.fromRGBO(229, 101, 144, 1)),
-          _ChartData(
-              DateTime(1933), 440, const Color.fromRGBO(229, 101, 144, 1)),
-          _ChartData(
-              DateTime(1934), 350, const Color.fromRGBO(229, 101, 144, 1)),
-          _ChartData(
-              DateTime(1935), 400, const Color.fromRGBO(229, 101, 144, 1)),
-          _ChartData(
-              DateTime(1936), 365, const Color.fromRGBO(53, 124, 210, 1)),
-          _ChartData(
-              DateTime(1937), 490, const Color.fromRGBO(53, 124, 210, 1)),
-          _ChartData(
-              DateTime(1938), 400, const Color.fromRGBO(53, 124, 210, 1)),
-          _ChartData(
-              DateTime(1939), 520, const Color.fromRGBO(53, 124, 210, 1)),
-          _ChartData(
-              DateTime(1940), 510, const Color.fromRGBO(53, 124, 210, 1)),
-          _ChartData(DateTime(1941), 395, const Color.fromRGBO(0, 189, 174, 1)),
-          _ChartData(DateTime(1942), 380, const Color.fromRGBO(0, 189, 174, 1)),
-          _ChartData(DateTime(1943), 404, const Color.fromRGBO(0, 189, 174, 1)),
-          _ChartData(DateTime(1944), 400, const Color.fromRGBO(0, 189, 174, 1)),
-          _ChartData(DateTime(1945), 500, const Color.fromRGBO(0, 189, 174, 1))
+        dataSource: <ChartData>[
+          ChartData(DateTime(2015), 600),
+          ChartData(DateTime(2016), 625),
+          ChartData(DateTime(2017), 670),
+          ChartData(DateTime(2018), 700),
+          ChartData(DateTime(2019), 740),
+          ChartData(DateTime(2020), 750),
+          ChartData(DateTime(2021), 790),
+          ChartData(DateTime(2022),allStudentsCount.toDouble())
         ],
-        xValueMapper: (_ChartData sales, _) => sales.x,
-        yValueMapper: (_ChartData sales, _) => sales.y,
-
+        xValueMapper: (ChartData sales, _) => sales.x,
+        yValueMapper: (ChartData sales, _) => sales.y,
         /// The property used to apply the color each data.
-        pointColorMapper: (_ChartData sales, _) => sales.lineColor,
+        pointColorMapper: (ChartData sales, _) => sales.lineColor,
         width: 2)
   ];
 }
 
-class _ChartData {
-  _ChartData(this.x, this.y, [this.lineColor]);
+List<PieSeries<ChartSampleData, String>> _getGroupingPieSeries() {
+  return <PieSeries<ChartSampleData, String>>[
+    PieSeries<ChartSampleData, String>(
+        radius: '90%',
+        dataLabelMapper: (ChartSampleData data, _) => data.x as String,
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
+        dataSource: <ChartSampleData>[
+          ChartSampleData(
+              pointColor: Colors.red.shade300,
+              x: 'Boys', y: boysCount, text: "Boys"),
+          ChartSampleData(
+              pointColor: Colors.blue.shade300,
+              x: 'Girls',
+              y: girlsCount,
+              text: "Girls"),
+
+        ],
+        startAngle: 90,
+        endAngle: 90,
+        /// To enable and specify the group mode for pie chart.
+        groupMode: CircularChartGroupMode.value,
+        groupTo: 7,
+        pointColorMapper: (ChartSampleData data, _) => data.pointColor,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
+        yValueMapper: (ChartSampleData data, _) => data.y)
+  ];
+}
+
+class ChartSampleData {
+  /// Holds the datapoint values like x, y, etc.,
+  ChartSampleData(
+      {this.x,
+        this.y,
+        this.xValue,
+        this.yValue,
+        this.secondSeriesYValue,
+        this.thirdSeriesYValue,
+        this.pointColor,
+        this.size,
+        this.text,
+        this.open,
+        this.close,
+        this.low,
+        this.high,
+        this.volume});
+
+  /// Holds x value of the datapoint
+  final dynamic x;
+
+  /// Holds y value of the datapoint
+  final num? y;
+
+  /// Holds x value of the datapoint
+  final dynamic xValue;
+
+  /// Holds y value of the datapoint
+  final num? yValue;
+
+  /// Holds y value of the datapoint(for 2nd series)
+  final num? secondSeriesYValue;
+
+  /// Holds y value of the datapoint(for 3nd series)
+  final num? thirdSeriesYValue;
+
+  /// Holds point color of the datapoint
+  final Color? pointColor;
+
+  /// Holds size of the datapoint
+  final num? size;
+
+  /// Holds datalabel/text value mapper of the datapoint
+  final String? text;
+
+  /// Holds open value of the datapoint
+  final num? open;
+
+  /// Holds close value of the datapoint
+  final num? close;
+
+  /// Holds low value of the datapoint
+  final num? low;
+
+  /// Holds high value of the datapoint
+  final num? high;
+
+  /// Holds open value of the datapoint
+  final num? volume;
+}
+
+
+class ChartData {
+  ChartData(this.x, this.y, [this.lineColor]);
   final DateTime x;
   final double y;
   final Color? lineColor;
@@ -382,122 +410,119 @@ class _ChartData2 {
 }
 
 
-
-
-
-
-/// The home page of the application which hosts the datagrid.
-class MyHomePage extends StatefulWidget {
-  /// Creates the home page.
-  MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List<StudentModel> students = <StudentModel>[];
-  StudentDataSource studentDataSource = StudentDataSource.empty();
-
-  temp() async{
-    await getAllStudents().then((value) {
-      students = value;
-      studentDataSource = StudentDataSource(studentData: students);
-      setState(() {
-
-      });
-    });
-
-  }
-
-  @override
-  void initState() {
-    temp();
-    super.initState();
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Syncfusion Flutter DataGrid'),
-      ),
-      body: SfDataGrid(
-        source: studentDataSource,
-        columnWidthMode: ColumnWidthMode.fill,
-        columns: <GridColumn>[
-          GridColumn(
-              columnName: 'id',
-              label: Container(
-                  padding: EdgeInsets.all(16.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'ID',
-                  ))),
-          GridColumn(
-              columnName: 'name',
-              label: Container(
-                  padding: EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: Text('Name'))),
-          GridColumn(
-              columnName: 'gender',
-              label: Container(
-                  padding: EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Gender',
-                    overflow: TextOverflow.ellipsis,
-                  ))),
-          GridColumn(
-              columnName: 'Mother Tongue',
-              label: Container(
-                  padding: EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: Text('Mother Tongue'))),
-        ],
-      ),
-    );
-  }
-
-}
-
-
-/// An object to set the employee collection data source to the datagrid. This
-/// is used to map the employee data to the datagrid widget.
-class StudentDataSource extends DataGridSource {
-
-  StudentDataSource.empty();
-
-  /// Creates the employee data source class with required details.
-  StudentDataSource({required List<StudentModel> studentData}) {
-    debugPrint(studentData.toString());
-    _studentData = studentData
-        .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'id', value: e.roll_no),
-      DataGridCell<String>(columnName: 'name', value: (e.first_name.toString()+" "+e.last_name.toString())),
-      DataGridCell<String>(
-          columnName: 'gender', value: e.gender),
-      DataGridCell<String>(columnName: 'Mother Tongue', value: e.motherTongue),
-    ]))
-        .toList();
-  }
-
-  List<DataGridRow> _studentData = [];
-
-  @override
-  List<DataGridRow> get rows => _studentData;
-
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(
-        cells: row.getCells().map<Widget>((e) {
-          return Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(8.0),
-            child: Text(e.value.toString()),
-          );
-        }).toList());
-  }
-}
+//
+// /// The home page of the application which hosts the datagrid.
+// class MyHomePage extends StatefulWidget {
+//   /// Creates the home page.
+//   MyHomePage({Key? key}) : super(key: key);
+//
+//   @override
+//   _MyHomePageState createState() => _MyHomePageState();
+// }
+//
+// class _MyHomePageState extends State<MyHomePage> {
+//   List<StudentModel> students = <StudentModel>[];
+//   StudentDataSource studentDataSource = StudentDataSource.empty();
+//
+//   temp() async{
+//     await getAllStudents().then((value) {
+//       students = value;
+//       studentDataSource = StudentDataSource(studentData: students);
+//       setState(() {
+//
+//       });
+//     });
+//
+//   }
+//
+//   @override
+//   void initState() {
+//     temp();
+//     super.initState();
+//
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Syncfusion Flutter DataGrid'),
+//       ),
+//       body: SfDataGrid(
+//         source: studentDataSource,
+//         columnWidthMode: ColumnWidthMode.fill,
+//         columns: <GridColumn>[
+//           GridColumn(
+//               columnName: 'id',
+//               label: Container(
+//                   padding: EdgeInsets.all(16.0),
+//                   alignment: Alignment.center,
+//                   child: Text(
+//                     'ID',
+//                   ))),
+//           GridColumn(
+//               columnName: 'name',
+//               label: Container(
+//                   padding: EdgeInsets.all(8.0),
+//                   alignment: Alignment.center,
+//                   child: Text('Name'))),
+//           GridColumn(
+//               columnName: 'gender',
+//               label: Container(
+//                   padding: EdgeInsets.all(8.0),
+//                   alignment: Alignment.center,
+//                   child: Text(
+//                     'Gender',
+//                     overflow: TextOverflow.ellipsis,
+//                   ))),
+//           GridColumn(
+//               columnName: 'Mother Tongue',
+//               label: Container(
+//                   padding: EdgeInsets.all(8.0),
+//                   alignment: Alignment.center,
+//                   child: Text('Mother Tongue'))),
+//         ],
+//       ),
+//     );
+//   }
+//
+// }
+//
+//
+// /// An object to set the employee collection data source to the datagrid. This
+// /// is used to map the employee data to the datagrid widget.
+// class StudentDataSource extends DataGridSource {
+//
+//   StudentDataSource.empty();
+//
+//   /// Creates the employee data source class with required details.
+//   StudentDataSource({required List<StudentModel> studentData}) {
+//     debugPrint(studentData.toString());
+//     _studentData = studentData
+//         .map<DataGridRow>((e) => DataGridRow(cells: [
+//       DataGridCell<String>(columnName: 'id', value: e.roll_no),
+//       DataGridCell<String>(columnName: 'name', value: (e.first_name.toString()+" "+e.last_name.toString())),
+//       DataGridCell<String>(
+//           columnName: 'gender', value: e.gender),
+//       DataGridCell<String>(columnName: 'Mother Tongue', value: e.motherTongue),
+//     ]))
+//         .toList();
+//   }
+//
+//   List<DataGridRow> _studentData = [];
+//
+//   @override
+//   List<DataGridRow> get rows => _studentData;
+//
+//   @override
+//   DataGridRowAdapter buildRow(DataGridRow row) {
+//     return DataGridRowAdapter(
+//         cells: row.getCells().map<Widget>((e) {
+//           return Container(
+//             alignment: Alignment.center,
+//             padding: EdgeInsets.all(8.0),
+//             child: Text(e.value.toString()),
+//           );
+//         }).toList());
+//   }
+// }

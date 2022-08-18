@@ -1,14 +1,10 @@
-import 'dart:io';
 import 'dart:typed_data';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker_web/image_picker_web.dart';
 import 'package:flutter/foundation.dart';
 import 'package:onyourmarks/admin/apiHandler.dart';
 import 'package:onyourmarks/admin/components/appbar.dart';
 import 'package:file_picker/file_picker.dart';
-import 'dart:html' as html;
 
 import '../../Components/getExpandedWithFlex.dart';
 import '../../CustomColors.dart';

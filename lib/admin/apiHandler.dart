@@ -144,6 +144,9 @@ getStudentsGenderWiseCount() async{
   return [boysCount,girlsCount];
 }
 
+
+
+
 //POST APIs
 
 postStandard(String standardsec,List<String> subIDs) async{
@@ -252,7 +255,7 @@ postExam(var body) async{
       "content-type":"application/json",
       "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
     },
-    body: jsonEncode(body.toString())
+    body: jsonEncode(body)
   );
   debugPrint(res.body);
 }
@@ -264,12 +267,13 @@ postEmail(String username) async{
     "email" : username
   };
   var res = await http.post(Uri.parse(apiLink.apilink+"api/verification/email/creds"),
-    headers: {
-      "content-type":"application/json",
-      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
-    },
-    body: jsonEncode(body.toString())
+      headers: {
+        "content-type":"application/json",
+        "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+      },
+      body: jsonEncode(body)
   ).then((value) {
+    debugPrint(value.body.toString());
     debugPrint("Email sent");
   });
 }
