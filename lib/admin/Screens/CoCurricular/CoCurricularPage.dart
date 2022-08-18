@@ -4,6 +4,7 @@ import 'package:onyourmarks/admin/components/CommonComponents.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
 import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
 
+import '../../Components/getExpandedWithFlex.dart';
 import '../../apiHandler.dart';
 
 class CoCurricularPage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
   List<CoCurricularActivityModel> acceptedCCA = [];
   String std = "1";
   int _selectedCardIndex = 0;
+  bool _loading = true;
   Map<String, List<CoCurricularActivityModel>> cca = {};
 
   getCard(String text, int index) {
@@ -74,7 +76,9 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
         }
       });
     }
-    setState(() {});
+    setState(() {
+      _loading = false;
+    });
   }
 
   getAllCCA() async {
@@ -126,75 +130,164 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: background,
-      body: ListView(
+      body: (_loading)?Center(child: CircularProgressIndicator(),):Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(60),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        for (int i = 1; i < 13; i++)
-                          getCard(i.toString(), i),
-                      ],
-                    ),
+            padding: const EdgeInsets.only(left:40,top: 60,bottom: 30),
+            child: Row(
+              children: [
+                Expanded(
+                  flex:4,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 25,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text("Students",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
+                      ),
+                    ],
                   ),
-                  (allCCA.isEmpty)
-                      ? Center(
-                          child: Text("No CCA's to display"),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: allCCA.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 50, right: 250),
-                                child: SizedBox(
-                                  height: 100,
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(20),
-                                    child: Card(
-                                      elevation: 2,
-                                      child: Row(
-                                        children: [
-                                          // Expanded(
-                                          //   flex: 1,
-                                          //   child: ClipRRect(
-                                          //     borderRadius: BorderRadius.circular(20),
-                                          //     child: Container(
-                                          //       height: 60,
-                                          //       width: 60,
-                                          //       color: Colors.grey,
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          Expanded(
-                                            flex: 3,
-                                            child: Material(
-                                              color: Color.fromARGB(
-                                                  255, 79, 74, 110),
-                                              borderRadius:
-                                                  BorderRadius.only(
-                                                topRight:
-                                                    Radius.circular(60),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(
-                                                        20),
-                                                child: Container(
+                ),
+                getExpandedWithFlex(6),
+                Expanded(
+                  flex: 3,
+                  child: IconButton(icon: Icon(CupertinoIcons.refresh),onPressed: (){
+                    setState(() {
+                      _selectedCardIndex = 0;
+                      initState();
+                    });
+
+                  },)
+                ),
+                getExpandedWithFlex(3)
+              ],
+            ),
+          ),
+          ListView(
+            shrinkWrap: true,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 60),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            for (int i = 1; i < 13; i++)
+                              getCard(i.toString(), i),
+                          ],
+                        ),
+                      ),
+                      (allCCA.isEmpty)
+                          ? Center(
+                              child: Text("No CCA's to display"),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: allCCA.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 50, right: 250),
+                                    child: SizedBox(
+                                      height: 100,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(20),
+                                        child: Card(
+                                          elevation: 2,
+                                          child: Row(
+                                            children: [
+                                              // Expanded(
+                                              //   flex: 1,
+                                              //   child: ClipRRect(
+                                              //     borderRadius: BorderRadius.circular(20),
+                                              //     child: Container(
+                                              //       height: 60,
+                                              //       width: 60,
+                                              //       color: Colors.grey,
+                                              //     ),
+                                              //   ),
+                                              // ),
+                                              Expanded(
+                                                flex: 3,
+                                                child: Material(
                                                   color: Color.fromARGB(
                                                       255, 79, 74, 110),
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(60),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20),
+                                                    child: Container(
+                                                      color: Color.fromARGB(
+                                                          255, 79, 74, 110),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            "Student Name : " +
+                                                                (allCCA
+                                                                        .elementAt(
+                                                                            index)
+                                                                        .student
+                                                                        ?.name ??
+                                                                    " "),
+                                                            style:
+                                                                getTextStyle(),
+                                                          ),
+                                                          Text(
+                                                            "Class : " +
+                                                                allCCA
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .std_name
+                                                                    .toString(),
+                                                            style:
+                                                                getTextStyle(),
+                                                          ),
+                                                          Text(
+                                                            "Roll No : " +
+                                                                (allCCA
+                                                                        .elementAt(
+                                                                            index)
+                                                                        .student
+                                                                        ?.roll_no ??
+                                                                    " "),
+                                                            style:
+                                                                getTextStyle(),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 4,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(
+                                                          20),
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -203,130 +296,78 @@ class _CoCurricularPageState extends State<CoCurricularPage> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(
-                                                        "Student Name : " +
-                                                            (allCCA
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .student
-                                                                    ?.name ??
-                                                                " "),
-                                                        style:
-                                                            getTextStyle(),
-                                                      ),
-                                                      Text(
-                                                        "Class : " +
-                                                            allCCA
-                                                                .elementAt(
-                                                                    index)
-                                                                .std_name
-                                                                .toString(),
-                                                        style:
-                                                            getTextStyle(),
-                                                      ),
-                                                      Text(
-                                                        "Roll No : " +
-                                                            (allCCA
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .student
-                                                                    ?.roll_no ??
-                                                                " "),
-                                                        style:
-                                                            getTextStyle(),
-                                                      ),
+                                                      Text("Activity Name : " +
+                                                          allCCA
+                                                              .elementAt(
+                                                                  index)
+                                                              .activity_name
+                                                              .toString()),
+                                                      Text("Activity Type : " +
+                                                          allCCA
+                                                              .elementAt(
+                                                                  index)
+                                                              .activity_type
+                                                              .toString())
                                                     ],
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 4,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(
-                                                      20),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                children: [
-                                                  Text("Activity Name : " +
-                                                      allCCA
-                                                          .elementAt(
-                                                              index)
-                                                          .activity_name
-                                                          .toString()),
-                                                  Text("Activity Type : " +
-                                                      allCCA
-                                                          .elementAt(
-                                                              index)
-                                                          .activity_type
-                                                          .toString())
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                              flex: 2,
-                                              child: Padding(
-                                                padding:
-                                                    EdgeInsets.all(10),
-                                                child: (allCCA
-                                                            .elementAt(
-                                                                index)
-                                                            .isVerified ==
-                                                        "accepted")
-                                                    ? Icon(
-                                                        CupertinoIcons
-                                                            .checkmark_alt_circle_fill,
-                                                        color:
-                                                            Colors.green,
-                                                      )
-                                                    : (allCCA
+                                              Expanded(
+                                                  flex: 2,
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(10),
+                                                    child: (allCCA
                                                                 .elementAt(
                                                                     index)
                                                                 .isVerified ==
-                                                            "pending")
+                                                            "accepted")
                                                         ? Icon(
                                                             CupertinoIcons
-                                                                .exclamationmark,
-                                                            color: Colors
-                                                                .red,
+                                                                .checkmark_alt_circle_fill,
+                                                            color:
+                                                                Colors.green,
                                                           )
-                                                        : Icon(
-                                                            CupertinoIcons
-                                                                .xmark_circle_fill,
-                                                            color: Colors
-                                                                .redAccent,
-                                                          ),
-                                              ))
-                                        ],
+                                                        : (allCCA
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .isVerified ==
+                                                                "pending")
+                                                            ? Icon(
+                                                                CupertinoIcons
+                                                                    .exclamationmark,
+                                                                color: Colors
+                                                                    .red,
+                                                              )
+                                                            : Icon(
+                                                                CupertinoIcons
+                                                                    .xmark_circle_fill,
+                                                                color: Colors
+                                                                    .redAccent,
+                                                              ),
+                                                  ))
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CoCurricularDecisionPage(
-                                          cca: allCCA.elementAt(index));
-                                    }).then((value) {
-                                  initState();
-                                });
-                              },
-                            );
-                          })
-                ],
-              ),
-            ),
-          )
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CoCurricularDecisionPage(
+                                              cca: allCCA.elementAt(index));
+                                        });
+                                  },
+                                );
+                              })
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );

@@ -14,6 +14,8 @@ import '../models/StandardModel.dart';
 import '../models/SubjectModel.dart';
 import '../models/TeacherModel.dart';
 
+//GET APIs
+
 getCCA() async{
   List<CoCurricularActivityModel> allCCA = [];
   var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allcca"),
@@ -28,16 +30,6 @@ getCCA() async{
     allCCA.add(coCurricularActivityModel);
   }
   return allCCA;
-}
-Future<bool> updateCCA(String activity_id,String decision) async{
-  var res = await http.put(Uri.parse(apiLink.apilink+"api/admin/activity/$activity_id"),
-      headers: {
-        "content-type":"application/json",
-        "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
-      },
-      body: jsonEncode({"isVerified":decision})
-  );
-  return (res.body.isEmpty)?false:true;
 }
 
 getAllExams() async{
@@ -58,21 +50,6 @@ getAllExams() async{
     allExams.add(exam);
   }
   return allExams;
-}
-
-postStandard(String standardsec,List<String> subIDs) async{
-  var body = {
-    "subject_id": subIDs,
-    "std_name" : standardsec
-  };
-  await http.post(Uri.parse(apiLink.apilink+"api/admin/standard"),
-      headers: {
-        "content-type":"application/json",
-        "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q"
-      },
-      body: json.encode(body)
-  ).then((value){
-  });
 }
 
 Future<List<StandardModel>> getAllStandards() async{
@@ -109,6 +86,81 @@ Future<StudentModel> getStudent(String uid) async{
   return studentModel;
 }
 
+Future<List<SubjectModel>> getAllSubjects() async {
+  List<SubjectModel> returnSubjects = [];
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allsubjects"));
+  var subjects = json.decode(res.body);
+  for(var i in subjects){
+    SubjectModel sm = SubjectModel.fromJson(i);
+    returnSubjects.add(sm);
+  }
+  return returnSubjects;
+}
+
+Future<List<TeacherModel>> getAllTeachers() async{
+  List<TeacherModel> teachersList = [];
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allteachers"),);
+  var teachers = json.decode(res.body);
+  for(var i in teachers){
+    TeacherModel teacher  = TeacherModel(i["_id"], i["name"], i["degree"], i["dob"], i["gender"], i["email"], i["phoneNo"].toString(), i["currentAddress"], i["permanentAddress"], i["motherTongue"], i["bloodGroup"], i["salary"].toString(), i["status"]);
+    teachersList.add(teacher);
+  }
+  return teachersList;
+}
+
+void getTeacher(String id) async{
+  await http.get(Uri.parse(apiLink.apilink+"api/admin/teacher/$id"),
+    headers: {
+      "content-type":"application/json",
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+    },
+  ).then((value) {
+  });
+}
+
+getEvents() async{
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/events"));
+  var events = jsonDecode(res.body);
+  List<EventModel> eventsList = [];
+  for(var i in events){
+    EventModel eventModel =  EventModel(i["_id"], i["event_name"], i["event_description"], i["banner_img_url"], i["start_date"], i["end_date"]);
+    eventsList.add(eventModel);
+  }
+  return eventsList;
+}
+
+getStudentsGenderWiseCount() async{
+  int boysCount = 0;
+  int girlsCount = 0;
+  var allStudents = await getAllStudents();
+  for(var i in allStudents){
+    if(i.gender == "Male") {
+      boysCount++;
+    }
+    else if(i.gender == "Female"){
+      girlsCount++;
+    }
+  }
+  return [boysCount,girlsCount];
+}
+
+//POST APIs
+
+postStandard(String standardsec,List<String> subIDs) async{
+  var body = {
+    "subject_id": subIDs,
+    "std_name" : standardsec
+  };
+  await http.post(Uri.parse(apiLink.apilink+"api/admin/standard"),
+      headers: {
+        "content-type":"application/json",
+        "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q"
+      },
+      body: json.encode(body)
+  ).then((value){
+  });
+}
+
 postStudent(StudentModel student) async{
   // var body = {
   //   "first_name":student.first_name,
@@ -140,34 +192,6 @@ Future<void>  addSubject(String subname,String totMarks,String standardSec) asyn
   });
 }
 
-
-Future<List<SubjectModel>> getAllSubjects() async {
-  List<SubjectModel> returnSubjects = [];
-  var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allsubjects"));
-  var subjects = json.decode(res.body);
-  for(var i in subjects){
-    SubjectModel sm = SubjectModel.fromJson(i);
-    returnSubjects.add(sm);
-  }
-  return returnSubjects;
-}
-
-
-updateSubject(String sub_name,String tot_marks,String id) async{
-  var body = {
-    "sub_name":sub_name,
-    "total_marks":tot_marks
-  };
-  await http.put(Uri.parse(apiLink.apilink+"api/admin/subject-details/${id}"),
-    headers: {
-      "content-type":"application/json",
-      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q"
-    },
-    body: json.encode(body),
-  ).then((value){
-  });
-}
-
 postTeacher(TeacherModel teacher) async{
   var body = {
     "name":teacher.name,
@@ -196,63 +220,6 @@ postTeacher(TeacherModel teacher) async{
   });
 }
 
-Future<List<TeacherModel>> getAllTeachers() async{
-  List<TeacherModel> teachersList = [];
-  var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allteachers"),);
-  var teachers = json.decode(res.body);
-  for(var i in teachers){
-    TeacherModel teacher  = TeacherModel(i["_id"], i["name"], i["degree"], i["dob"], i["gender"], i["email"], i["phoneNo"].toString(), i["currentAddress"], i["permanentAddress"], i["motherTongue"], i["bloodGroup"], i["salary"].toString(), i["status"]);
-    teachersList.add(teacher);
-  }
-  return teachersList;
-}
-
-updateTeacherDetails(TeacherModel teacher) async{
-  var body = {
-    "name":teacher.name,
-    "degree":teacher.degree,
-    "dob":teacher.dob,
-    "gender":teacher.gender,
-    "email":teacher.email,
-    "phoneNo":teacher.phoneNo,
-    "bloodGroup":teacher.bloogGroup,
-    "currentAddress":teacher.currentAddress,
-    "permanentAddress":teacher.permanentAddress,
-    "motherTongue":teacher.motherTongue,
-    "salary":int.parse(teacher.salary.toString()),
-    "status":teacher.status,
-  };
-  await http.put(Uri.parse(apiLink.apilink+"api/admin/teacher-details/${teacher.id}"),
-    headers: {
-      "content-type":"application/json",
-      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
-    },
-    body:json.encode(body),
-  ).then((value){
-  });
-}
-
-void getTeacher(String id) async{
-  await http.get(Uri.parse(apiLink.apilink+"api/admin/teacher/$id"),
-    headers: {
-      "content-type":"application/json",
-      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
-    },
-  ).then((value) {
-  });
-}
-
-getEvents() async{
-  var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/events"));
-  var events = jsonDecode(res.body);
-  List<EventModel> eventsList = [];
-  for(var i in events){
-    EventModel eventModel =  EventModel(i["_id"], i["event_name"], i["event_description"], i["banner_img_url"], i["start_date"], i["end_date"]);
-    eventsList.add(eventModel);
-  }
-  return eventsList;
-}
-
 postNewEvent(String eventName,String eventDescription,String startDate,String endDate,Uint8List bannerImage) async{
   var body = {
     "event_name":eventName,
@@ -261,7 +228,7 @@ postNewEvent(String eventName,String eventDescription,String startDate,String en
     "end_date":endDate,
   };
   debugPrint("body"+body.toString());
-  await http.put(Uri.parse(apiLink.apilink+"event"),
+  await http.post(Uri.parse(apiLink.apilink+"api/admin/event"),
     headers: {
       "Content-Type":"application/json",
       // "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
@@ -304,5 +271,58 @@ postEmail(String username) async{
     body: jsonEncode(body.toString())
   ).then((value) {
     debugPrint("Email sent");
+  });
+}
+
+//PUT APIs
+
+Future<bool> updateCCA(String activity_id,String decision) async{
+  var res = await http.put(Uri.parse(apiLink.apilink+"api/admin/activity/$activity_id"),
+      headers: {
+        "content-type":"application/json",
+        "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+      },
+      body: jsonEncode({"isVerified":decision})
+  );
+  return (res.body.isEmpty)?false:true;
+}
+
+updateTeacherDetails(TeacherModel teacher) async{
+  var body = {
+    "name":teacher.name,
+    "degree":teacher.degree,
+    "dob":teacher.dob,
+    "gender":teacher.gender,
+    "email":teacher.email,
+    "phoneNo":teacher.phoneNo,
+    "bloodGroup":teacher.bloogGroup,
+    "currentAddress":teacher.currentAddress,
+    "permanentAddress":teacher.permanentAddress,
+    "motherTongue":teacher.motherTongue,
+    "salary":int.parse(teacher.salary.toString()),
+    "status":teacher.status,
+  };
+  await http.put(Uri.parse(apiLink.apilink+"api/admin/teacher-details/${teacher.id}"),
+    headers: {
+      "content-type":"application/json",
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+    },
+    body:json.encode(body),
+  ).then((value){
+  });
+}
+
+updateSubject(String sub_name,String tot_marks,String id) async{
+  var body = {
+    "sub_name":sub_name,
+    "total_marks":tot_marks
+  };
+  await http.put(Uri.parse(apiLink.apilink+"api/admin/subject-details/${id}"),
+    headers: {
+      "content-type":"application/json",
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q"
+    },
+    body: json.encode(body),
+  ).then((value){
   });
 }
