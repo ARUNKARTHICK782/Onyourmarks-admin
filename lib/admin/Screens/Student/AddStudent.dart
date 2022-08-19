@@ -5,6 +5,8 @@ import 'package:onyourmarks/admin/components/CommonComponents.dart';
 import 'package:onyourmarks/admin/components/appbar.dart';
 import 'package:onyourmarks/admin/components/getExpandedWithFlex.dart';
 
+import '../../apiHandler.dart';
+
 class addStudent extends StatefulWidget {
   const addStudent({Key? key}) : super(key: key);
 
@@ -19,43 +21,69 @@ class _addStudentState extends State<addStudent> {
   SingingCharacter? _character = SingingCharacter.Male;
   String? selectedBG;
   String? selectedGender;
+  String? selectedMotherTongue;
+  String? selectedStandard;
+
+  List<String> standardNames = [];
+  List<String> standardIDs = [];
   List<TextEditingController> allTextCtrls = [];
 
-  initializeFunc(){
+
+  getStandardNames() async {
+    var allStandards = await getAllStandards();
+    for (var i in allStandards) {
+      standardNames.add(i.std_name.toString());
+      standardIDs.add(i.id.toString());
+    }
+    setState(() {});
+  }
+
+
+  initializeFunc() async{
+    await getStandardNames();
     setState(() {
       allTextCtrls = List.filled(11, TextEditingController());
     });
   }
 
   renderSingleTF(int index,String name){
-    return Expanded(
-      flex: 15,
-      child: Container(
-        height: 130,
-        width: 350,
-        child: Padding(
-          padding:
-          const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                const EdgeInsets.only(
-                    left: 25),
-                child: TextField(
-                  controller: allTextCtrls.elementAt(index),
-                  decoration:
-                  InputDecoration(
-                      hintText: name
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+    return Column(
+      children: [
+        StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+          return Container(
+            height: 130,
+            width: 350,
+            child: Padding(
+              padding:
+              const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.only(
+                        left: 25),
+                    child: TextField(
+                      controller: allTextCtrls.elementAt(index),
+                      onChanged: (s){
+                        setState((){
+                          allTextCtrls.elementAt(index).text = s;
+                        });
+                      },
+                      decoration:
+                      InputDecoration(
+                          hintText: name
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        })
+
+      ],
     );
   }
   
@@ -299,10 +327,52 @@ class _addStudentState extends State<addStudent> {
                                                         CrossAxisAlignment.start,
                                                     children: [
                                                       Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                                left: 25),
-                                                        child: Text("Under Construction"),
+                                                        padding: const EdgeInsets.only(left: 25),
+                                                        child: FormField<String>(
+                                                          builder: (FormFieldState<String> state) {
+                                                            return InputDecorator(
+                                                              decoration: InputDecoration(
+                                                                  border: InputBorder.none
+                                                              ),
+                                                              child: DropdownButtonHideUnderline(
+                                                                child: DropdownButton<String>(
+                                                                  hint: Text("Mother Tongue"),
+                                                                  value: selectedMotherTongue,
+                                                                  isDense: true,
+                                                                  onChanged: (String? newValue) {
+                                                                    setState(() {
+                                                                      selectedMotherTongue = newValue;
+                                                                      state.didChange(newValue);
+                                                                    });
+                                                                  },
+                                                                  items: <String>[
+                                                                    "Hindi",
+                                                                    "English",
+                                                                    "Bengali",
+                                                                    "Marathi",
+                                                                    "Telugu",
+                                                                    "Tamil",
+                                                                    "Gujarati",
+                                                                    "Urdu",
+                                                                    "Kannada",
+                                                                    "Odia",
+                                                                    "Malayalam",
+                                                                    "Punjabi",
+                                                                    "Assamese",
+                                                                    "Maithili",
+                                                                    "Manipuri",
+                                                                    "Sanskrit"
+                                                                  ].map((String value) {
+                                                                    return DropdownMenuItem<String>(
+                                                                      value: value,
+                                                                      child: Text(value),
+                                                                    );
+                                                                  }).toList(),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
                                                       )
                                                     ],
                                                   ),
@@ -310,54 +380,47 @@ class _addStudentState extends State<addStudent> {
                                               ),
                                             ),
                                             getExpandedWithFlex(2),
-                                            Expanded(
-                                              flex: 15,
-                                              child: Card(
-                                                elevation: 2,
-                                                child: Container(
-                                                  height: 130,
-                                                  width: 350,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(20),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
-                                                      children: [
-                                                        Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(left: 25),
-                                                            child: DropdownButton<
-                                                                    String>(
-                                                                value: selectedBG,
-                                                                onChanged: (value) {
-                                                                  setState(() {
-                                                                    selectedBG =
-                                                                        value;
-                                                                  });
-                                                                },
-                                                                items: <String>[
-                                                                  "A+",
-                                                                  "A-",
-                                                                  "B+",
-                                                                  "B-",
-                                                                  "O+",
-                                                                  "O-",
-                                                                  "AB+",
-                                                                  "AB-"
-                                                                ].map<
-                                                                    DropdownMenuItem<
-                                                                        String>>((e) {
-                                                                  return DropdownMenuItem<
-                                                                      String>(
-                                                                    value: e,
-                                                                    child: Text(e),
-                                                                  );
-                                                                }).toList()))
-                                                      ],
-                                                    ),
-                                                  ),
+                                            Container(
+                                              height: 130,
+                                              width: 350,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(20),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 25),
+                                                        child: DropdownButtonHideUnderline(
+                                                          child: DropdownButton<String>(
+                                                              hint: Text("Blood Group"),
+                                                              value: selectedBG,
+                                                              onChanged: (value) {
+                                                                setState(() {
+                                                                  selectedBG =
+                                                                      value;
+                                                                });
+                                                              },
+                                                              items: <String>[
+                                                                "A+",
+                                                                "A-",
+                                                                "B+",
+                                                                "B-",
+                                                                "O+",
+                                                                "O-",
+                                                                "AB+",
+                                                                "AB-"
+                                                              ].map<DropdownMenuItem<String>>((e) {
+                                                                return DropdownMenuItem<String>(
+                                                                  value: e,
+                                                                  child: Text(e),
+                                                                );
+                                                              }).toList()),
+                                                        ))
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -398,7 +461,18 @@ class _addStudentState extends State<addStudent> {
                                                         padding:
                                                             const EdgeInsets.only(
                                                                 left: 25),
-                                                        child:Text("Under Construction")
+                                                        child: DropdownButton<String>(
+                                                          hint: Text("Standard"),
+                                                          value: selectedStandard,
+                                                          onChanged: (String? value){
+                                                            setState(() {
+                                                              selectedStandard = value;
+                                                            });
+                                                          },
+                                                          items:standardNames.map((e){
+                                                            return DropdownMenuItem(child: Text(e),value: e,);
+                                                          }).toList(),
+                                                        )
                                                       )
                                                     ],
                                                   ),
@@ -577,7 +651,34 @@ class _addStudentState extends State<addStudent> {
                                             width: 20,
                                           ),
                                           ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                String std_id =  "";
+                                                for(int i=0;i<standardNames.length;i++){
+                                                  if(selectedStandard == standardNames[i] ){
+                                                    std_id = standardIDs[i];
+                                                    break;
+                                                  }
+                                                }
+                                                var body = {
+                                                  "firstname":allTextCtrls[0].text,
+                                                  "lastname":allTextCtrls[1].text,
+                                                  "dob":dateController.text,
+                                                  "gender":selectedGender,
+                                                  "mother tongue":selectedMotherTongue,
+                                                  "bloodgroup":selectedBG,
+                                                  "rollno":allTextCtrls[2].text,
+                                                  "std_id":std_id,
+                                                  "fathername":allTextCtrls[3].text,
+                                                  "mothername":allTextCtrls[4].text,
+                                                  "occupation":allTextCtrls[5].text,
+                                                  "income":allTextCtrls[6].text,
+                                                  "email":allTextCtrls[7].text,
+                                                  "phno":allTextCtrls[8].text,
+                                                  "currentaddress":allTextCtrls[9].text,
+                                                  "permanentaddress":allTextCtrls[10].text,
+                                                };
+                                                debugPrint(body.toString());
+                                              },
                                               child: Text("Add Student")),
                                         ],
                                       ),

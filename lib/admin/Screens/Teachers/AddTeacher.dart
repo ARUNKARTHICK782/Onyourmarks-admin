@@ -299,12 +299,7 @@ class _AddTeacherState extends State<AddTeacher> {
                                                       });
                                                       tempList
                                                           .forEach((element) {
-                                                        if (selectedStandardIDs
-                                                            .contains(standardIDs
-                                                                .elementAt(
-                                                                    standardNames
-                                                                        .indexOf(
-                                                                            element)))) {
+                                                        if (selectedStandardIDs.contains(standardIDs.elementAt(standardNames.indexOf(element)))) {
                                                           // selectedStandardIDs.remove(standardIDs.elementAt(standardNames.indexOf(element)));
                                                         } else {
                                                           selectedStandardIDs.add(
@@ -319,7 +314,7 @@ class _AddTeacherState extends State<AddTeacher> {
                                                     options: standardNames,
                                                     selectedValues: tempList,
                                                     whenEmpty:
-                                                        'Select Something',
+                                                        'Standard',
                                                   )
                                                 : Text(
                                                     "Cannot update standard here"))
