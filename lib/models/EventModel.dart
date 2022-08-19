@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class EventModel{
   String? _id;
   String? _event_name;
@@ -5,6 +7,13 @@ class EventModel{
   String? _banner_img_url;
   String? _start_date;
   String? _end_date;
+  Uint8List? _imgFile;
+
+  Uint8List? get imgFile => _imgFile;
+
+  set imgFile(Uint8List? value){
+    _imgFile = value;
+  }
 
   String? get id => _id;
 
@@ -42,8 +51,7 @@ class EventModel{
     _event_name = value;
   }
 
-  EventModel(this._id, this._event_name, this._event_description,
-      this._banner_img_url, this._start_date, this._end_date);
+  EventModel(this._id, this._event_name, this._event_description, this._start_date, this._end_date,this._imgFile);
 
   @override
   String toString() {

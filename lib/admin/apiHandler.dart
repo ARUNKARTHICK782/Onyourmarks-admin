@@ -123,7 +123,9 @@ getEvents() async{
   var events = jsonDecode(res.body);
   List<EventModel> eventsList = [];
   for(var i in events){
-    EventModel eventModel =  EventModel(i["_id"], i["event_name"], i["event_description"], i["banner_img_url"], i["start_date"], i["end_date"]);
+    debugPrint(i["_id"]);
+    Uint8List? imgFile =  await FirebaseStorage.instance.ref("Events/").child(i["_id"].toString()).getData();
+    EventModel eventModel =  EventModel(i["_id"], i["event_name"], i["event_description"], i["start_date"], i["end_date"],imgFile);
     eventsList.add(eventModel);
   }
   return eventsList;
@@ -164,20 +166,17 @@ postStandard(String standardsec,List<String> subIDs) async{
   });
 }
 
-postStudent(StudentModel student) async{
-  // var body = {
-  //   "first_name":student.first_name,
-  //   "last_name":student.last_name,
-  //   "roll_no":student.roll_no,
-  //   ""
-  // }
+postStudent(var body) async{
   await http.post(Uri.parse(apiLink.apilink+"api/admin/student"),
       headers: {
         "content-type" : "application/json",
         "x-auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q"
       },
-      body:{}
-  );
+      body:jsonEncode(body)
+  ).then((value) async{
+    // debugPrint(body["roll_no"]);
+    await postEmail(body["roll_no"],body["email"]);
+  });
 }
 
 Future<void>  addSubject(String subname,String totMarks,String standardSec) async{
@@ -219,7 +218,7 @@ postTeacher(TeacherModel teacher) async{
       },
       body:json.encode(body)
   ).then((value) async{
-    await postEmail(teacher.email.toString());
+    await postEmail(teacher.email.toString(),teacher.email.toString());
   });
 }
 
@@ -230,23 +229,18 @@ postNewEvent(String eventName,String eventDescription,String startDate,String en
     "start_date":startDate,
     "end_date":endDate,
   };
-  debugPrint("body"+body.toString());
   await http.post(Uri.parse(apiLink.apilink+"api/admin/event"),
     headers: {
       "Content-Type":"application/json",
       // "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
     },
-    body: jsonEncode(body.toString())
-  ).then((v){
-    debugPrint("Posted event");
-    debugPrint(v.body);
-  });  // var event = jsonDecode(res.body);
-  // debugPrint(event.body.toString());
-  //
-  // await FirebaseStorage.instance.ref("Events").child(event["_id"]).putData(bannerImage).then((p0) {
-  //   debugPrint("Image posted");
-  // });
-  // debugPrint(res.body);
+    body: jsonEncode(body)
+  ).then((v) async{
+    var res = jsonDecode(v.body);
+    await FirebaseStorage.instance.ref("Events").child(res["_id"]).putData(bannerImage).then((p0) {
+        debugPrint("Image posted");
+      });
+  });
 }
 
 postExam(var body) async{
@@ -260,11 +254,11 @@ postExam(var body) async{
   debugPrint(res.body);
 }
 
-postEmail(String username) async{
+postEmail(String username,String email) async{
   var body = {
     "username" : username,
     "type": "REGISTRATION CONFIRMATION",
-    "email" : username
+    "email" : email
   };
   var res = await http.post(Uri.parse(apiLink.apilink+"api/verification/email/creds"),
       headers: {
@@ -274,7 +268,6 @@ postEmail(String username) async{
       body: jsonEncode(body)
   ).then((value) {
     debugPrint(value.body.toString());
-    debugPrint("Email sent");
   });
 }
 

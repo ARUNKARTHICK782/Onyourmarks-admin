@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:onyourmarks/admin/Components/ShowSuccessDialog.dart';
 import 'package:onyourmarks/admin/apiHandler.dart';
 import 'package:onyourmarks/admin/components/appbar.dart';
 import 'package:file_picker/file_picker.dart';
@@ -226,7 +227,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   getExpandedWithFlex(1),
                   InkWell(
                     onTap: ()async{
-                      await postNewEvent(eventNameCtlr.text, eventDescriptionCtrl.text, startDateCtrl.text, endDateCtrl.text, imageFile!);
+                      await postNewEvent(eventNameCtlr.text, eventDescriptionCtrl.text, startDateCtrl.text, endDateCtrl.text,imageFile!).then((v){
+                        ShowSuccessDialog("Event created");
+                      });
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
