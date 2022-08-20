@@ -18,11 +18,8 @@ class _EventsScreenState extends State<EventsScreen> {
   bool _loading = true;
 
   renderEventCard(EventModel event){
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: 250,
-        minHeight: 300,
-      ),
+    return SizedBox(
+      width: 300,
       child: Card(
         elevation: 3,
         child: Padding(

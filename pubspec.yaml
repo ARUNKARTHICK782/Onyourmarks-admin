@@ -44,6 +44,7 @@ dependencies:
   firebase_storage: ^10.3.5
   firebase_core: ^1.20.1
   file_picker: ^5.0.1
+  qr_flutter: ^4.0.0
   syncfusion_flutter_charts: ^20.2.43
   syncfusion_flutter_datagrid: ^20.2.43
 

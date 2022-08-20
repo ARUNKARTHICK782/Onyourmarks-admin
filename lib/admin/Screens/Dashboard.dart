@@ -10,8 +10,10 @@ import '../Components/getExpandedWithFlex.dart';
 import '../apiHandler.dart';
 
 int allStudentsCount = 0;
-double boysCount = 0;
+double boysCountPercentage = 0;
+double girlsCountPercentage = 0;
 double girlsCount = 0;
+double boysCount = 0;
 
 class DashboardAdmin extends StatefulWidget {
   const DashboardAdmin({Key? key}) : super(key: key);
@@ -20,12 +22,13 @@ class DashboardAdmin extends StatefulWidget {
   State<DashboardAdmin> createState() => _DashboardAdminState();
 }
 
-class _DashboardAdminState extends State<DashboardAdmin> {
+class _DashboardAdminState extends State<DashboardAdmin> with TickerProviderStateMixin {
   TrackballBehavior? _trackballBehavior;
   TooltipBehavior? _tooltipBehavior;
   int studentsCount = 0;
   int teachersCount = 0;
   bool _loading = true;
+  bool _anim = true;
   fetchData() async{
     var allStudents =  await getAllStudents();
     var allTeachers = await getAllTeachers();
@@ -33,12 +36,12 @@ class _DashboardAdminState extends State<DashboardAdmin> {
     setState(() {
       studentsCount = allStudents.length;
       teachersCount = allTeachers.length;
-      var boysCount1 = genderCountList[0];
-      var girlsCount2 = genderCountList[1];
-      boysCount = ((boysCount1/studentsCount) * 100);
-      girlsCount = ((girlsCount2/studentsCount) * 100);
+      boysCount = genderCountList[0];
+      girlsCount = genderCountList[1];
+      boysCountPercentage = ((boysCount/studentsCount) * 100);
+      girlsCountPercentage = ((girlsCount/studentsCount) * 100);
       allStudentsCount = allStudents.length;
-      debugPrint("boys"+boysCount.toString()+"girsl"+girlsCount.toString());
+      debugPrint("boys"+boysCountPercentage.toString()+"girsl"+girlsCountPercentage.toString());
       _loading = false;
     });
   }
@@ -76,7 +79,8 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Text("Dashboard",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
+                          child: Text("Dashboard",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ],
                     ),
@@ -122,7 +126,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                                     fontSize: 20),
                                           ),
                                           Text(
-                                            studentsCount.toString(),
+                                            studentsCount.toInt().toString(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(color: Colors.white),
                                           )
@@ -152,7 +156,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                                     fontSize: 20),
                                           ),
                                           Text(
-                                            teachersCount.toString(),
+                                            teachersCount.toInt().toString(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(color: Colors.white),
                                           )
@@ -308,11 +312,11 @@ List<PieSeries<ChartSampleData, String>> _getGroupingPieSeries() {
         dataSource: <ChartSampleData>[
           ChartSampleData(
               pointColor: Colors.red.shade300,
-              x: 'Boys', y: boysCount, text: "Boys"),
+              x: 'Boys', y: boysCountPercentage, text: "Boys"),
           ChartSampleData(
               pointColor: Colors.blue.shade300,
               x: 'Girls',
-              y: girlsCount,
+              y: girlsCountPercentage,
               text: "Girls"),
 
         ],

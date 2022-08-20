@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/components/getExpandedWithFlex.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
+import 'package:onyourmarks/admin/responsive.dart';
 import './AddStudent.dart';
 import './StudentDetails.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
@@ -76,6 +77,32 @@ class _studentsScreenState extends State<studentsScreen> {
     );
   }
 
+  getSearchBar(){
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        width: 300,
+        color: Colors.grey.shade400,
+        child: TextField(
+          controller: _studentSearchCtrl,
+          cursorColor: Colors.grey.shade800,
+          onChanged: (s){
+            implementSearch(s);
+          },
+          decoration: InputDecoration(
+              contentPadding:EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+              suffixIcon: Icon(CupertinoIcons.search,color: secondary,),
+              hintText: "Search",
+              // focusedBorder: OutlineInputBorder(
+              //   borderSide: BorderSide(color: Colors.grey.shade800)
+              // ),
+              border: InputBorder.none
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,36 +130,12 @@ class _studentsScreenState extends State<studentsScreen> {
                     ),
                   ),
                   getExpandedWithFlex(6),
-                  Expanded(
-                    flex: 3,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Container(
-                        width: 300,
-                        color: Colors.grey.shade400,
-                        child: TextField(
-                          controller: _studentSearchCtrl,
-                          cursorColor: Colors.grey.shade800,
-                          onChanged: (s){
-                              implementSearch(s);
-                          },
-                          decoration: InputDecoration(
-                            contentPadding:EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                            suffixIcon: Icon(CupertinoIcons.search,color: secondary,),
-                            hintText: "Search",
-                            // focusedBorder: OutlineInputBorder(
-                            //   borderSide: BorderSide(color: Colors.grey.shade800)
-                            // ),
-                            border: InputBorder.none
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  (Responsive.isDesktop(context))?Expanded(flex:3,child: getSearchBar()):Text(""),
                   getExpandedWithFlex(3)
                 ],
               ),
             ),
+            (Responsive.isMobile(context))?getSearchBar():Text(""),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,6 +163,7 @@ class _studentsScreenState extends State<studentsScreen> {
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                 child: Card(
+                                  color: primary,
                                   elevation: 3,
                                   child: Container(
                                     height: 80,
@@ -185,11 +189,11 @@ class _studentsScreenState extends State<studentsScreen> {
                                                       Text(
                                                           studentsList.elementAt(index).name ??
                                                               ' ',
-                                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)
+                                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: white)
                                                       ),
                                                       Text(studentsList.elementAt(index)
                                                           .roll_no ??
-                                                          '')
+                                                          '',style: TextStyle(color: white),)
                                                     ],
                                                   ),
                                                 ),
@@ -207,8 +211,8 @@ class _studentsScreenState extends State<studentsScreen> {
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                                 children: [
-                                                  Text(studentsList.elementAt(index).email ?? " "),
-                                                  Text(studentsList.elementAt(index).phno.toString() )
+                                                  Text(studentsList.elementAt(index).email ?? " ",style: TextStyle(color: white),),
+                                                  Text(studentsList.elementAt(index).phno.toString(),style: TextStyle(color: white), )
                                                 ],
                                               ),
                                             ),

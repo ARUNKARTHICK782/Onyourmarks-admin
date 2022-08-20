@@ -4,7 +4,9 @@ import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:onyourmarks/admin/Screens/Attendance.dart';
 import 'package:onyourmarks/api/apiLink.dart';
+import 'package:onyourmarks/models/AttendanceModel.dart';
 import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
 import 'package:onyourmarks/models/EventModel.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
@@ -146,6 +148,22 @@ getStudentsGenderWiseCount() async{
   return [boysCount,girlsCount];
 }
 
+getAllStudentsAttendance() async{
+  List<AttendanceModel> attendanceList = [];
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/attendance"),
+    headers: {
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+    }
+  );
+  debugPrint(res.body);
+  var attendance = jsonDecode(res.body);
+  for(var i in attendance){
+    AttendanceModel att = AttendanceModel(i["_id"], i["student_id"]["first_name"], i["student_id"]["last_name"], i["student_id"]["roll_no"], i["std_id"]["std_name"],i["Dates"]);
+    attendanceList.add(att);
+  }
+  // debugPrint(attendanceList.toString());
+  return attendanceList;
+}
 
 
 
