@@ -78,10 +78,15 @@ class _AttendanceState extends State<Attendance> {
                                           att.elementAt(index).first_name ?? " "+(att.elementAt(index).last_name ?? ""),
                                           style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)
                                       ),
-                                      Text(att.elementAt(index)
-                                          .roll_no ??
-                                          ''),
-                                      Text(att.elementAt(index).std_name ?? " "),
+                                      Row(
+                                        children: [
+                                          Text(att.elementAt(index)
+                                              .roll_no ??
+                                              ''),
+                                          Text(att.elementAt(index).std_name ?? " "),
+                                        ],
+                                      ),
+
                                     ],
                                   ),
                                 ),

@@ -64,6 +64,45 @@ class _ExamsScreenState extends State<ExamsScreen> {
     });
   }
   BooleanProvider? obj;
+  bool color1 = false;
+  bool color2 = false;
+  bool color3 = false;
+  bool color4 = false;
+
+  setColor(bool cond,int i){
+    switch(i){
+      case 1:
+        {
+          setState(() {
+            color1 = cond;
+          });
+          break;
+        }
+      case 2:
+        {
+          setState(() {
+            color2 = cond;
+          });
+          break;
+        }
+      case 3:
+        {
+          setState(() {
+            color3 = cond;
+          });
+          break;
+        }
+      case 4:{
+        setState(() {
+          color4 = cond;
+        });
+        break;
+      }
+
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,8 +171,11 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
-                      highlightColor: Colors.white,
-                      hoverColor: Colors.white,
+                      // hoverColor: (color1)?Colors.red:Colors.green,
+                      onHover: (t){
+                        setColor(t, 1);
+                        // debugPrint(color1.toString());
+                      },
                       onTap: () async{
                         await sortingExams("all");
                         setState(() {
@@ -142,7 +184,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                         });
                       },
                       child: Container(
-                        color: (selectedSortName == "All")?Colors.grey : Colors.grey.shade300,
+                        color: (color1)?Colors.grey:(selectedSortName == "All")?Colors.grey : Colors.grey.shade300,
                         width: 120,
                         child: Padding(
                           padding: const EdgeInsets.all(10),
@@ -157,6 +199,9 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
+                      onHover: (t){
+                        setColor(t, 2);
+                      },
                       onTap: () async{
                         setState(() {
                           _isAllEnabled = false;
@@ -165,7 +210,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                         await sortingExams("finished");
                       },
                       child: Container(
-                        color:(selectedSortName == "Finished")?Colors.grey : Colors.grey.shade300,
+                        color:(color2)?Colors.grey:(selectedSortName == "Finished")?Colors.grey : Colors.grey.shade300,
                         width: 120,
                         child: Padding(
                           padding: const EdgeInsets.all(10),
@@ -180,6 +225,9 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
+                      onHover: (t){
+                        setColor(t, 3);
+                      },
                       onTap: () async{
                         setState(() {
                           _isAllEnabled = false;
@@ -188,7 +236,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                         await sortingExams("in progress");
                       },
                       child: Container(
-                        color: (selectedSortName == "In Progress")?Colors.grey : Colors.grey.shade300,
+                        color: (color3)?Colors.grey:(selectedSortName == "In Progress")?Colors.grey : Colors.grey.shade300,
                         width: 120,
                         child: Padding(
                           padding: const EdgeInsets.all(10),
@@ -203,6 +251,9 @@ class _ExamsScreenState extends State<ExamsScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
+                      onHover: (t){
+                        setColor(t, 4);
+                      },
                       onTap: () async{
                         setState(() {
                           _isAllEnabled = false;
@@ -211,7 +262,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                         await sortingExams("upcoming");
                       },
                       child: Container(
-                        color: (selectedSortName == "Upcoming")?Colors.grey : Colors.grey.shade300,
+                        color: (color4)?Colors.grey.shade300:(selectedSortName == "Upcoming")?Colors.grey : Colors.grey.shade300,
                         width: 120,
                         child: Padding(
                           padding: const EdgeInsets.all(10),

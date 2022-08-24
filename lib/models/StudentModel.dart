@@ -1,9 +1,12 @@
+import 'package:onyourmarks/models/SubjectModel.dart';
+
 class StudentModel{
   String? _id;
   String? _first_name;
   String? _last_name;
   String? _roll_no;
   String? _std_name;
+  List<SubjectModel>? _subjects;
   String? _dob;
   String? _gender;
   String? _fatherName;
@@ -17,6 +20,12 @@ class StudentModel{
   String? _motherTongue;
   String? _bloodGroup;
 
+
+  List<SubjectModel>? get subjects => _subjects;
+
+  set subjects(List<SubjectModel>? value) {
+    _subjects = value;
+  }
 
   String? get id => _id;
 
@@ -121,7 +130,7 @@ class StudentModel{
     _roll_no = value;
   }
 
-  StudentModel(this._id,this._first_name,this._last_name, this._roll_no, this._std_name, this._dob, this._gender,
+  StudentModel(this._id,this._first_name,this._last_name, this._roll_no, this._std_name,this._subjects, this._dob, this._gender,
       this._fatherName, this._motherName, this._occupation, this._income,
       this._email, this._phno, this._currentAddress, this._permanentAddress,
       this._motherTongue, this._bloodGroup);
@@ -130,11 +139,11 @@ class StudentModel{
 
   StudentModel.forCCA(this._id,this._roll_no,this._first_name,this._last_name);
 
-  factory StudentModel.fromJson(Map<String, dynamic> json){
-      return StudentModel(json["_id"],json["first_name"],json["last_name"],json["roll_no"],json["std_id"]["std_name"],json["dob"],json["gender"],json["parent1name"],json["parent2name"],
-        json["occupation"],json["income"],json["email"],json["phoneNo"],json["currentAddress"],json["permanentAddress"],json["motherTongue"],json["bloodGroup"]
-      );
-  }
+  // factory StudentModel.fromJson(Map<String, dynamic> json){
+  //     return StudentModel(json["_id"],json["first_name"],json["last_name"],json["roll_no"],json["std_id"]["std_name"],json["dob"],json["gender"],json["parent1name"],json["parent2name"],
+  //       json["occupation"],json["income"],json["email"],json["phoneNo"],json["currentAddress"],json["permanentAddress"],json["motherTongue"],json["bloodGroup"]
+  //     );
+  // }
 
   String? get last_name => _last_name;
 

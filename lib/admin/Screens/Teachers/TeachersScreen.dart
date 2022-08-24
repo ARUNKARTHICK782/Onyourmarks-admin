@@ -70,13 +70,14 @@ class _teachersScreenState extends State<teachersScreen> {
                       ],
                     ),
                   ),
-                  getExpandedWithFlex(6),
+                  getExpandedWithFlex(8),
                   Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
-                        width: 300,
+                        height: 47,
+                        width: 400,
                         color: Colors.grey.shade400,
                         child: TextField(
                           // controller: _studentSearchCtrl,
@@ -97,7 +98,7 @@ class _teachersScreenState extends State<teachersScreen> {
                       ),
                     ),
                   ),
-                  getExpandedWithFlex(3)
+                  getExpandedWithFlex(1)
                 ],
               ),
             ),
@@ -108,13 +109,13 @@ class _teachersScreenState extends State<teachersScreen> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 70),
-                    child: ListView.separated(
+                    child: ListView.builder(
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Material(
                           borderRadius: BorderRadius.circular(5),
                           child: ExpansionTile(
-                            backgroundColor: primary,
+                            collapsedBackgroundColor: Colors.white,
                             textColor: Colors.white,
                             title: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
@@ -134,14 +135,14 @@ class _teachersScreenState extends State<teachersScreen> {
                                             " ",
                                         style: TextStyle(
                                             fontSize: 25,
-                                            fontWeight: FontWeight.w600),
+                                            fontWeight: FontWeight.w600,color: Colors.black),
                                       ),
                                       SizedBox(
                                         height: 20,
                                       ),
                                       Text(allTeachers.elementAt(index)
                                           .degree ??
-                                          "")
+                                          "",style:TextStyle(color: Colors.black))
                                     ],
                                   ),
                                 ),
@@ -239,12 +240,6 @@ class _teachersScreenState extends State<teachersScreen> {
                               )
                             ],
                           ),
-                        );
-                      },
-                      separatorBuilder:
-                          (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 10,
                         );
                       },
                       itemCount: allTeachers.length),

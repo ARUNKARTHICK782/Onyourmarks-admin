@@ -12,6 +12,7 @@ import 'package:onyourmarks/models/EventModel.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
 import '../models/ExamModel.dart';
+import '../models/MarksModel.dart';
 import '../models/StandardModel.dart';
 import '../models/SubjectModel.dart';
 import '../models/TeacherModel.dart';
@@ -75,18 +76,29 @@ Future<List<StudentModel>> getAllStudents() async{
   var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allstudents"));
   var students = json.decode(res.body);
   for(var i in students){
-    StudentModel sm = StudentModel.fromJson(i);
+    List<SubjectModel> sub = [];
+    for(var j in i["std_id"]["subject_id"]){
+      SubjectModel subject = SubjectModel.forStudents(j["_id"], j["sub_name"], j["total_marks"].toString());
+      sub.add(subject);
+    }
+    StudentModel sm = StudentModel(i["_id"],i["first_name"],i["last_name"],i["roll_no"],i["std_id"]["std_name"],sub,i["dob"],i["gender"],i["parent1name"],i["parent2name"],
+        i["occupation"],i["income"],i["email"],i["phoneNo"],i["currentAddress"],i["permanentAddress"],i["motherTongue"],i["bloodGroup"]
+    );
     returnStudents.add(sm);
   }
   return returnStudents;
 }
 
-Future<StudentModel> getStudent(String uid) async{
-  var res= await http.get(Uri.parse(apiLink.apilink+"api/admin/Student/"));
-  var student = json.decode(res.body);
-  StudentModel studentModel = StudentModel.fromJson(student);
-  return studentModel;
-}
+// Future<StudentModel> getStudent(String uid) async{
+//   var res= await http.get(Uri.parse(apiLink.apilink+"api/admin/Student/"));
+//   var student = json.decode(res.body);
+//
+//   StudentModel studentModel =StudentModel(i["_id"],i["_first_name"],i["_last_name"], i["_roll_no"], ti["std_name"],i["_subjects"], ti["dob"], i["_gender"],
+//       i["_fatherName"], i["_motherName"], i["_occupation"], i["_income"],
+//       i["_email"], i["_phno"], i["_currentAddress"], i["_permanentAddress"],
+//       i["_motherTongue"], i["_bloodGroup"]);
+//   return studentModel;
+// }
 
 Future<List<SubjectModel>> getAllSubjects() async {
   List<SubjectModel> returnSubjects = [];
@@ -125,7 +137,6 @@ getEvents() async{
   var events = jsonDecode(res.body);
   List<EventModel> eventsList = [];
   for(var i in events){
-    debugPrint(i["_id"]);
     Uint8List? imgFile =  await FirebaseStorage.instance.ref("Events/").child(i["_id"].toString()).getData();
     EventModel eventModel =  EventModel(i["_id"], i["event_name"], i["event_description"], i["start_date"], i["end_date"],imgFile);
     eventsList.add(eventModel);
@@ -155,7 +166,6 @@ getAllStudentsAttendance() async{
       "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
     }
   );
-  debugPrint(res.body);
   var attendance = jsonDecode(res.body);
   for(var i in attendance){
     AttendanceModel att = AttendanceModel(i["_id"], i["student_id"]["first_name"], i["student_id"]["last_name"], i["student_id"]["roll_no"], i["std_id"]["std_name"],i["Dates"]);
@@ -165,6 +175,31 @@ getAllStudentsAttendance() async{
   return attendanceList;
 }
 
+Future<Map<String, List<MarksModel>>> getMyMarks() async{
+  Map<String,List<MarksModel>> map ={} ;
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/student/mymarks"),
+      headers: {
+      "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+        "content-type" : "application/json"
+      }
+  );
+  // debugPrint(res.body);
+  var marks = json.decode(res.body);
+  var index = 0;
+  for(var i in marks){
+    if(map.containsKey(i["exam_id"]["exam_name"])){
+      map[i["exam_id"]["exam_name"]]?.add(new MarksModel(i["exam_id"]["_id"], i["exam_id"]["exam_name"], i["subject_id"]["sub_name"], i["subject_id"]["total_marks"].toString(), i["obtained"].toString(), i["exam_id"]["dates"][index]));
+    }
+    else{
+      map.addAll({
+        i["exam_id"]["exam_name"]:[new MarksModel(i["exam_id"]["_id"], i["exam_id"]["exam_name"], i["subject_id"]["sub_name"], i["subject_id"]["total_marks"].toString(), i["obtained"].toString(), i["exam_id"]["dates"][index])]
+      });
+    }
+    index++;
+  }
+  // debugPrint("After models");
+  return map;
+}
 
 
 //POST APIs
@@ -269,7 +304,6 @@ postExam(var body) async{
     },
     body: jsonEncode(body)
   );
-  debugPrint(res.body);
 }
 
 postEmail(String username,String email) async{
@@ -285,7 +319,6 @@ postEmail(String username,String email) async{
       },
       body: jsonEncode(body)
   ).then((value) {
-    debugPrint(value.body.toString());
   });
 }
 

@@ -44,71 +44,74 @@ class _SubjectScreenState extends State<SubjectScreen> {
   }
 
   renderGridCard(SubjectModel subject){
-    return Card(
-      elevation: 3,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Container(
-          height: 250,
-          width: 250,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        subject
-                            .subName ??
-                            '',
-                        maxLines: 3,
-                        style: TextStyle(
-                            fontWeight:
-                            FontWeight.bold,
-                            fontSize: 25,
-                            overflow: TextOverflow
-                                .ellipsis),
+    return Padding(
+      padding: const EdgeInsets.only(bottom:30,right: 13),
+      child: Card(
+        elevation: 3,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            height: 200,
+            width: 270,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          subject
+                              .subName ??
+                              '',
+                          maxLines: 3,
+                          style: TextStyle(
+                              fontWeight:
+                              FontWeight.bold,
+                              fontSize: 25,
+                              overflow: TextOverflow
+                                  .ellipsis),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                        flex: 1,
-                        child: IconButton(
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder:
-                                      (BuildContext
-                                  context) {
-                                    return addSubjectdialog(
-                                        true,
-                                        subject
-                                            .subName ??
-                                            "",
-                                        subject
-                                            .totalMarks ??
-                                            "",
-                                        subject
-                                            .id ??
-                                            "");
-                                  });
-                            },
-                            icon: Icon(
-                                CupertinoIcons
-                                    .pen)))
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("Total Marks : " +
-                    (subject
-                        .totalMarks ??
-                        ''))
-              ],
+                      Expanded(
+                          flex: 1,
+                          child: IconButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder:
+                                        (BuildContext
+                                    context) {
+                                      return addSubjectdialog(
+                                          true,
+                                          subject
+                                              .subName ??
+                                              "",
+                                          subject
+                                              .totalMarks ??
+                                              "",
+                                          subject
+                                              .id ??
+                                              "");
+                                    });
+                              },
+                              icon: Icon(
+                                  CupertinoIcons
+                                      .pen)))
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Total Marks : " +
+                      (subject
+                          .totalMarks ??
+                          ''))
+                ],
+              ),
             ),
           ),
         ),
@@ -142,13 +145,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       ],
                     ),
                   ),
-                  getExpandedWithFlex(6),
+                  getExpandedWithFlex(8),
                   Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
-                        width: 300,
+                        height: 47,
+                        width: 400,
                         color: Colors.grey.shade400,
                         child: TextField(
                           // controller: _studentSearchCtrl,
@@ -169,13 +173,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       ),
                     ),
                   ),
-                  getExpandedWithFlex(3)
+                  getExpandedWithFlex(1)
                 ],
               ),
             ),
-            (_loading)?Center(child: CircularProgressIndicator(),):Padding(
+            if (_loading) Center(child: CircularProgressIndicator(),) else Padding(
               padding:
-              const EdgeInsets.only(left: 80, right: 80, top: 40),
+              const EdgeInsets.symmetric(horizontal: 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Container(

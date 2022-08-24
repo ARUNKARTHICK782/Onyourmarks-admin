@@ -44,6 +44,8 @@ class SubjectModel{
     return 'SubjectModel{_id: $_id, _subName: $_subName, _totalMarks: $_totalMarks, _teacherId: $_teacherId}';
   }
 
+  SubjectModel.forStudents(this._id,this._subName,this._totalMarks);
+
   factory SubjectModel.fromJson(Map<String, dynamic> json){
     return SubjectModel(json["_id"], json["sub_name"], json["total_marks"].toString(), (json["teacher"] != null)?json["teacher"]["name"]:'Unassigned');
   }

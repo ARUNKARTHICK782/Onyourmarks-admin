@@ -268,18 +268,32 @@ class _addSubjectdialogState extends State<addSubjectdialog> {
                               ),
                             ),
                           )
-                          : ElevatedButton(
-                              onPressed: () async {
-                                await updateSubject(
-                                        subjectNameController.text,
-                                        totalMarksController.text,
-                                        widget.sub_id)
-                                    .then((value) async {
-                                  Navigator.pop(context);
-                                  initState();
-                                });
-                              },
-                              child: Text("Save")),
+                          : InkWell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  color: primary,
+                                  width: 120,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Center(child: Text("Save",style: TextStyle(color: Colors.white),)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onTap: () async{
+                              await updateSubject(
+                                  subjectNameController.text,
+                                  totalMarksController.text,
+                                  widget.sub_id)
+                                  .then((value) async {
+                                Navigator.pop(context);
+                                initState();
+                              });
+                            },
+                          ),
                     ],
                   ),
                 )

@@ -68,13 +68,14 @@ class _StandardScreenState extends State<StandardScreen> {
                       ],
                     ),
                   ),
-                  getExpandedWithFlex(6),
+                  getExpandedWithFlex(8),
                   Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
-                        width: 300,
+                        height: 47,
+                        width: 400,
                         color: Colors.grey.shade400,
                         child: TextField(
                           // controller: _studentSearchCtrl,
@@ -95,7 +96,7 @@ class _StandardScreenState extends State<StandardScreen> {
                       ),
                     ),
                   ),
-                  getExpandedWithFlex(3)
+                  getExpandedWithFlex(1)
                 ],
               ),
             ),
@@ -105,79 +106,87 @@ class _StandardScreenState extends State<StandardScreen> {
                 shrinkWrap: true,
                   itemCount: allStandard.length ,
                   itemBuilder: (BuildContext context, int index) {
-                    return ExpansionTile(
-                      title: Container(
-                        height: 80,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                allStandard.elementAt(index)
-                                    .std_name ??
-                                    " ",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    return Column(
                       children: [
-                        Column(
-                          children: [
-                            ListView.builder(
-                              itemBuilder:
-                                  (BuildContext context, int index1) {
-                                return Card(
-                                  elevation: 2,
-                                  child: SizedBox(
-                                    height: 60,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            allStandard.elementAt(index)
-                                                .subjects
-                                                ?.elementAt(index1)
-                                                .subName ??
-                                                "",
-                                            style:
-                                            TextStyle(fontSize: 20),
-                                          ),
-                                          Text(
-                                            allStandard.elementAt(index)
-                                                .subjects
-                                                ?.elementAt(index1)
-                                                .totalMarks ??
-                                                "",
-                                            style: TextStyle(
-                                                fontWeight:
-                                                FontWeight.w600),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                        ExpansionTile(
+                          collapsedBackgroundColor: Colors.white,
+                          title: Container(
+                            height: 80,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    allStandard.elementAt(index)
+                                        .std_name ??
+                                        " ",
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w600),
                                   ),
-                                );
-                              },
-                              itemCount: allStandard.elementAt(index)
-                                  .subjects
-                                  ?.length,
-                              shrinkWrap: true,
+                                ],
+                              ),
+                            ),
+                          ),
+                          children: [
+                            Card(
+                              child: Column(
+                                children: [
+                                  ListView.builder(
+                                    itemBuilder:
+                                        (BuildContext context, int index1) {
+                                      return SizedBox(
+                                        height: 60,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                allStandard.elementAt(index)
+                                                    .subjects
+                                                    ?.elementAt(index1)
+                                                    .subName ??
+                                                    "",
+                                                style:
+                                                TextStyle(fontSize: 20),
+                                              ),
+                                              Text(
+                                                allStandard.elementAt(index)
+                                                    .subjects
+                                                    ?.elementAt(index1)
+                                                    .totalMarks ??
+                                                    "",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    itemCount: allStandard.elementAt(index)
+                                        .subjects
+                                        ?.length,
+                                    shrinkWrap: true,
+                                  )
+                                ],
+                              ),
                             )
                           ],
-                        )
+                        ),
+                        // Divider(
+                        //   thickness: 2,
+                        // )
                       ],
                     );
-                  }),
+                  },
+              ),
             ),
           ],
         ),

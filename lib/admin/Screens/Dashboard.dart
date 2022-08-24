@@ -90,9 +90,125 @@ class _DashboardAdminState extends State<DashboardAdmin> with TickerProviderStat
             ),
             (_loading)
                 ?Center(child: CircularProgressIndicator(),)
-                :ListView(
-              shrinkWrap: true,
+                :Column(
               children: [
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Card(
+                        child: SizedBox(
+                          height: 120,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "Total No Of Students: ",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5
+                                      ?.copyWith(
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  studentsCount.toInt().toString(),
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "Total No Of Teachers: ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    ?.copyWith(
+                                    fontSize: 20),
+                              ),
+                              Text(
+                                teachersCount.toInt().toString(),
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "Total No Of boys: ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    ?.copyWith(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Text(
+                                boysCount.toString(),
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "Total No Of girls: ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    ?.copyWith(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Text(
+                                girlsCount.toString(),
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Padding(
                   padding: EdgeInsets.all(60),
                   child: ClipRRect(
@@ -102,133 +218,7 @@ class _DashboardAdminState extends State<DashboardAdmin> with TickerProviderStat
                         elevation: 2,
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Card(
-                                    color: primary,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            "Total No Of Students: ",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5
-                                                ?.copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                          ),
-                                          Text(
-                                            studentsCount.toInt().toString(),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Card(
-                                    color: primary,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            "Total No Of Teachers: ",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5
-                                                ?.copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                          ),
-                                          Text(
-                                            teachersCount.toInt().toString(),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Card(
-                                    color: primary,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            "Total No Of boys: ",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5
-                                                ?.copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            boysCount.toString(),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Card(
-                                    color: primary,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            "Total No Of girls: ",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5
-                                                ?.copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                            ),
-                                          ),
-                                          Text(
-                                            girlsCount.toString(),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+
                             SizedBox(
                               height: 20,
                             ),

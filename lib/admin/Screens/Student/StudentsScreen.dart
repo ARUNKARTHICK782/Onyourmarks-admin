@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:onyourmarks/admin/Screens/Student/StudentDashboard.dart';
 import 'package:onyourmarks/admin/components/getExpandedWithFlex.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
 import 'package:onyourmarks/admin/responsive.dart';
@@ -17,7 +18,7 @@ class studentsScreen extends StatefulWidget {
   State<studentsScreen> createState() => _studentsScreenState();
 }
 
-class _studentsScreenState extends State<studentsScreen> {
+class _studentsScreenState extends State<studentsScreen>  {
 
   final TextEditingController _studentSearchCtrl = TextEditingController();
   List<StudentModel> studentsList =  [];
@@ -81,7 +82,8 @@ class _studentsScreenState extends State<studentsScreen> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: Container(
-        width: 300,
+        height: 47,
+        width: 400,
         color: Colors.grey.shade400,
         child: TextField(
           controller: _studentSearchCtrl,
@@ -102,6 +104,9 @@ class _studentsScreenState extends State<studentsScreen> {
       ),
     );
   }
+  double elevation = 6;
+  int height = 0;
+  AnimationController? _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -129,44 +134,50 @@ class _studentsScreenState extends State<studentsScreen> {
                       ],
                     ),
                   ),
-                  getExpandedWithFlex(6),
-                  (Responsive.isDesktop(context))?Expanded(flex:3,child: getSearchBar()):Text(""),
-                  getExpandedWithFlex(3)
+                  getExpandedWithFlex(8),
+                  (Responsive.isDesktop(context))?Expanded(flex:4,child: getSearchBar()):Text(""),
+                  getExpandedWithFlex(1)
                 ],
               ),
             ),
             (Responsive.isMobile(context))?getSearchBar():Text(""),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Padding(
-                //   padding: const EdgeInsets.all(10),
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.start,
-                //     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //     children: [
-                //       for (int i = 1; i < 13; i++)
-                //         getCard(i.toString(), i),
-                //     ],
-                //   ),
-                // ),
-                Expanded(
-                  child: (_isloading)?Center(child: CircularProgressIndicator(),)
-                      :ClipRRect( //padding with all 50
-                        borderRadius: BorderRadius.circular(10),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 70),
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            itemCount: studentsList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                child: Card(
-                                  color: primary,
-                                  elevation: 3,
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Card(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Padding(
+                    //   padding: const EdgeInsets.all(10),
+                    //   child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //     children: [
+                    //       for (int i = 1; i < 13; i++)
+                    //         getCard(i.toString(), i),
+                    //     ],
+                    //   ),
+                    // ),
+                    Expanded(
+                      child: (_isloading)?Center(child: CircularProgressIndicator(),)
+                          :ClipRRect( //padding with all 50
+                            borderRadius: BorderRadius.circular(10),
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: studentsList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    debugPrint("CLicked");
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => StudentDashboard(studentsList.elementAt(index))),);
+                                  },
                                   child: Container(
-                                    height: 80,
+
+                                    height: 80+height.toDouble(),
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 20),
                                       child: Row(
@@ -189,11 +200,11 @@ class _studentsScreenState extends State<studentsScreen> {
                                                       Text(
                                                           studentsList.elementAt(index).name ??
                                                               ' ',
-                                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: white)
+                                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: Colors.black)
                                                       ),
                                                       Text(studentsList.elementAt(index)
                                                           .roll_no ??
-                                                          '',style: TextStyle(color: white),)
+                                                          '',style: TextStyle(color: Colors.black),)
                                                     ],
                                                   ),
                                                 ),
@@ -211,8 +222,8 @@ class _studentsScreenState extends State<studentsScreen> {
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                                 children: [
-                                                  Text(studentsList.elementAt(index).email ?? " ",style: TextStyle(color: white),),
-                                                  Text(studentsList.elementAt(index).phno.toString(),style: TextStyle(color: white), )
+                                                  Text(studentsList.elementAt(index).email ?? " ",style: TextStyle(color: Colors.black),),
+                                                  Text(studentsList.elementAt(index).phno.toString(),style: TextStyle(color: Colors.black), )
                                                 ],
                                               ),
                                             ),
@@ -221,26 +232,19 @@ class _studentsScreenState extends State<studentsScreen> {
                                       ),
                                     ),
                                   ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => studentDetails(
-                                              studentsList.elementAt(index) ),),);
-                                },
-                              );
-                            },
-                            separatorBuilder: (BuildContext context, int index) {
-                              return SizedBox(
-                                height: 10,
-                              );
-                            },
+                                );
+                              },
+                              separatorBuilder: (BuildContext context, int index) {
+                                return Divider(
+                                  thickness: 1,
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ],
         ),
@@ -257,9 +261,14 @@ class _studentsScreenState extends State<studentsScreen> {
   }
 
 
-
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
+  }
   @override
   void initState() {
+
     getAllStudents().then((value) {
       setState(() {
         mainStudentsList = value;

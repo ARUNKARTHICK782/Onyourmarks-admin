@@ -46,194 +46,50 @@ class _adminHomePageState extends State<adminHomePage> {
     return Colors.white;
   }
 
+  getCard(int curr,String text){
+    return Padding(
+      padding: const EdgeInsets.only(bottom:10),
+      child: ClipRRect(
+        child: Container(
+          width: 250,
+          height: 43,
+          color: (pageIndex == curr)?Color(0xff7d7c78):Color(0xffa6a49f),
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                pageIndex =curr;
+                debugPrint(pageIndex.toString());
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(text,style: TextStyle(color:getDrawerTextColor(),),),
+              ],
+            ),
+          ),
+        ),
+        borderRadius: BorderRadius.circular(5),
+      ),
+    );
+  }
+
   populateDrawerChildren(){
+    List<String> colNames = ["Student","Teacher","Subject","Standard","Co Curricular","Dashboard","Events","Exams","Attendance","Teacher Attendance"];
     return [
       Container(
-        height: 100,
+        height: 150,
       ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            child: Container(
-              color: (pageIndex == 0)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onHover: (v){
-                    if(v)
-                      debugPrint('Hovered');
-                  },
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 0;
-                    });
-                  },
-                  child: Text("Student",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 1)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 1;
-                    });
-                  },
-                  child: Text("Teacher",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 2)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 2;
-                    });
-                  },
-                  child: Text("Subject",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 3)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 3;
-                    });
-                  },
-                  child: Text("Standard",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 4)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 4;
-                    });
-                  },
-                  child: Text("Co Curricular",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 5)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 5;
-                    });
-                  },
-                  child: Text("Dashboard",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 6)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 6;
-                    });
-                  },
-                  child: Text("Events",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 7)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 7;
-                    });
-                    obj?.addListener(() {
-                      setState(() {
-                        obj?.nextpage = false;
-                      });
-                    });
-                  },
-                  child: Text("Exams",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 8)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 8;
-                    });
-                  },
-                  child: Text("Attendance",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: (pageIndex == 9)?primary:null,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 9;
-                    });
-                  },
-                  child: Text("Teacher Attendance",style: TextStyle(color:getDrawerTextColor(),),),
-                ),
-              ),
-            ),
-          ),
-        ],
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for(int i =0;i<colNames.length;i++)
+              getCard(i, colNames[i]),
+
+          ],
+        ),
       ),
     ];
   }
@@ -245,16 +101,17 @@ class _adminHomePageState extends State<adminHomePage> {
       home: Scaffold(
         appBar: (Responsive.isMobile(context))?AppBar():null,
         drawer: (Responsive.isMobile(context))?Drawer(
-              backgroundColor: Colors.blue[50],
+              // backgroundColor: Colors.blue[50],
+          backgroundColor: Colors.white,
               child: DrawerHeader(
                 child: Column(
-                  children:             populateDrawerChildren()
+                  children:populateDrawerChildren()
                 ),
               )):null,
           body: Row(
             children: [
               (Responsive.isDesktop(context))?SizedBox(
-                width: 300,
+                width: 250,
                 child: ColoredBox(
                   color: Color(0xffa6a49f),
                   child: Column(
