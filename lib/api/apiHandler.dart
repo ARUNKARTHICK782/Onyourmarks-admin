@@ -13,6 +13,7 @@ import 'package:onyourmarks/models/EventModel.dart';
 import 'package:onyourmarks/models/SchoolModel.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
+import '../models/CCAModel.dart';
 import '../models/ExamModel.dart';
 import '../models/MarksModel.dart';
 import '../models/StandardModel.dart';
@@ -203,6 +204,53 @@ Future<Map<String, List<MarksModel>>> getMyMarks() async{
   return map;
 }
 
+Future<Map<String, List<MarksModel>>> getMyMarksAdmin(String id) async{
+  Map<String,List<MarksModel>> map ={} ;
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/student/marks/"+id),
+      headers: {
+        "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+        "content-type" : "application/json"
+      }
+  );
+  // debugPrint(res.body);
+  var marks = json.decode(res.body);
+  var index = 0;
+  for(var i in marks){
+    if(map.containsKey(i["exam_id"]["exam_name"])){
+      map[i["exam_id"]["exam_name"]]?.add(new MarksModel(i["exam_id"]["_id"], i["exam_id"]["exam_name"], i["subject_id"]["sub_name"], i["subject_id"]["total_marks"].toString(), i["obtained"].toString(), i["exam_id"]["dates"][index]));
+    }
+    else{
+      map.addAll({
+        i["exam_id"]["exam_name"]:[new MarksModel(i["exam_id"]["_id"], i["exam_id"]["exam_name"], i["subject_id"]["sub_name"], i["subject_id"]["total_marks"].toString(), i["obtained"].toString(), i["exam_id"]["dates"][index])]
+      });
+    }
+    index++;
+  }
+  // debugPrint("After models");
+  return map;
+}
+
+Future<List<CCAModel>> getMyActivities(String id) async{
+
+  List<CCAModel> activities = [];
+
+  var req = await http.get(
+      Uri.parse("${apiLink.apilink}api/student/cca/"+id),
+      headers: {
+        "x-auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlMGY4ZTY4OTMxMDliNTE3MjMyZTIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTg3MjAxNDJ9.k8PsqOnry49qkXWC6z3HHx0mlU1Kfi5YouxyJEr7L2Q",
+      }
+  );
+
+  var response = jsonDecode(req.body);
+
+  for(var i in response){
+    CCAModel activity = CCAModel.fromJson(i);
+    activities.add(activity);
+  }
+
+  return activities;
+}
+
 getAllDistricts() async{
   var res = await http.get(Uri.parse(apiLink.apilink+"api/superuser/alldistrict"));
   var districts = jsonDecode(res.body);
@@ -215,7 +263,6 @@ getAllDistricts() async{
   return districtList;
   debugPrint(res.body.toString());
 }
-
 
 //POST APIs
 
@@ -247,7 +294,7 @@ postStudent(var body) async{
   });
 }
 
-Future<void>  addSubject(String subname,String totMarks,String standardSec) async{
+Future<void> addSubject(String subname,String totMarks,String standardSec) async{
   var body = {
     "sub_name": subname+" "+standardSec,
     "total_marks": int.tryParse(totMarks) ?? 100

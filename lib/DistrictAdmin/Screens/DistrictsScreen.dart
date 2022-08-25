@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:onyourmarks/DistrictAdmin/Screens/DistrictSchools.dart';
 
 import '../../admin/Components/getExpandedWithFlex.dart';
 import '../../admin/CustomColors.dart';
@@ -87,43 +88,48 @@ class _DistrictScreenState extends State<DistrictScreen> {
                   shrinkWrap: true,
                     itemCount: allDistricts.length,
                     itemBuilder: (BuildContext context,int index){
-                  return Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex:4,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left:20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                          allDistricts.elementAt(index).district_name ??
-                                              ' ',
-                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: Colors.black)
-                                      ),
-                                    ],
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DistrictSchools()));
+                    },
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex:4,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:20),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                            allDistricts.elementAt(index).district_name ??
+                                                ' ',
+                                            style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: Colors.black)
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(flex:5,child: Container(width: double.infinity,)),
-                          Expanded(
-                            flex:4,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 30),
-                              child: Text("1",style: TextStyle(color: Colors.black),),
-                            ),
-                          )
-                        ],
+                            Expanded(flex:5,child: Container(width: double.infinity,)),
+                            Expanded(
+                              flex:4,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 30),
+                                child: Text("1",style: TextStyle(color: Colors.black),),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
