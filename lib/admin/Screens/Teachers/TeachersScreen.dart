@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/TeacherModel.dart';
 import '../../Components/getExpandedWithFlex.dart';
 import '../../CustomColors.dart';
-import '../../apiHandler.dart';
+import '../../../api/apiHandler.dart';
 import './UpdateTeacherStandard.dart';
 import './AddTeacher.dart';
 

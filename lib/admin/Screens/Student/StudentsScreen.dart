@@ -8,8 +8,8 @@ import './AddStudent.dart';
 import './StudentDetails.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
-import '../../apiHandler.dart';
-import '../../apiHandler.dart';
+import '../../../api/apiHandler.dart';
+import '../../../api/apiHandler.dart';
 
 class studentsScreen extends StatefulWidget {
   const studentsScreen({Key? key}) : super(key: key);

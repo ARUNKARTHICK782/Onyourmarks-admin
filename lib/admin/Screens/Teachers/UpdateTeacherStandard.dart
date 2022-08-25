@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../apiHandler.dart';
+import '../../../api/apiHandler.dart';
 
 class UpdateTeacherStandard extends StatefulWidget {
   const UpdateTeacherStandard({Key? key}) : super(key: key);

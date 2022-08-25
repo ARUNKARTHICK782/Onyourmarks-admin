@@ -6,7 +6,7 @@ import 'package:onyourmarks/admin/components/ShowSuccessDialog.dart';
 import 'package:onyourmarks/models/TeacherModel.dart';
 import 'package:multiselect/multiselect.dart';
 import '../../../models/SubjectModel.dart';
-import '../../apiHandler.dart';
+import '../../../api/apiHandler.dart';
 import '../../components/appbar.dart';
 import '../../components/getExpandedWithFlex.dart';
 

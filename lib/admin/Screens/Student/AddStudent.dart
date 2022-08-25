@@ -6,7 +6,7 @@ import 'package:onyourmarks/admin/components/appbar.dart';
 import 'package:onyourmarks/admin/components/getExpandedWithFlex.dart';
 
 import '../../CustomColors.dart';
-import '../../apiHandler.dart';
+import '../../../api/apiHandler.dart';
 
 class addStudent extends StatefulWidget {
   const addStudent({Key? key}) : super(key: key);

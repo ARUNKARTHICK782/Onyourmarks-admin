@@ -7,7 +7,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../models/StudentModel.dart';
 import '../Components/getExpandedWithFlex.dart';
-import '../apiHandler.dart';
+import '../../api/apiHandler.dart';
 
 int allStudentsCount = 0;
 double boysCountPercentage = 0;

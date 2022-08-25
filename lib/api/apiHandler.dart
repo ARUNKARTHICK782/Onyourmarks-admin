@@ -8,7 +8,9 @@ import 'package:onyourmarks/admin/Screens/Attendance.dart';
 import 'package:onyourmarks/api/apiLink.dart';
 import 'package:onyourmarks/models/AttendanceModel.dart';
 import 'package:onyourmarks/models/CoCurricularActivityModel.dart';
+import 'package:onyourmarks/models/DistrictModel.dart';
 import 'package:onyourmarks/models/EventModel.dart';
+import 'package:onyourmarks/models/SchoolModel.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
 import '../models/ExamModel.dart';
@@ -201,6 +203,19 @@ Future<Map<String, List<MarksModel>>> getMyMarks() async{
   return map;
 }
 
+getAllDistricts() async{
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/superuser/district"));
+  var districts = jsonDecode(res.body);
+  List<DistrictModel> districtList = [];
+  for(var i in districts){
+    SchoolModel school = SchoolModel(i["school_id"]["_id"], i["school_id"]["school_name"], i["school_id"]["address"], i["school_id"]["state"], i["school_id"]["city"], i["school_id"]["noOfStudents"], i["school_id"]["noOfTeachers"]);
+    DistrictModel district = DistrictModel(i["_id"], i["districtName"], i["state"], school);
+    districtList.add(district);
+  }
+  return districtList;
+  debugPrint(res.body.toString());
+}
+
 
 //POST APIs
 
@@ -374,3 +389,5 @@ updateSubject(String sub_name,String tot_marks,String id) async{
   ).then((value){
   });
 }
+
+

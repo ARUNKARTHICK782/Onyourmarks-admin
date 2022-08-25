@@ -5,7 +5,7 @@ import 'package:onyourmarks/models/StudentModel.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../models/MarksModel.dart';
-import '../../apiHandler.dart';
+import '../../../api/apiHandler.dart';
 import '../Dashboard.dart';
 
 class StudentDashboard extends StatefulWidget {

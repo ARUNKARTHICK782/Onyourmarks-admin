@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onyourmarks/admin/apiHandler.dart';
+import 'package:onyourmarks/api/apiHandler.dart';
 import 'package:onyourmarks/admin/components/CommonComponents.dart';
 import 'package:onyourmarks/models/EventModel.dart';
 import '../../Components/getExpandedWithFlex.dart';

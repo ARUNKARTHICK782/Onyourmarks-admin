@@ -5,7 +5,7 @@ import './AddExamScreen.dart';
 import './DetailedExamScreen.dart';
 import 'package:provider/provider.dart';
 import '../../../models/ExamModel.dart';
-import '../../apiHandler.dart';
+import '../../../api/apiHandler.dart';
 import '../../CustomColors.dart';
 import '../../components/getExpandedWithFlex.dart';
 

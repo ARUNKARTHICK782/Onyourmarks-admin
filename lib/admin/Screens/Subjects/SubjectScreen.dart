@@ -4,7 +4,7 @@ import 'package:onyourmarks/admin/customColors.dart';
 import 'package:onyourmarks/models/SubjectModel.dart';
 import '../../Components/getExpandedWithFlex.dart';
 import './AddSubjectScreen.dart';
-import '../../apiHandler.dart';
+import '../../../api/apiHandler.dart';
 
 class SubjectScreen extends StatefulWidget {
   const SubjectScreen({Key? key}) : super(key: key);
