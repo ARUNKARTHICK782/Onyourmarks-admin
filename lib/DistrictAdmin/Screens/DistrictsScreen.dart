@@ -69,23 +69,67 @@ class _DistrictScreenState extends State<DistrictScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-                itemCount: allDistricts.length,
-                itemBuilder: (BuildContext context,int index){
-              return Card(
-                child: Container(
-                  height: 80,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 70),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left:20),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(allDistricts.elementAt(index).district_name.toString()),
-                      Text("0")
+                      Expanded(flex:3,child: Text("Districts")),
+                      Expanded(flex:2,child: Text("Schools"))
                     ],
                   ),
                 ),
-              );
-            }),
+                (_loading)?Center(child:CircularProgressIndicator()):ListView.builder(
+                  shrinkWrap: true,
+                    itemCount: allDistricts.length,
+                    itemBuilder: (BuildContext context,int index){
+                  return Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex:4,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                          allDistricts.elementAt(index).district_name ??
+                                              ' ',
+                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: Colors.black)
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(flex:5,child: Container(width: double.infinity,)),
+                          Expanded(
+                            flex:4,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 30),
+                              child: Text("1",style: TextStyle(color: Colors.black),),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
           )
         ],
       ),
@@ -97,6 +141,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
     getAllDistricts().then((v){
       setState(() {
         allDistricts = v;
+        _loading = false;
       });
     });
   }

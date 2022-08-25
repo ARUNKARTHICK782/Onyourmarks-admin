@@ -22,10 +22,7 @@ class _StateAdminHomeScreenState extends State<StateAdminHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Padding(
-        padding: EdgeInsets.only(left:250),
-        child:Expanded(child: widlist.elementAt(pageIndex))
-      )
+      body:widlist.elementAt(pageIndex)
     );
   }
 }

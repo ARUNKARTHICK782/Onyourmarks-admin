@@ -204,7 +204,7 @@ Future<Map<String, List<MarksModel>>> getMyMarks() async{
 }
 
 getAllDistricts() async{
-  var res = await http.get(Uri.parse(apiLink.apilink+"api/superuser/district"));
+  var res = await http.get(Uri.parse(apiLink.apilink+"api/superuser/alldistrict"));
   var districts = jsonDecode(res.body);
   List<DistrictModel> districtList = [];
   for(var i in districts){
