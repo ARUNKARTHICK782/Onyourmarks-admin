@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onyourmarks/admin/customColors.dart';
+import 'package:onyourmarks/admin/CustomColors.dart';
 import 'package:onyourmarks/models/SubjectModel.dart';
 import '../../Components/getExpandedWithFlex.dart';
 import './AddSubjectScreen.dart';
@@ -20,10 +20,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
   List<SubjectModel> allSubjects = [];
   bool _loading = true;
 
-  implementSearch(String s){
+  implementSearch(String s) {
     List<SubjectModel> tempList = [];
-    for(var i in allSubjectsMain){
-      if(i.subName.toString().toLowerCase().contains(s.toLowerCase())){
+    for (var i in allSubjectsMain) {
+      if (i.subName.toString().toLowerCase().contains(s.toLowerCase())) {
         tempList.add(i);
       }
     }
@@ -35,7 +35,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   void initState() {
     getAllSubjects().then((value) {
-      setState((){
+      setState(() {
         allSubjectsMain = value;
         allSubjects = value;
         _loading = false;
@@ -144,83 +144,91 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child:Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left:40,top: 60,bottom: 30),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex:4,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 4,
-                          height: 25,
-                          color: Colors.black,
+          child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 40, top: 60, bottom: 30),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 25,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "Subjects",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w600),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Text("Subjects",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  getExpandedWithFlex(8),
-                  Expanded(
-                    flex: 4,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Container(
-                        height: 47,
-                        width: 400,
-                        color: Colors.grey.shade400,
-                        child: TextField(
-                          // controller: _studentSearchCtrl,
-                          cursorColor: Colors.grey.shade800,
-                          onChanged: (s){
-                            implementSearch(s);
-                          },
-                          decoration: InputDecoration(
-                              contentPadding:EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                              suffixIcon: Icon(CupertinoIcons.search,color: secondary,),
-                              hintText: "Search",
-                              // focusedBorder: OutlineInputBorder(
-                              //   borderSide: BorderSide(color: Colors.grey.shade800)
-                              // ),
-                              border: InputBorder.none
-                          ),
-                        ),
+                ),
+                getExpandedWithFlex(8),
+                Expanded(
+                  flex: 4,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      height: 47,
+                      width: 400,
+                      color: Searchcolor ?? Colors.red,
+                      child: TextField(
+                        // controller: _studentSearchCtrl,
+                        cursorColor: Colors.grey.shade800,
+                        onChanged: (s) {
+                          implementSearch(s);
+                        },
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 20),
+                            suffixIcon: Icon(
+                              CupertinoIcons.search,
+                              color: Searchcolor,
+                            ),
+                            hintText: "Search",
+                            // focusedBorder: OutlineInputBorder(
+                            //   borderSide: BorderSide(color: Colors.grey.shade800)
+                            // ),
+                            border: InputBorder.none),
                       ),
                     ),
                   ),
-                  getExpandedWithFlex(1)
-                ],
-              ),
+                ),
+                getExpandedWithFlex(1)
+              ],
             ),
-            if (_loading) Center(child: CircularProgressIndicator(),) else Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 20),
+          ),
+          if (_loading)
+            Center(
+              child: CircularProgressIndicator(),
+            )
+          else
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
                   child: Padding(
-                    padding: const EdgeInsets.all(40),
-                    child: Wrap(
-                      children: [
-                        for(int i=0;i<allSubjects.length;i++)
-                          renderGridCard(allSubjects.elementAt(i))
-                      ],
-                    )
-                  ),
+                      padding: const EdgeInsets.all(40),
+                      child: Wrap(
+                        children: [
+                          for (int i = 0; i < allSubjects.length; i++)
+                            renderGridCard(allSubjects.elementAt(i))
+                        ],
+                      )),
                 ),
               ),
             )
-          ],
-        )
-      ),
+        ],
+      )),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: primary,
         onPressed: () {
           showDialog(
               context: context,

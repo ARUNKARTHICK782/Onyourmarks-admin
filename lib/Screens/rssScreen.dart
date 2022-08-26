@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
 
+import '../admin/CustomColors.dart';
+
 class rssScreen extends StatefulWidget {
   const rssScreen({Key? key}) : super(key: key);
 
@@ -22,7 +24,7 @@ class _rssScreenState extends State<rssScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
         body: Center(child: Text("RSS page"),),
     );
   }

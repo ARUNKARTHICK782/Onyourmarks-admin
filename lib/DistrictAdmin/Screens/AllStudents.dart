@@ -75,7 +75,7 @@ class _AllStudentsState extends State<AllStudents> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body:SingleChildScrollView(
         child: Column(
           children: [

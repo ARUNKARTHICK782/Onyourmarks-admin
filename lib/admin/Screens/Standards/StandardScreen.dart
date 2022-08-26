@@ -44,7 +44,7 @@ class _StandardScreenState extends State<StandardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -76,7 +76,7 @@ class _StandardScreenState extends State<StandardScreen> {
                       child: Container(
                         height: 47,
                         width: 400,
-                        color: Colors.grey.shade400,
+                        color: Searchcolor,
                         child: TextField(
                           // controller: _studentSearchCtrl,
                           cursorColor: Colors.grey.shade800,

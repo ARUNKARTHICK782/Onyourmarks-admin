@@ -7,18 +7,17 @@ getTextStyle() {
   return TextStyle(color: Colors.white);
 }
 
-getFormHeaderTextStyle(){
-  return TextStyle(fontSize: 20,fontWeight: FontWeight.w600);
+getFormHeaderTextStyle() {
+  return TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
 }
 
-
-Header(String heading){
+Header(String heading) {
   return Padding(
-    padding: const EdgeInsets.only(left:40,top: 60,bottom: 30),
+    padding: const EdgeInsets.only(left: 40, top: 60, bottom: 30),
     child: Row(
       children: [
         Expanded(
-          flex:4,
+          flex: 4,
           child: Row(
             children: [
               Container(
@@ -28,7 +27,10 @@ Header(String heading){
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text(heading,style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
+                child: Text(
+                  heading,
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                ),
               ),
             ],
           ),
@@ -40,7 +42,7 @@ Header(String heading){
             borderRadius: BorderRadius.circular(15),
             child: Container(
               width: 300,
-              color: Colors.grey.shade400,
+              color: Colors.indigo[50],
               child: TextField(
                 // controller: _studentSearchCtrl,
                 cursorColor: Colors.grey.shade800,
@@ -48,14 +50,17 @@ Header(String heading){
                 //   implementSearch(s);
                 // },
                 decoration: InputDecoration(
-                    contentPadding:EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                    suffixIcon: Icon(CupertinoIcons.search,color: secondary,),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    suffixIcon: Icon(
+                      CupertinoIcons.search,
+                      color: secondary,
+                    ),
                     hintText: "Search",
                     // focusedBorder: OutlineInputBorder(
                     //   borderSide: BorderSide(color: Colors.grey.shade800)
                     // ),
-                    border: InputBorder.none
-                ),
+                    border: InputBorder.none),
               ),
             ),
           ),
@@ -65,4 +70,3 @@ Header(String heading){
     ),
   );
 }
-

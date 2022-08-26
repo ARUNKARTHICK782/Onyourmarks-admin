@@ -20,7 +20,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body: Column(
         children: [
           Padding(

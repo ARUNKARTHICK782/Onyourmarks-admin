@@ -61,6 +61,7 @@ class _DashboardAdminState extends State<DashboardAdmin> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
        return Scaffold(
+            backgroundColor: Scaffoldall,
       body: SingleChildScrollView(
         child: Column(
           children: [

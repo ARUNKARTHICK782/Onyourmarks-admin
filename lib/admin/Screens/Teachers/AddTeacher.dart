@@ -132,7 +132,7 @@ class _AddTeacherState extends State<AddTeacher> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       appBar: getAppBar(context),
       body: ListView(children: [
         Padding(

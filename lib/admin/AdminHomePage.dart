@@ -18,7 +18,6 @@ import 'Screens/Student/StudentsScreen.dart';
 import 'Screens/Subjects/SubjectScreen.dart';
 import 'Screens/Teachers/TeachersScreen.dart';
 
-
 class adminHomePage extends StatefulWidget {
   const adminHomePage({Key? key}) : super(key: key);
 
@@ -42,29 +41,34 @@ class _adminHomePageState extends State<adminHomePage> {
   int pageIndex = 0;
   int selectedIndex = 0;
   BooleanProvider? obj;
-  getDrawerTextColor(){
+  getDrawerTextColor() {
     return Colors.white;
   }
 
-  getCard(int curr,String text){
+  getCard(int curr, String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom:10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: ClipRRect(
         child: Container(
           width: 250,
           height: 43,
-          color: (pageIndex == curr)?Color(0xff7d7c78):Color(0xffa6a49f),
+          color: (pageIndex == curr) ? Colors.blue[500] : Colors.transparent,
           child: TextButton(
             onPressed: () {
               setState(() {
-                pageIndex =curr;
+                pageIndex = curr;
                 debugPrint(pageIndex.toString());
               });
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(text,style: TextStyle(color:getDrawerTextColor(),),),
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: getDrawerTextColor(),
+                  ),
+                ),
               ],
             ),
           ),
@@ -74,8 +78,19 @@ class _adminHomePageState extends State<adminHomePage> {
     );
   }
 
-  populateDrawerChildren(){
-    List<String> colNames = ["Student","Teacher","Subject","Standard","Co Curricular","Dashboard","Events","Exams","Attendance","Teacher Attendance"];
+  populateDrawerChildren() {
+    List<String> colNames = [
+      "Student",
+      "Teacher",
+      "Subject",
+      "Standard",
+      "Co Curricular",
+      "Dashboard",
+      "Events",
+      "Exams",
+      "Attendance",
+      "Teacher Attendance"
+    ];
     return [
       Container(
         height: 150,
@@ -85,9 +100,8 @@ class _adminHomePageState extends State<adminHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for(int i =0;i<colNames.length;i++)
-              getCard(i, colNames[i]),
-
+            
+            for (int i = 0; i < colNames.length; i++) getCard(i, colNames[i]),
           ],
         ),
       ),
@@ -96,36 +110,40 @@ class _adminHomePageState extends State<adminHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       home: Scaffold(
-        appBar: (Responsive.isMobile(context))?AppBar():null,
-        drawer: (Responsive.isMobile(context))?Drawer(
-              // backgroundColor: Colors.blue[50],
-          backgroundColor: Colors.white,
-              child: DrawerHeader(
-                child: Column(
-                  children:populateDrawerChildren()
-                ),
-              )):null,
+          backgroundColor: Scaffoldall,
+          appBar: (Responsive.isMobile(context))
+              ? AppBar(
+                  title: Text("School Name"),
+                  backgroundColor: Colors.blue[100],
+                )
+              : null,
+          drawer: (Responsive.isMobile(context))
+              ? Drawer(
+                  // backgroundColor: Colors.blue[50],
+                  backgroundColor: DrawerColor,
+                  child: DrawerHeader(
+                    child: Column(children: populateDrawerChildren()),
+                  ))
+              : null,
           body: Row(
             children: [
-              (Responsive.isDesktop(context))?SizedBox(
-                width: 250,
-                child: ColoredBox(
-                  color: Color(0xffa6a49f),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: populateDrawerChildren()
-                  ),
-                ),
-              ):Text(""),
+              (Responsive.isDesktop(context))
+                  ? SizedBox(
+                      width: 250,
+                      child: ColoredBox(
+                        color: DrawerColor ?? Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: populateDrawerChildren()),
+                      ),
+                    )
+                  : Text(""),
               Expanded(child: widScreens.elementAt(pageIndex)),
-
             ],
           )),
     );
   }
-
 }

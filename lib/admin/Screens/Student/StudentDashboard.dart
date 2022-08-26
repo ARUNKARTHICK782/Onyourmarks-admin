@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../models/CCAModel.dart';
 import '../../../models/MarksModel.dart';
 import '../../../api/apiHandler.dart';
+import '../../CustomColors.dart';
 import '../Dashboard.dart';
 
 class StudentDashboard extends StatefulWidget {
@@ -110,7 +111,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
   // }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body:
       (!isFetchingPage2 && !isFetchingPage3)
         ?ListView(

@@ -23,7 +23,7 @@ class _StateAdminHomeScreenState extends State<StateAdminHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body:widlist.elementAt(pageIndex)
     );
   }

@@ -4,6 +4,8 @@ import 'package:onyourmarks/admin/components/appbar.dart';
 import 'package:onyourmarks/admin/components/getTiles.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
+import '../../CustomColors.dart';
+
 class studentDetails extends StatefulWidget {
   final StudentModel student;
   const studentDetails(this.student,{Key? key}) : super(key: key);
@@ -16,7 +18,7 @@ class _studentDetailsState extends State<studentDetails> {
   List<String> titles = ["Name","Roll No","Standard","DOB","Gender","Father Name","Mother Name","Occupation","Income","Email","Phone No","Current Address","Permanent Address","Mother Tongue","Blood Group"];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       appBar: getAppBar(context),
       body: Center(
         child:Padding(

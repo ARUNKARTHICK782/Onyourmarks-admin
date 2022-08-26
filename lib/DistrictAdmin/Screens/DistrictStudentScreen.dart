@@ -72,7 +72,7 @@ class _DistrictStudentScreenState extends State<DistrictStudentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body:(_isloading)?Center(child: CircularProgressIndicator(),):SingleChildScrollView(
         child: Column(
           children: [

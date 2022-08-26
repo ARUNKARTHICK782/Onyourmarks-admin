@@ -12,5 +12,7 @@ AppBar getAppBar(BuildContext context) {
       },
     ),
     iconTheme: IconThemeData(color: Colors.black),
+    centerTitle: true,
+    title: Text("School Name"),
   );
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../admin/CustomColors.dart';
+
 class profileScreen extends StatefulWidget {
   const profileScreen({Key? key}) : super(key: key);
 
@@ -11,7 +13,7 @@ class profileScreen extends StatefulWidget {
 class _profileScreenState extends State<profileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body: Center(
         child: Text("My Profile"),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../api/apiHandler.dart';
+import '../../CustomColors.dart';
 
 class UpdateTeacherStandard extends StatefulWidget {
   const UpdateTeacherStandard({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class _UpdateTeacherStandardState extends State<UpdateTeacherStandard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body: Padding(
         padding: EdgeInsets.all(60),
         child: ClipRRect(
