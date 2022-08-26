@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         title: 'Student Management System',
         theme: ThemeData(primarySwatch: Colors.deepPurple),
         home: Loginpage()
+
       ),
     );
   }

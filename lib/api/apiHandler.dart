@@ -381,6 +381,7 @@ postEmail(String username,String email) async{
       },
       body: jsonEncode(body)
   ).then((value) {
+    debugPrint("Email sent");
   });
 }
 

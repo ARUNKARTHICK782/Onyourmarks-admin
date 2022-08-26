@@ -4,12 +4,13 @@ import 'package:onyourmarks/admin/Screens/Student/StudentDashboard.dart';
 import 'package:onyourmarks/admin/components/getExpandedWithFlex.dart';
 import 'package:onyourmarks/admin/CustomColors.dart';
 import 'package:onyourmarks/admin/responsive.dart';
-import './AddStudent.dart';
+// import './AddStudent.dart';
 import './StudentDetails.dart';
 import 'package:onyourmarks/models/StudentModel.dart';
 
 import '../../../api/apiHandler.dart';
 import '../../../api/apiHandler.dart';
+import 'TempAddStudent.dart';
 
 class studentsScreen extends StatefulWidget {
   const studentsScreen({Key? key}) : super(key: key);
