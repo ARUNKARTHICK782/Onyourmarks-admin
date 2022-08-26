@@ -43,56 +43,95 @@ class _SubjectScreenState extends State<SubjectScreen> {
     });
   }
 
-  renderGridCard(SubjectModel subject) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30, right: 13),
-      child: Card(
-        elevation: 3,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            height: 200,
-            width: 270,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Text(
-                          subject.subName ?? '',
-                          maxLines: 3,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              overflow: TextOverflow.ellipsis),
+  renderGridCard(SubjectModel subject){
+    return GestureDetector(
+      onTap: (){
+        showDialog(context: context, builder: (context) {
+          return AlertDialog(
+            title: Text(subject.subName ?? ""),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Learning Outcomes", style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20
+                ),),
+                for(var i in subject.outcomes ?? [])
+                  Text(i)
+              ],
+            ),
+          );
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom:30,right: 13),
+        child: Card(
+          elevation: 3,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              height: 200,
+              width: 270,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment:
+                  CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            subject
+                                .subName ??
+                                '',
+                            maxLines: 3,
+                            style: TextStyle(
+                                fontWeight:
+                                FontWeight.bold,
+                                fontSize: 25,
+                                overflow: TextOverflow
+                                    .ellipsis),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: IconButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return addSubjectdialog(
-                                          true,
-                                          subject.subName ?? "",
-                                          subject.totalMarks ?? "",
-                                          subject.id ?? "");
-                                    });
-                              },
-                              icon: Icon(CupertinoIcons.pen)))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text("Total Marks : " + (subject.totalMarks ?? ''))
-                ],
+                        Expanded(
+                            flex: 1,
+                            child: IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder:
+                                          (BuildContext
+                                      context) {
+                                        return addSubjectdialog(
+                                            true,
+                                            subject
+                                                .subName ??
+                                                "",
+                                            subject
+                                                .totalMarks ??
+                                                "",
+                                            subject
+                                                .id ??
+                                                "");
+                                      });
+                                },
+                                icon: Icon(
+                                    CupertinoIcons
+                                        .pen)))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("Total Marks : " +
+                        (subject
+                            .totalMarks ??
+                            ''))
+                  ],
+                ),
               ),
             ),
           ),

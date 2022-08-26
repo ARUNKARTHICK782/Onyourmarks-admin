@@ -3,10 +3,16 @@ class SubjectModel{
   String? _subName;
   String? _totalMarks;
   String? _teacherId;
-
+  List<dynamic>? _outcomes;
 
   String? get id => _id;
 
+
+  List<dynamic>? get outcomes => _outcomes;
+
+  set outcomes(List<dynamic>? value) {
+    _outcomes = value;
+  }
 
   set id(String? value) {
     _id = value;
@@ -45,6 +51,9 @@ class SubjectModel{
   }
 
   SubjectModel.forStudents(this._id,this._subName,this._totalMarks);
+
+
+  SubjectModel.forSubjects(this._id, this._subName, this._totalMarks, this._teacherId, this._outcomes);
 
   factory SubjectModel.fromJson(Map<String, dynamic> json){
     return SubjectModel(json["_id"], json["sub_name"], json["total_marks"].toString(), (json["teacher"] != null)?json["teacher"]["name"]:'Unassigned');
