@@ -18,6 +18,7 @@ class _AttendanceState extends State<Attendance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: Scaffoldall,
         body: SingleChildScrollView(
           child: Column(
             children: [

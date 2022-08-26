@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../admin/CustomColors.dart';
+
 class eventsScreen extends StatefulWidget {
   const eventsScreen({Key? key}) : super(key: key);
 
@@ -11,7 +13,7 @@ class eventsScreen extends StatefulWidget {
 class _eventsScreenState extends State<eventsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body: Center(
         child: Text("In Events Screen"),
       ),

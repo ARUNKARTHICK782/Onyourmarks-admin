@@ -87,8 +87,7 @@ class _addStudentState extends State<addStudent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xfff2f4f6),
+    return Scaffold(    backgroundColor: Scaffoldall,
       appBar: getAppBar(context),
       body: SingleChildScrollView(
         child: Column(

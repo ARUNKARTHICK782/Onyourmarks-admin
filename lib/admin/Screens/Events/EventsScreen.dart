@@ -6,6 +6,7 @@ import 'package:onyourmarks/models/EventModel.dart';
 import '../../Components/getExpandedWithFlex.dart';
 import '../../CustomColors.dart';
 import './AddEventScreen.dart';
+
 class EventsScreen extends StatefulWidget {
   const EventsScreen({Key? key}) : super(key: key);
 
@@ -17,7 +18,7 @@ class _EventsScreenState extends State<EventsScreen> {
   List<EventModel> events = [];
   bool _loading = true;
 
-  renderEventCard(EventModel event){
+  renderEventCard(EventModel event) {
     return SizedBox(
       width: 300,
       child: Card(
@@ -31,24 +32,19 @@ class _EventsScreenState extends State<EventsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(padding: EdgeInsets.symmetric(horizontal:10,vertical: 10),
-                  child: Image.memory(event.imgFile!)
-                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:10),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Image.memory(event.imgFile!)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                          event.event_name ??
-                              ' ',
-                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 25)
-                      ),
-                      Text(event.event_description ??
-                          '')
+                      Text(event.event_name ?? ' ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 25)),
+                      Text(event.event_description ?? '')
                     ],
                   ),
                 ),
@@ -57,8 +53,9 @@ class _EventsScreenState extends State<EventsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("From : "+(event.start_date?.substring(0,10) ?? " ")),
-                      Text("To : "+(event.end_date?.substring(0,10) ?? " ") )
+                      Text("From : " +
+                          (event.start_date?.substring(0, 10) ?? " ")),
+                      Text("To : " + (event.end_date?.substring(0, 10) ?? " "))
                     ],
                   ),
                 )
@@ -72,7 +69,7 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   void initState() {
-    getEvents().then((v){
+    getEvents().then((v) {
       setState(() {
         events = v;
         _loading = false;
@@ -81,8 +78,9 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Scaffoldall,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -117,7 +115,7 @@ class _EventsScreenState extends State<EventsScreen> {
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
                         width: 300,
-                        color: Colors.grey.shade400,
+                        color: Searchcolor,
                         child: TextField(
                           // controller: _studentSearchCtrl,
                           cursorColor: Colors.grey.shade800,
@@ -144,21 +142,29 @@ class _EventsScreenState extends State<EventsScreen> {
                 ],
               ),
             ),
-            (_loading)?const Center(child: CircularProgressIndicator(),):Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70,vertical: 10),
-              child: Wrap(
-                children: [
-                  for(int i=0;i<events.length;i++)
-                    renderEventCard(events.elementAt(i))
-                ],
-              )
-            )
+            (_loading)
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 70, vertical: 10),
+                    child: Wrap(
+                      children: [
+                        for (int i = 0; i < events.length; i++)
+                          renderEventCard(events.elementAt(i))
+                      ],
+                    ))
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddEventScreen(),));
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddEventScreen(),
+              ));
         },
         child: Icon(CupertinoIcons.add),
       ),

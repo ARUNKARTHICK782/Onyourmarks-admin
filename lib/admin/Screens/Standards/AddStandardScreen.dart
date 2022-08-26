@@ -3,6 +3,7 @@ import 'package:onyourmarks/admin/components/ShowSuccessDialog.dart';
 import 'package:onyourmarks/models/SubjectModel.dart';
 
 import '../../../api/apiHandler.dart';
+import '../../CustomColors.dart';
 import '../../components/appbar.dart';
 import '../../components/appbar.dart';
 import '../../components/getExpandedWithFlex.dart';
@@ -147,7 +148,7 @@ class _AddStandardState extends State<AddStandard> {
   @override
   Widget build(BuildContext context) {
     (temp)?Future.delayed(Duration.zero, () => showNoOfSubjectsDialog().then((v)=>setState((){}))):null;
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       appBar: getAppBar(context),
       body: SingleChildScrollView(
         child: Column(

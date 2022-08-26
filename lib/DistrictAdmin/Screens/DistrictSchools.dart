@@ -66,7 +66,7 @@ class _DistrictSchoolsState extends State<DistrictSchools> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body: Row(
         children: [
           ClipRRect(
@@ -325,7 +325,7 @@ class _DistrictSchoolMainState extends State<DistrictSchoolMain> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
         body: SingleChildScrollView(
           child: Column(
             children: [

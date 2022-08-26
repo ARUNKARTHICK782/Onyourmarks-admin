@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
 
 import '../../../models/ExamModel.dart';
+import '../../CustomColors.dart';
 
 class DetailedExamScreen extends StatefulWidget {
   final Exam exam;
@@ -44,7 +45,7 @@ class _DetailedExamScreenState extends State<DetailedExamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       appBar: AppBar(
         backgroundColor: Color(0xffbdb9b9),
         elevation: 0.0,

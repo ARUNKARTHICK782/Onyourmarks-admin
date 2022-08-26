@@ -46,7 +46,7 @@ class _teachersScreenState extends State<teachersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       body: SingleChildScrollView(
         child: Column(
           children: [

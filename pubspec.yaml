@@ -49,6 +49,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.2.43
   syncfusion_flutter_datagrid: ^20.2.43
   ntp: ^2.0.0
+  fluttertoast: ^8.0.9
 
 
 dev_dependencies:

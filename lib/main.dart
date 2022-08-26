@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:onyourmarks/admin/AdminHomePage.dart';
 import 'package:onyourmarks/admin/Provider/BooleanProvider.dart';
+import 'package:onyourmarks/admin/Screens/Loginpage/LoginPage.dart';
 import 'package:onyourmarks/admin/screens/Dashboard.dart';
 import 'package:provider/provider.dart';
 import 'StateAdmin/StateAdminHomeScreen.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Student Management System',
         theme: ThemeData(primarySwatch: Colors.deepPurple),
-        home: StateAdminHomeScreen()
+        home: Loginpage()
       ),
     );
   }

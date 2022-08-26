@@ -1,6 +1,7 @@
 // Define a custom Form widget.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:onyourmarks/admin/CustomColors.dart';
 
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({Key? key});
@@ -60,6 +61,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: Scaffoldall,
       appBar: AppBar(
         title: const Text('Student Details form'),
       ),
@@ -103,7 +105,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         ),
                         Row(
                           children: [
-                            Expanded(flex: 2, child: Text('First Parent Name: ')),
+                            Expanded(
+                                flex: 2, child: Text('First Parent Name: ')),
                             Expanded(
                               flex: 2,
                               child: SizedBox(
@@ -122,7 +125,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         ),
                         Row(
                           children: [
-                            Expanded(flex: 2, child: Text('Second Parent Name: ')),
+                            Expanded(
+                                flex: 2, child: Text('Second Parent Name: ')),
                             Expanded(
                               flex: 2,
                               child: SizedBox(
@@ -206,7 +210,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         ),
                         Row(
                           children: [
-                            Expanded(flex: 2, child: Text('permanentAddress: ')),
+                            Expanded(
+                                flex: 2, child: Text('permanentAddress: ')),
                             SizedBox(
                               width: 250,
                               child: TextFormField(
@@ -223,7 +228,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         Row(
                           children: [
                             Expanded(flex: 2, child: Text('motherTongue:  ')),
-                            SizedBox(width: 250,
+                            SizedBox(
+                              width: 250,
                               child: TextFormField(
                                 controller: null,
                                 decoration: const InputDecoration(
@@ -238,7 +244,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         Row(
                           children: [
                             Expanded(flex: 2, child: Text('bloodGroup: ')),
-                            SizedBox(width: 250,
+                            SizedBox(
+                              width: 250,
                               child: TextFormField(
                                 controller: null,
                                 decoration: const InputDecoration(
@@ -270,7 +277,6 @@ class _MyCustomFormState extends State<MyCustomForm> {
                                       });
                                     }),
                               ),
-
                               ListTile(
                                 title: Text("Female"),
                                 leading: Radio(
@@ -296,7 +302,6 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             ],
                           ),
                         ),
-
                         Row(
                           children: [
                             Expanded(flex: 2, child: Text('SELECT DOB: ')),
@@ -314,7 +319,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20,)
+                        SizedBox(
+                          height: 20,
+                        )
                       ],
                     ),
                   ),

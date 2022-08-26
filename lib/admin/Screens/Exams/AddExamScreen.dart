@@ -144,7 +144,7 @@ class _AddExamScreenState extends State<AddExamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(    backgroundColor: Scaffoldall,
       appBar: getAppBar(context),
       body: SingleChildScrollView(
         child: Column(
