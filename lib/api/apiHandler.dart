@@ -106,9 +106,19 @@ Future<List<StudentModel>> getAllStudents() async{
 Future<List<SubjectModel>> getAllSubjects() async {
   List<SubjectModel> returnSubjects = [];
   var res = await http.get(Uri.parse(apiLink.apilink+"api/admin/allsubjects"));
+  var res2 = await http.get(Uri.parse(apiLink.apilink+"api/admin/lc"));
+  var subjectLc = jsonDecode(res2.body);
   var subjects = json.decode(res.body);
+  int index = 0;
   for(var i in subjects){
-    SubjectModel sm = SubjectModel.fromJson(i);
+    var lcs = [];
+    if(subjectLc[index]["subject_id"] == i["_id"]){
+      lcs = subjectLc[index]["LearningOutComes"];
+      index++;
+    }
+    SubjectModel sm = SubjectModel.forSubjects(
+        i["_id"], i["sub_name"], i["total_marks"].toString(), (i["teacher"] != null)?i["teacher"]["name"]:'Unassigned',lcs
+    );
     returnSubjects.add(sm);
   }
   return returnSubjects;
