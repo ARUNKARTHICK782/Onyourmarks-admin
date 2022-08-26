@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Student Management System',
         theme: ThemeData(primarySwatch: Colors.deepPurple),
-        home: StateAdminHomeScreen()
+        home: adminHomePage()
       ),
     );
   }
