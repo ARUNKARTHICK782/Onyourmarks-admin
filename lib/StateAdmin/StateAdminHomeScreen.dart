@@ -15,7 +15,9 @@ class StateAdminHomeScreen extends StatefulWidget {
 class _StateAdminHomeScreenState extends State<StateAdminHomeScreen> {
 
   List<Widget> widlist = [
-    DistrictScreen()
+    DistrictScreen(),
+    
+
   ];
   int pageIndex = 0;
 

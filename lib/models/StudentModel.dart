@@ -7,6 +7,7 @@ class StudentModel{
   String? _roll_no;
   String? _std_name;
   List<SubjectModel>? _subjects;
+  String? _sub_id;
   String? _dob;
   String? _gender;
   String? _fatherName;
@@ -19,7 +20,21 @@ class StudentModel{
   String? _permanentAddress;
   String? _motherTongue;
   String? _bloodGroup;
+  String? _school_id;
+  String? _std_id;
 
+
+  String? get sub_id => _sub_id;
+
+  set sub_id(String? value) {
+    _sub_id = value;
+  }
+
+  String? get school_id => _school_id;
+
+  set school_id(String? value) {
+    _school_id = value;
+  }
 
   List<SubjectModel>? get subjects => _subjects;
 
@@ -138,6 +153,11 @@ class StudentModel{
   StudentModel.empty();
 
   StudentModel.forCCA(this._id,this._roll_no,this._first_name,this._last_name);
+
+  StudentModel.forSuperAdmin(this._id,this._first_name,this._last_name, this._roll_no,this._std_id, this._dob, this._gender,
+      this._fatherName, this._motherName, this._occupation, this._income,
+      this._email, this._phno, this._currentAddress, this._permanentAddress,
+      this._motherTongue, this._bloodGroup,this._school_id);
 
   // factory StudentModel.fromJson(Map<String, dynamic> json){
   //     return StudentModel(json["_id"],json["first_name"],json["last_name"],json["roll_no"],json["std_id"]["std_name"],json["dob"],json["gender"],json["parent1name"],json["parent2name"],

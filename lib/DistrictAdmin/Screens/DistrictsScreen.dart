@@ -18,7 +18,6 @@ class _DistrictScreenState extends State<DistrictScreen> {
   bool _loading = true;
   List<DistrictModel> allDistricts = [];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +39,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10),
-                        child: Text("Schools",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
+                        child: Text("Districts",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
                       ),
                     ],
                   ),
@@ -125,7 +124,7 @@ class _DistrictScreenState extends State<DistrictScreen> {
                               flex:4,
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 30),
-                                child: Text("1",style: TextStyle(color: Colors.black),),
+                                child: Text("2",style: TextStyle(color: Colors.black),),
                               ),
                             )
                           ],
